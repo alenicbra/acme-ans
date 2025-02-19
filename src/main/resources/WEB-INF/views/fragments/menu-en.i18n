@@ -11,7 +11,10 @@
 # master.menu.anonymous #######################################################
 
 master.menu.anonymous = Anonymous
-master.menu.anonymous.favourite-link = Favourite link
+master.menu.alejandro.favourite-link = 53354165F: Nicolalde Bravo, Alejandro
+master.menu.pablo.favourite-link = 29518565C: Rodriguez Sanchez, Pablo
+master.menu.josemanuel.favourite-link = 53966183H: Miret Martin, Jose Manuel
+master.menu.ramon.favourite-link = 77870361C: Vergara Garrido, Ramon
 
 # master.menu.administrator ###################################################
 

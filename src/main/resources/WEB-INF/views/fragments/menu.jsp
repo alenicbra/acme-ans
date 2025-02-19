@@ -19,7 +19,10 @@
 <acme:menu-bar>
 	<acme:menu-left>
 		<acme:menu-option code="master.menu.anonymous" access="isAnonymous()">
-			<acme:menu-suboption code="master.menu.anonymous.favourite-link" action="http://www.example.com/"/>
+			<acme:menu-suboption code="master.menu.alejandro.favourite-link" action="http://www.apple.com/"/>
+			<acme:menu-suboption code="master.menu.pablo.favourite-link" action="http://www.ayesa.com/"/>
+			<acme:menu-suboption code="master.menu.josemanuel.favourite-link" action="http://www.youtube.com/"/>
+			<acme:menu-suboption code="master.menu.ramon.favourite-link" action="http://www.adidas.com/"/>
 		</acme:menu-option>
 
 		<acme:menu-option code="master.menu.administrator" access="hasRealm('Administrator')">

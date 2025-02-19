@@ -1,6 +1,6 @@
 # README.txt
 #
-# Copyright (C) 2012-2025 Rafael Corchuelo.
+# Copyright (C) 2012-2025 Group C1.018.
 #
 # In keeping with the traditional purpose of furthering education and research, it is
 # the policy of the copyright owner to permit non-commercial use and redistribution of
