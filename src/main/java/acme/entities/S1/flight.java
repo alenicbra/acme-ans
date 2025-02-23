@@ -18,7 +18,7 @@ import lombok.Setter;
 @Setter
 public class flight extends AbstractEntity {
 
-	/// Serialisation version --------------------------------------------------
+	// Serialisation version --------------------------------------------------
 
 	private static final long	serialVersionUID	= 1L;
 
