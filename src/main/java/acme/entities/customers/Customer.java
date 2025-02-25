@@ -1,0 +1,48 @@
+
+package acme.entities.customers;
+
+import javax.persistence.Entity;
+
+import org.checkerframework.common.aliasing.qual.Unique;
+
+import acme.client.components.basis.AbstractEntity;
+import acme.client.components.validation.Mandatory;
+import acme.client.components.validation.Optional;
+import acme.client.components.validation.ValidNumber;
+import acme.client.components.validation.ValidString;
+import lombok.Getter;
+import lombok.Setter;
+
+@Entity
+@Getter
+@Setter
+public class Customer extends AbstractEntity {
+
+	private static final long	serialVersionUID	= 1L;
+
+	@Mandatory
+	@Unique
+	@ValidString(pattern = "^[A-Z]{2,3}\\d{6}$")
+	private String				identifier;
+
+	@Mandatory
+	@ValidString(pattern = "^\\+?\\d{6,15}$")
+	private String				phoneNumber;
+
+	@Mandatory
+	@ValidString(max = 255)
+	private String				physicalAddress;
+
+	@Mandatory
+	@ValidString(max = 50)
+	private String				city;
+
+	@Mandatory
+	@ValidString(max = 50)
+	private String				country;
+
+	@Optional
+	@ValidNumber(max = 500000)
+	private Integer				earnedPoints;
+
+}
