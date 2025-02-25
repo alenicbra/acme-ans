@@ -1,5 +1,5 @@
 
-package acme.entities.S1;
+package acme.entities.flights;
 
 import javax.persistence.Entity;
 
@@ -16,7 +16,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class flight extends AbstractEntity {
+public class Flight extends AbstractEntity {
 
 	// Serialisation version --------------------------------------------------
 
