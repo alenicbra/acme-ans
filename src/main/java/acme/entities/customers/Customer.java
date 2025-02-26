@@ -1,9 +1,8 @@
 
 package acme.entities.customers;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-
-import org.checkerframework.common.aliasing.qual.Unique;
 
 import acme.client.components.basis.AbstractEntity;
 import acme.client.components.validation.Mandatory;
@@ -21,7 +20,7 @@ public class Customer extends AbstractEntity {
 	private static final long	serialVersionUID	= 1L;
 
 	@Mandatory
-	@Unique
+	@Column(unique = true)
 	@ValidString(pattern = "^[A-Z]{2,3}\\d{6}$")
 	private String				identifier;
 
