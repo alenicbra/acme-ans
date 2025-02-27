@@ -4,7 +4,6 @@ package acme.entities.bookings;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.validation.constraints.Past;
 
 import acme.client.components.datatypes.Money;
 import acme.client.components.validation.Mandatory;
@@ -27,8 +26,7 @@ public class Booking {
 	private String				locatorCode;
 
 	@Mandatory
-	@ValidMoment
-	@Past
+	@ValidMoment(past = true)
 	private Date				pruchaseMoment;
 
 	@Mandatory
