@@ -1,10 +1,10 @@
 
 package acme.entities.flightCrewMembers;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-
-import org.checkerframework.common.aliasing.qual.Unique;
+import javax.validation.Valid;
 
 import acme.client.components.basis.AbstractEntity;
 import acme.client.components.datatypes.Money;
@@ -24,7 +24,7 @@ public class FlightCrewMember extends AbstractEntity {
 
 	private static final long	serialVersionUID	= 1L;
 
-	@Unique
+	@Column(unique = true)
 	@Mandatory
 	@ValidString(pattern = "^[A-Z]{2,3}\\d{6}$")
 	private String				employeeCode;
@@ -47,6 +47,9 @@ public class FlightCrewMember extends AbstractEntity {
 	@Optional
 	private Integer				yearExperience;
 
+	//------------ Relationships ---------------
+
+	@Valid
 	@Mandatory
 	@ManyToOne
 	private Airline				airline;
