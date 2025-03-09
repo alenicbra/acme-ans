@@ -8,3 +8,6 @@ user-account-provider-03,true,"UserIdentity{name: 'Antonia', surname: 'אבטי�
 user-account-customer-01,true,"UserIdentity{name: 'Carlos', surname: 'пантера 猫', email: 'carlos@acme.com'}",customer1,customer1
 user-account-customer-02,true,"UserIdentity{name: 'Aisha', surname: 'نمر ሐንቆ', email: 'aisha@acme.com'}",customer2,customer2
 user-account-customer-03,true,"UserIdentity{name: 'Liam', surname: 'fox 狐狸', email: 'liam@acme.com'}",customer3,customer3
+user-account-agent-01,true,"UserIdentity{name: 'Jose Manuel', surname: 'Miret Martin', email: 'josema@acme.com'}",agent1,agent1
+user-account-agent-02,true,"UserIdentity{name: 'Alejandro', surname: 'Izquierdo Bejarano', email: 'alex@acme.com'}",agent2,agent2
+user-account-manager-03,true,"UserIdentity{name: 'Paco', surname: 'Lorenzo Martínez', email: 'holaCaracola@acme.com'}",manager3,manager3
