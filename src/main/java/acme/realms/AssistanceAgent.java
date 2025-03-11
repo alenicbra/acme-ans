@@ -58,8 +58,8 @@ public class AssistanceAgent extends AbstractRole {
 	private Money				salary;
 
 	@ValidUrl
-	@ValidString(max = 255)
 	@Optional
+	@Automapped
 	private String				link;
 
 	// Relationships -------------------------------------------------------------
