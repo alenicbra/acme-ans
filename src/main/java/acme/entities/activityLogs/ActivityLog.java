@@ -14,8 +14,7 @@ import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidNumber;
 import acme.client.components.validation.ValidString;
-import acme.entities.flightCrewMembers.FlightCrewMember;
-import acme.entities.legs.Leg;
+import acme.entities.flightAssignments.FlightAssignment;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,7 +28,6 @@ public class ActivityLog extends AbstractEntity {
 	@Mandatory
 	@ValidMoment(past = true)
 	@Temporal(TemporalType.TIMESTAMP)
-	@Automapped
 	private Date				registrationMoment;
 
 	@Mandatory
@@ -52,13 +50,6 @@ public class ActivityLog extends AbstractEntity {
 	@Valid
 	@Mandatory
 	@ManyToOne(optional = false)
-	@Automapped
-	private FlightCrewMember	flightCrewMember;
-
-	@Valid
-	@Mandatory
-	@ManyToOne(optional = false)
-	@Automapped
-	private Leg					leg;
+	private FlightAssignment	flightAssignment;
 
 }

@@ -4,6 +4,8 @@ package acme.entities.flightCrewMembers;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.Valid;
 
 import acme.client.components.basis.AbstractEntity;
@@ -12,6 +14,7 @@ import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoney;
 import acme.client.components.validation.ValidString;
+import acme.client.components.validation.ValidNumber;
 import acme.entities.airlines.Airline;
 import lombok.Getter;
 import lombok.Setter;
@@ -51,6 +54,7 @@ public class FlightCrewMember extends AbstractEntity {
 
 	@Optional
 	@Automapped
+	@ValidNumber(min = 0, max = 90)
 	private Integer				yearExperience;
 
 	//------------ Relationships ---------------
@@ -58,7 +62,6 @@ public class FlightCrewMember extends AbstractEntity {
 	@Valid
 	@Mandatory
 	@ManyToOne(optional = false)
-	@Automapped
 	private Airline				airline;
 
 }
