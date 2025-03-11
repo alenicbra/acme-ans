@@ -1,0 +1,3 @@
+key,departure-time,arrival-time,status,delay-minutes,key:flight
+flight-status-01,2017/05/12 14:30,2017/05/12 22:00,LANDED,,flight-01
+flight-status-02,2017/07/12 14:30,2017/07/12 18:30,LANDED,30,flight-02
