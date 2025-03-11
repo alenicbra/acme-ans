@@ -27,30 +27,36 @@ public class FlightAssignment extends AbstractEntity {
 	private static final long	serialVersionUID	= 1L;
 
 	@Mandatory
+	@Automapped
 	private Duty				duty;
 
 	@Mandatory
-	@ValidMoment
+	@ValidMoment(past = true)
 	@Temporal(TemporalType.TIMESTAMP)
+	@Automapped
 	private Date				lastUpdateMoment;
 
 	@Mandatory
+	@Automapped
 	private CurrentStatus		currrentStatus;
 
 	@Optional
 	@ValidString(max = 255)
+	@Automapped
 	private String				remarks;
 
 	//---------------- Relationships --------------------
 
 	@Valid
 	@Mandatory
-	@ManyToOne
+	@ManyToOne(optional = false)
+	@Automapped
 	private FlightCrewMember	flightCrewMember;
 
 	@Valid
 	@Mandatory
-	@ManyToOne
+	@ManyToOne(optional = false)
+	@Automapped
 	private Leg					leg;
 
 }

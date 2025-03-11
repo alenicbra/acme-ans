@@ -31,27 +31,34 @@ public class FlightCrewMember extends AbstractEntity {
 
 	@Mandatory
 	@ValidString(pattern = "^\\+?\\d{6,15}$")
+	@Automapped
 	private String				phoneNumber;
 
 	@Mandatory
 	@ValidString(max = 255)
+	@Automapped
 	private String				languageSkills;
 
 	@Mandatory
+	@Automapped
+	@Enumerated(EnumType.STRING)
 	private AvailabilityStatus	availabilityStatus;
 
 	@Mandatory
 	@ValidMoney
+	@Automapped
 	private Money				salary;
 
 	@Optional
+	@Automapped
 	private Integer				yearExperience;
 
 	//------------ Relationships ---------------
 
 	@Valid
 	@Mandatory
-	@ManyToOne
+	@ManyToOne(optional = false)
+	@Automapped
 	private Airline				airline;
 
 }
