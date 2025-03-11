@@ -1,0 +1,4 @@
+key,name,iata-code,website,airline-type,foundation-moment,email,phone-number
+airline-01,"American Airlines","AAL","https://www.aa.com",LUXURY,2000/04/15 00:00,airline.one@example.com,+12125551234
+airline-02,"Lufthansa","DLH","https://www.lufthansa.com",STANDARD,2000/01/06 05:00,airline.two@example.com,+491771234567
+airline-03,"Emirates","UAE","https://www.emirates.com",LOWCOST,2000/03/25 10:00,airline.three@example.com,

@@ -1,0 +1,7 @@
+key,registration-moment,email,description,type,indicator,key:assistance-agent,key:flight,draft-mode
+claim-01,2017/05/12 14:30,john.doe@example.com,"Delayed flight; compensation requested",FLIGHT_ISSUES,true,agent-01,flight-01,false
+claim-02,2016/07/19 09:45,jane.smith@example.com,"Luggage lost during transfer",LUGGAGE_ISSUES,false,agent-02,flight-02,false
+claim-03,2015/11/05 16:00,mike.brown@example.com,"Seat was broken; not functional",SECURITY_INCIDENT,true,manager-03,flight-01,true
+claim-04,2014/09/23 08:00,lucy.green@example.com,"Flight cancellation without notice",OTHER_ISSUES,false,manager-03,flight-02,true
+claim-05,2013/01/13 12:15,robert.white@example.com,"Incorrect baggage charge",SECURITY_INCIDENT,true,agent-01,flight-01,false
+claim-06,2016/12/01 17:30,emily.black@example.com,"Poor customer service at the gate",OTHER_ISSUES,false,agent-02,flight-02,false

@@ -1,5 +1,5 @@
 
-package acme.entities.S1;
+package acme.entities.legs;
 
 import java.util.Date;
 
@@ -13,13 +13,14 @@ import acme.client.components.basis.AbstractEntity;
 import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.ValidString;
+import acme.entities.flights.Flight;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-public class leg extends AbstractEntity {
+public class Leg extends AbstractEntity {
 
 	// Serialisation version --------------------------------------------------
 
@@ -63,7 +64,7 @@ public class leg extends AbstractEntity {
 
 	@Mandatory
 	@ManyToOne
-	private flight				flight;
+	private Flight				flight;
 
 
 	private enum legStatus {

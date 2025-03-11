@@ -1,0 +1,13 @@
+key,last-update-moment,step,resolution-percentage,resolution-reason,indicator,key:assistance-agent,key:claim,draft-mode
+tracking-log-01,2017/05/12 14:30,"Step 1",90.30,"Claim under review",true,agent-01,claim-01,false
+tracking-log-02,2016/07/19 09:45,"Step 2",50.05,"Investigating the issue",false,agent-02,claim-02,false
+tracking-log-03,2015/11/05 16:00,"Step 3",75.50,"Partial resolution provided",true,manager-03,claim-03,true
+tracking-log-04,2014/09/23 08:00,"Step 4",10.60,"Issue resolved",false,agent-01,claim-04,true
+tracking-log-05,2013/01/13 12:15,"Step 5",20.20,"Escalation to higher authorities",true,agent-02,claim-05,false
+tracking-log-06,2016/12/01 17:30,"Step 6",60.70,"Waiting for customer confirmation",false,manager-03,claim-06,false
+tracking-log-07,2017/09/10 11:00,"Step 1",30.81,"Under investigation",true,agent-01,claim-01,false
+tracking-log-08,2015/08/21 13:20,"Step 2",85.28,"Customer contacted",false,agent-02,claim-02,false
+tracking-log-09,2016/04/17 09:10,"Step 3",45.73,"Pending evidence",true,manager-03,claim-03,true
+tracking-log-10,2014/10/05 14:50,"Step 4",70.02,"Partial response sent",false,agent-01,claim-04,true
+tracking-log-11,2013/06/25 16:30,"Step 5",95.10,"Final review in progress",true,agent-02,claim-05,false
+tracking-log-12,2016/11/14 12:00,"Step 6",50.50,"In progress",false,manager-03,claim-06,false
