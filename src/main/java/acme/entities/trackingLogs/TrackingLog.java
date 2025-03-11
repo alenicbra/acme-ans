@@ -55,7 +55,7 @@ public class TrackingLog extends AbstractEntity {
 	private boolean				indicator;
 
 	@Automapped
-	private boolean				draftmode;
+	private boolean				draftMode;
 
 	// Relationships -------------------------------------------------------------
 

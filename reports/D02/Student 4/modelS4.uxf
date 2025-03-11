@@ -5,18 +5,19 @@
     <id>UMLClass</id>
     <coordinates>
       <x>830</x>
-      <y>270</y>
+      <y>280</y>
       <w>590</w>
-      <h>140</h>
+      <h>150</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Entity&gt;&gt;
 Claim 
 --
-+ description: String {Mandatory, ValidString(max = 255)}
++ description: String {Automapped, Mandatory, ValidString(max = 255)}
 + registrationMoment: Date {Temporal(TIMESTAMP), Mandatory, ValidMoment(past = true)}
 + type: ClaimType {Automapped, Enumerated(EnumType.STRING), Mandatory}
 + email: String {Automapped, Mandatory, ValidEmail}
 + indicator: boolean {Automapped}
++ draftMode: boolean {Automapped}
 
 bg=green</panel_attributes>
     <additional_attributes/>
@@ -25,18 +26,19 @@ bg=green</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>830</x>
-      <y>530</y>
+      <y>540</y>
       <w>590</w>
-      <h>140</h>
+      <h>150</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Entity&gt;&gt;
 TrackingLog 
 --
-+ step: String {Mandatory, ValidString(max = 50)}
++ step: String {Automapped, Mandatory, ValidString(max = 50)}
 + lastUpdateMoment: Date {Temporal(TIMESTAMP), Mandatory, ValidMoment(past = true)}
-+ resolutionPercentage: Double {ValidNumber(min = 0, max = 100), Mandatory}
-+ resolutionReason: String {Mandatory, ValidEmail(max = 255)}
++ resolutionPercentage: Double {Automapped, ValidNumber(min = 0, max = 100), Mandatory}
++ resolutionReason: String {Automapped, Mandatory, ValidEmail(max = 255)}
 + indicator: boolean {Automapped}
++ draftMode: boolean {Automapped}
 
 bg=green</panel_attributes>
     <additional_attributes/>
@@ -45,7 +47,7 @@ bg=green</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>0</x>
-      <y>370</y>
+      <y>380</y>
       <w>660</w>
       <h>160</h>
     </coordinates>
@@ -53,10 +55,10 @@ bg=green</panel_attributes>
 AssistanceAgent 
 --
 + employeeCode: String {Mandatory, ValidString(pattern = "^[A-Z]{2,3}\\d{6}$"), Column(unique = true)}
-+ spokenLanguages: String {Mandatory, ValidString(max = 255)}
++ spokenLanguages: String {Automapped, Mandatory, ValidString(max = 255)}
 + moment: Date {Temporal(TIMESTAMP), Mandatory, ValidMoment(past = true)}
 + salary: Money {ValidMoney, Automapped, Optional}
-+ briefBio: String {Optional, ValidString(max = 255)}
++ briefBio: String {Optional, Automapped, ValidString(max = 255)}
 + link: String {Automapped, Optional, ValidUrl}
 
 bg=green</panel_attributes>
@@ -66,7 +68,7 @@ bg=green</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>1590</x>
-      <y>270</y>
+      <y>280</y>
       <w>210</w>
       <h>90</h>
     </coordinates>
@@ -81,7 +83,7 @@ bg=green</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>1570</x>
-      <y>440</y>
+      <y>450</y>
       <w>440</w>
       <h>240</h>
     </coordinates>
@@ -90,7 +92,7 @@ AssistanceAgentDashboard
 --
 + ratioOfClaimsStoredSuccessfully: Double
 + ratioOfClaimsRejected: Double
-+ topThreeMonthsHighestNumberOfClaims: List&lt;String, Integer&gt;
++ topThreeMonthsHighestNumberOfClaims: List&lt;Integer&gt;
 + avgNumberOfLogsClaimsHave: Double
 + minNumberOfLogsClaimsHave: Double
 + maxNumberOfLogsClaimsHave: Double
@@ -107,7 +109,7 @@ bg=green</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>870</x>
-      <y>110</y>
+      <y>120</y>
       <w>190</w>
       <h>120</h>
     </coordinates>
@@ -128,7 +130,7 @@ bg=green
     <id>UMLClass</id>
     <coordinates>
       <x>130</x>
-      <y>180</y>
+      <y>190</y>
       <w>210</w>
       <h>90</h>
     </coordinates>
@@ -143,18 +145,18 @@ bg=green</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1090</x>
-      <y>400</y>
+      <y>420</y>
       <w>30</w>
-      <h>150</h>
+      <h>140</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>330</x>
-      <y>230</y>
+      <y>240</y>
       <w>120</w>
       <h>160</h>
     </coordinates>
@@ -167,7 +169,7 @@ m1=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1410</x>
-      <y>320</y>
+      <y>330</y>
       <w>200</w>
       <h>40</h>
     </coordinates>
@@ -180,7 +182,7 @@ m1=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>650</x>
-      <y>340</y>
+      <y>350</y>
       <w>200</w>
       <h>140</h>
     </coordinates>
@@ -193,7 +195,7 @@ m1=1</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>650</x>
-      <y>460</y>
+      <y>470</y>
       <w>190</w>
       <h>180</h>
     </coordinates>
@@ -206,9 +208,9 @@ m1=1</panel_attributes>
     <id>UMLClass</id>
     <coordinates>
       <x>1410</x>
-      <y>20</y>
+      <y>70</y>
       <w>590</w>
-      <h>140</h>
+      <h>120</h>
     </coordinates>
     <panel_attributes>&lt;&lt;Entity&gt;&gt;
 FlightStatus 
@@ -217,7 +219,6 @@ FlightStatus
 + arrivalTime: Date {Temporal(TIMESTAMP), Mandatory, ValidMoment(past = true)}
 + status: StatusOfFlight {Automapped, Enumerated(EnumType.STRING), Mandatory}
 + delayMinutes: Integer {Temporal(TIMESTAMP), Mandatory, ValidMoment(past = true)}
-+ indicator: boolean {Automapped}
 
 bg=green</panel_attributes>
     <additional_attributes/>
@@ -226,18 +227,18 @@ bg=green</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>1680</x>
-      <y>150</y>
+      <y>180</y>
       <w>30</w>
-      <h>140</h>
+      <h>120</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;120.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;100.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>1170</x>
-      <y>110</y>
+      <y>120</y>
       <w>140</w>
       <h>120</h>
     </coordinates>
