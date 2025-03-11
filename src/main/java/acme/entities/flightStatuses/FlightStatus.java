@@ -4,6 +4,8 @@ package acme.entities.flightStatuses;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -41,13 +43,17 @@ public class FlightStatus extends AbstractEntity {
 	private Date				arrivalTime;
 
 	@Mandatory
-	@Valid
+	@Enumerated(EnumType.STRING)
 	@Automapped
 	private StatusOfFlight		status;
 
-	@ValidNumber(min = 0, max = 1440)
+	@ValidNumber(min = 0, max = 1440, fraction = 0)
 	@Optional
+	@Automapped
 	private Integer				delayMinutes;
+
+	@Automapped
+	private boolean				indicator;
 
 	// Relationships ----------------------------------------------------------
 

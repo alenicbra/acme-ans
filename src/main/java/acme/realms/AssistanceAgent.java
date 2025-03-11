@@ -41,6 +41,7 @@ public class AssistanceAgent extends AbstractRole {
 
 	@Mandatory
 	@ValidString(max = 255)
+	@Automapped
 	private String				spokenLanguages;
 
 	@ValidMoment(past = true)
@@ -50,6 +51,7 @@ public class AssistanceAgent extends AbstractRole {
 
 	@ValidString(max = 255)
 	@Optional
+	@Automapped
 	private String				briefBio;
 
 	@ValidMoney
@@ -66,7 +68,7 @@ public class AssistanceAgent extends AbstractRole {
 
 	@Valid
 	@Mandatory
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private Airline				airline;
 
 }

@@ -1,7 +1,7 @@
 
 package acme.forms;
 
-import java.util.Map;
+import java.util.List;
 
 import acme.client.components.basis.AbstractForm;
 import lombok.Getter;
@@ -20,7 +20,7 @@ public class AssistanceAgentDashboard extends AbstractForm {
 	Double						ratioOfClaimsStoredSuccessfully;
 	Double						ratioOfClaimsRejected;
 
-	Map<String, Integer>		topThreeMonthsHighestNumberOfClaims;
+	List<Integer>				topThreeMonthsHighestNumberOfClaims;
 
 	Double						avgNumberOfLogsClaimsHave;
 	Double						minNumberOfLogsClaimsHave;

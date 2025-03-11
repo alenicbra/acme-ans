@@ -38,29 +38,35 @@ public class TrackingLog extends AbstractEntity {
 
 	@ValidString(max = 50)
 	@Mandatory
+	@Automapped
 	private String				step;
 
 	@ValidNumber(min = 0, max = 100)
 	@Mandatory
+	@Automapped
 	private Double				resolutionPercentage;
 
 	@ValidString(max = 255)
 	@Mandatory
+	@Automapped
 	private String				resolutionReason;
 
 	@Automapped
 	private boolean				indicator;
 
+	@Automapped
+	private boolean				draftmode;
+
 	// Relationships -------------------------------------------------------------
 
 	@Valid
 	@Mandatory
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private AssistanceAgent		assistanceAgent;
 
 	@Valid
 	@Mandatory
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private Claim				claim;
 
 }

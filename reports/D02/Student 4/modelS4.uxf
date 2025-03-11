@@ -14,7 +14,7 @@ Claim
 --
 + description: String {Mandatory, ValidString(max = 255)}
 + registrationMoment: Date {Temporal(TIMESTAMP), Mandatory, ValidMoment(past = true)}
-+ type: ClaimType {Automapped, Valid, Mandatory}
++ type: ClaimType {Automapped, Enumerated(EnumType.STRING), Mandatory}
 + email: String {Automapped, Mandatory, ValidEmail}
 + indicator: boolean {Automapped}
 
@@ -49,7 +49,7 @@ bg=green</panel_attributes>
       <w>660</w>
       <h>160</h>
     </coordinates>
-    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+    <panel_attributes>&lt;&lt;Role&gt;&gt;
 AssistanceAgent 
 --
 + employeeCode: String {Mandatory, ValidString(pattern = "^[A-Z]{2,3}\\d{6}$"), Column(unique = true)}
@@ -201,5 +201,57 @@ m1=1</panel_attributes>
 m2=0..n
 m1=1</panel_attributes>
     <additional_attributes>10.0;10.0;90.0;10.0;90.0;150.0;170.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1410</x>
+      <y>20</y>
+      <w>590</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+FlightStatus 
+--
++ departureTime: Date {Temporal(TIMESTAMP), Mandatory, ValidMoment(past = true)}
++ arrivalTime: Date {Temporal(TIMESTAMP), Mandatory, ValidMoment(past = true)}
++ status: StatusOfFlight {Automapped, Enumerated(EnumType.STRING), Mandatory}
++ delayMinutes: Integer {Temporal(TIMESTAMP), Mandatory, ValidMoment(past = true)}
++ indicator: boolean {Automapped}
+
+bg=green</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1680</x>
+      <y>150</y>
+      <w>30</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1170</x>
+      <y>110</y>
+      <w>140</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Enum&gt;&gt;
+StatusOfFlight
+--
+ON_TIME
+CANCELED
+DELAYED
+LANDED
+
+bg=green
+
+</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
