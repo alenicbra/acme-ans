@@ -67,7 +67,7 @@ public class Flight extends AbstractEntity {
 	@Transient
 	public Airport origin() {
 		LegRepository repository = SpringHelper.getBean(LegRepository.class);
-		return repository.findFirstByFlight(this).getDepartureAirpot();
+		return repository.findFirstByFlight(this).getDepartureAirport();
 	}
 
 	@Transient

@@ -60,7 +60,7 @@ public class Leg extends AbstractEntity {
 	@ManyToOne(optional = false)
 	@Automapped
 	@Mandatory
-	private Airport				departureAirpot;
+	private Airport				departureAirport;
 
 	@ManyToOne(optional = false)
 	@Automapped

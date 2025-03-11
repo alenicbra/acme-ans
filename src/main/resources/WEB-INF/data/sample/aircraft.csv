@@ -1,0 +1,6 @@
+key,model,registrationNumber,capacity,cargoWeight,active,details,key:airline
+"aircraft-01","Boeing 737","REG-1001",180,20000,true,"Fuel-efficient with modern amenities","airline-01"
+"aircraft-02","Airbus A320","REG-1002",160,22000,true,"Economical choice for short-haul flights","airline-02"
+"aircraft-03","Boeing 777","REG-1003",350,45000,false,"Currently undergoing maintenance","airline-03"
+"aircraft-04","Embraer E190","REG-1004",100,25000,true,"Used primarily for regional routes","airline-01"
+"aircraft-05","Airbus A350","REG-1005",300,48000,true,"Long-haul aircraft with advanced features","airline-02"

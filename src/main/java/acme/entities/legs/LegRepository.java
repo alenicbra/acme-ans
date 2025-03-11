@@ -9,12 +9,12 @@ import acme.entities.flights.Flight;
 
 public interface LegRepository extends JpaRepository<Leg, Integer> {
 
-	@Query("Select l From Leg l Where l.flight = :flight Order by l.scheduledDeparture ASC Limit 1")
+	@Query("SELECT l FROM Leg l WHERE l.flight = :flight ORDER BY l.scheduledDeparture ASC")
 	Leg findFirstByFlight(@Param("flight") Flight flight);
 
-	@Query("Select l From Leg l Where l.flight = :flight Order by l.scheduledDeparture DESC Limit 1")
+	@Query("SELECT l FROM Leg l WHERE l.flight = :flight ORDER BY l.scheduledDeparture ASC")
 	Leg findLastByFlight(@Param("flight") Flight flight);
 
-	@Query("Select COUNT(l) From Leg l Where l.flight = :flight")
+	@Query("SELECT COUNT(l) FROM Leg l WHERE l.flight = :flight")
 	long getLayoversByFlight(@Param("flight") Flight flight);
 }
