@@ -4,6 +4,8 @@ package acme.entities.claims;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -43,25 +45,29 @@ public class Claim extends AbstractEntity {
 
 	@ValidString(max = 255)
 	@Mandatory
+	@Automapped
 	private String				description;
 
 	@Mandatory
-	@Valid
+	@Enumerated(EnumType.STRING)
 	@Automapped
 	private ClaimType			type;
 
 	@Automapped
 	private boolean				indicator;
 
+	@Automapped
+	private boolean				draftMode;
+
 	// Relationships -------------------------------------------------------------
 
 	@Valid
 	@Mandatory
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private AssistanceAgent		assistanceAgent;
 
 	@Valid
 	@Mandatory
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private Flight				flight;
 }

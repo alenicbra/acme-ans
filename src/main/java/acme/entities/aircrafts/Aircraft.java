@@ -2,6 +2,8 @@
 package acme.entities.aircrafts;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.validation.Valid;
 
 import org.checkerframework.common.aliasing.qual.Unique;
 
@@ -10,6 +12,7 @@ import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidNumber;
 import acme.client.components.validation.ValidString;
+import acme.entities.airlines.Airline;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -42,5 +45,10 @@ public class Aircraft extends AbstractEntity {
 	@Optional
 	@ValidString(max = 255)
 	private String				details;
+
+	@ManyToOne(optional = false)
+	@Mandatory
+	@Valid
+	private Airline				airline;
 
 }

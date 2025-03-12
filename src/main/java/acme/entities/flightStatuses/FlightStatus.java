@@ -1,10 +1,12 @@
 
-package acme.entities.trackingLogs;
+package acme.entities.flightStatuses;
 
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -12,18 +14,17 @@ import javax.validation.Valid;
 import acme.client.components.basis.AbstractEntity;
 import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
+import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidNumber;
-import acme.client.components.validation.ValidString;
-import acme.entities.claims.Claim;
-import acme.realms.AssistanceAgent;
+import acme.entities.flights.Flight;
 import lombok.Getter;
 import lombok.Setter;
 
 @Entity
 @Getter
 @Setter
-public class TrackingLog extends AbstractEntity {
+public class FlightStatus extends AbstractEntity {
 
 	// Serialisation identifier -----------------------------------------------
 
@@ -31,42 +32,34 @@ public class TrackingLog extends AbstractEntity {
 
 	// Attributes -------------------------------------------------------------
 
-	@ValidMoment(past = true)
+	@Mandatory
 	@Temporal(TemporalType.TIMESTAMP)
-	@Mandatory
-	private Date				lastUpdateMoment;
+	@ValidMoment
+	private Date				departureTime;
 
-	@ValidString(max = 50)
 	@Mandatory
-	@Automapped
-	private String				step;
+	@Temporal(TemporalType.TIMESTAMP)
+	@ValidMoment
+	private Date				arrivalTime;
 
-	@ValidNumber(min = 0, max = 100)
 	@Mandatory
+	@Enumerated(EnumType.STRING)
 	@Automapped
-	private Double				resolutionPercentage;
+	private StatusOfFlight		status;
 
-	@ValidString(max = 255)
-	@Mandatory
+	@ValidNumber(min = 0, max = 1440, fraction = 0)
+	@Optional
 	@Automapped
-	private String				resolutionReason;
+	private Integer				delayMinutes;
 
 	@Automapped
 	private boolean				indicator;
 
-	@Automapped
-	private boolean				draftMode;
-
-	// Relationships -------------------------------------------------------------
+	// Relationships ----------------------------------------------------------
 
 	@Valid
 	@Mandatory
-	@ManyToOne(optional = false)
-	private AssistanceAgent		assistanceAgent;
-
-	@Valid
-	@Mandatory
-	@ManyToOne(optional = false)
-	private Claim				claim;
+	@OneToOne
+	private Flight				flight;
 
 }
