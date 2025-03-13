@@ -1,0 +1,5 @@
+key,registration-moment,type-of-incident,description,severity-level,draft-mode,key:flight-assignment
+activity-log-01,2017/05/12 14:30,"Lightning storm","Lorem ipsum",7,true,flight-assignment-01
+activity-log-02,2017/05/12 14:30,"Route deviation","Lorem ipsum",6,true,flight-assignment-02
+activity-log-03,2017/05/12 14:30,"Passenger heart attack","Lorem ipsum",8,true,flight-assignment-03
+activity-log-04,2017/05/12 14:30,"Turbine failure","Lorem ipsum",10,true,flight-assignment-04
