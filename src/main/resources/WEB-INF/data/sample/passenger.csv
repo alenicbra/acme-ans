@@ -1,0 +1,3 @@
+key,full-name,email,passport-number,date-of-birth,special-needs
+passenger-01,"Ramon Vergara Garrido","ramonvg8@gmail.com","QWE1234",2003/10/05,null
+passenger-02,"Manu Yisus","manueljesus@gmail.com","QFE1254",2002/11/05,"gluten"
