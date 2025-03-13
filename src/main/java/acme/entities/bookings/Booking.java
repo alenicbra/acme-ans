@@ -29,7 +29,7 @@ public class Booking extends AbstractEntity {
 	private static final long	serialVersionUID	= 1L;
 
 	@Mandatory
-	@ValidString(pattern = "^[A-Z0-9]{6,8}$\\")
+	@ValidString(pattern = "^[A-Z0-9]{6,8}$")
 	private String				locatorCode;
 
 	@Mandatory

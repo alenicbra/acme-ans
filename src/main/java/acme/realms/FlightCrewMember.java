@@ -1,5 +1,5 @@
 
-package acme.entities.flightCrewMembers;
+package acme.realms;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,7 +8,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.validation.Valid;
 
-import acme.client.components.basis.AbstractEntity;
+import acme.client.components.basis.AbstractRole;
 import acme.client.components.datatypes.Money;
 import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
@@ -23,8 +23,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-
-public class FlightCrewMember extends AbstractEntity {
+public class FlightCrewMember extends AbstractRole {
 
 	private static final long	serialVersionUID	= 1L;
 
@@ -56,13 +55,19 @@ public class FlightCrewMember extends AbstractEntity {
 	@Optional
 	@Automapped
 	@ValidNumber(min = 0, max = 90)
-	private Integer				yearExperience;
+	private Integer				yearsOfExperience;
+
+
+	private enum AvailabilityStatus {
+		AVAILABLE, ON_VACATION, ON_LEAVE
+	}
 
 	//------------ Relationships ---------------
+
 
 	@Valid
 	@Mandatory
 	@ManyToOne(optional = false)
-	private Airline				airline;
+	private Airline airline;
 
 }
