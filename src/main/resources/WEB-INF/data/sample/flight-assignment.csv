@@ -1,0 +1,5 @@
+key,duty,last-updated-moment,current-status,remarks,draft-mode,key:flight-crew-member,key:leg
+flight-assignment-01,"PILOT",2017/05/12 14:30,"PENDING","Lorem ipsum",true,member-02,leg-01
+flight-assignment-02,"COPILOT",2017/05/12 14:30,"PENDING","Lorem ipsum",true,member-03,leg-01
+flight-assignment-03,"LEAD_ATTENDANT",2017/05/12 14:30,"PENDING","Lorem ipsum",true,member-04,leg-01
+flight-assignment-04,"CABIN_ATTENDANT",2017/05/12 14:30,"PENDING","Lorem ipsum",true,member-05,leg-01

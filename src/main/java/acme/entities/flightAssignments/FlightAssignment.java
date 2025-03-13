@@ -4,14 +4,15 @@ package acme.entities.flightAssignments;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.validation.Valid;
 
 import acme.client.components.basis.AbstractEntity;
+import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoment;
@@ -47,6 +48,9 @@ public class FlightAssignment extends AbstractEntity {
 	@ValidString(max = 255)
 	@Automapped
 	private String				remarks;
+
+	@Automapped
+	private boolean				draftMode;
 
 	//---------------- Relationships --------------------
 
