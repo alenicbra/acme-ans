@@ -17,8 +17,8 @@ import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidString;
-import acme.entities.flightCrewMembers.FlightCrewMember;
 import acme.entities.legs.Leg;
+import acme.realms.FlightCrewMember;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,12 +37,12 @@ public class FlightAssignment extends AbstractEntity {
 	@Mandatory
 	@ValidMoment(past = true)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				lastUpdateMoment;
+	private Date				lastUpdatedMoment;
 
 	@Mandatory
 	@Enumerated(EnumType.STRING)
 	@Automapped
-	private CurrentStatus		currrentStatus;
+	private CurrentStatus		currentStatus;
 
 	@Optional
 	@ValidString(max = 255)
