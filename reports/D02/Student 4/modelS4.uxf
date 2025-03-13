@@ -36,7 +36,7 @@ TrackingLog
 + step: String {Automapped, Mandatory, ValidString(max = 50)}
 + lastUpdateMoment: Date {Temporal(TIMESTAMP), Mandatory, ValidMoment(past = true)}
 + resolutionPercentage: Double {Automapped, ValidNumber(min = 0, max = 100), Mandatory}
-+ resolutionReason: String {Automapped, Mandatory, ValidEmail(max = 255)}
++ resolutionReason: String {Automapped, Optional, ValidEmail(max = 255)}
 + indicator: boolean {Automapped}
 + draftMode: boolean {Automapped}
 
