@@ -1,6 +1,9 @@
 
 package acme.entities.legs;
 
+import java.beans.Transient;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,11 +11,15 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.Valid;
 
 import acme.client.components.basis.AbstractEntity;
 import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
+import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidString;
+import acme.entities.aircrafts.Aircraft;
+import acme.entities.airports.Airport;
 import acme.entities.flights.Flight;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,48 +35,65 @@ public class Leg extends AbstractEntity {
 
 	// Attributes -------------------------------------------------------------
 
-	@ValidString(pattern = "^[A-Z]{3}\\d{4}$")
+	@ValidString(pattern = "^[0-9]{4}$")
 	@Column(unique = true)
 	@Mandatory
-	private String				flightNumber;
+	private String				flightNumberNumber;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Mandatory
+	@ValidMoment
 	private Date				scheduledDeparture;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Mandatory
+	@ValidMoment
 	private Date				scheduledArrival;
 
 	@Mandatory
 	@Automapped
-	private legStatus			status;
-
-	@ValidString
-	@Automapped
-	@Mandatory
-	private String				departureAirpot;
-
-	@ValidString
-	@Automapped
-	@Mandatory
-	private String				arrivalAirport;
-
-	@ValidString
-	@Automapped
-	@Mandatory
-	private String				aircraft;
+	@Valid
+	private LegStatus			status;
 
 	// Relationships -----------------------------------------------------------
+
+	@ManyToOne(optional = false)
+	@Automapped
+	@Mandatory
+	private Airport				departureAirport;
+
+	@ManyToOne(optional = false)
+	@Automapped
+	@Mandatory
+	private Airport				arrivalAirport;
+
+	@ManyToOne(optional = false)
+	@Automapped
+	@Mandatory
+	private Aircraft			aircraft;
 
 	@Mandatory
 	@ManyToOne
 	private Flight				flight;
 
+	// Derived Attributes -----------------------------------------------------
 
-	private enum legStatus {
 
-		ON_TIME, DELAYED, CANCELLED, LANDED
+	@Transient
+	public int duration() {
+		Instant dep = this.scheduledDeparture.toInstant();
+		Instant arr = this.scheduledArrival.toInstant();
+
+		Duration duration = Duration.between(dep, arr);
+
+		return duration.toHoursPart();
+	}
+
+	@Transient
+	public String flightNumber() {
+		String iata = this.aircraft.getAirline().getIataCode();
+
+		return iata + this.flightNumberNumber;
 	}
 
 }

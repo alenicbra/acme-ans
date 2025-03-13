@@ -1,0 +1,6 @@
+key,name,iataCode,operationalScope,city,country,website,email,phoneNumber
+"airport-01","Los Angeles International","LAX","INTERNATIONAL","Los Angeles","USA","https://www.flylax.com","info@lax.com","+13236000000"
+"airport-02","Heathrow Airport","LHR","INTERNATIONAL","London","UK","https://www.heathrow.com","contact@heathrow.com","+442080000000"
+"airport-03","Haneda Airport","HND","DOMESTIC","Tokyo","Japan","https://www.haneda-airport.jp","support@haneda.jp","+81357570000"
+"airport-04","Sydney Kingsford Smith","SYD","INTERNATIONAL","Sydney","Australia","https://www.sydneyairport.com","help@sydneyairport.com","+61296670000"
+"airport-05","Toronto Pearson","YYZ","REGIONAL","Toronto","Canada","https://www.torontopearson.com","info@torontopearson.com","+14162470000"
