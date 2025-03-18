@@ -53,8 +53,10 @@ public class Claim extends AbstractEntity {
 	@Automapped
 	private ClaimType			type;
 
+	@Mandatory
+	@Enumerated(EnumType.STRING)
 	@Automapped
-	private boolean				indicator;
+	private IndicatorType		indicator;
 
 	@Automapped
 	private boolean				draftMode;

@@ -1,0 +1,4 @@
+key,key:userAccount,identifier,phone-number,physical-address,city,country,earned-points
+customer-01,user-account-customer-01,"RVG123456","644776561","Calle La Orden 26","Sevilla","España",30000
+customer-02,user-account-customer-02,"ANB123457","642774561","Calle La Urta 26","Cadiz","España",45000
+customer-03,user-account-customer-03,"DGH125456","656388266","Plazoleta Mariola 2","Cordoba","España",490000
