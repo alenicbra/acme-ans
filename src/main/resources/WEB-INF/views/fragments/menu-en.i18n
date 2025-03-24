@@ -16,6 +16,8 @@ master.menu.pablo.favourite-link = 29518565C: Rodriguez Sanchez, Pablo
 master.menu.josemanuel.favourite-link = 53966183H: Miret Martin, Jose Manuel
 master.menu.ramon.favourite-link = 77870361C: Vergara Garrido, Ramon
 
+master.menu.anonymous.claims-completed = Completed Claims
+
 # master.menu.administrator ###################################################
 
 master.menu.administrator = Administrator
@@ -23,6 +25,12 @@ master.menu.administrator.list-user-accounts = List user accounts
 master.menu.administrator.populate-db-initial = Populate DB (initial)
 master.menu.administrator.populate-db-sample = Populate DB (samples)
 master.menu.administrator.shut-system-down = Shut system down
+
+# master.menu.assistanceAgent ##########################################################
+
+master.menu.assistance-agent = Assistance Agent
+master.menu.assistance-agent.claim = My claims
+master.menu.assistance-agent.dashboard = Dashboard
 
 # master.menu.provider ########################################################
 
