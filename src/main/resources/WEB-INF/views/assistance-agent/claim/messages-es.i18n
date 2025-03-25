@@ -13,9 +13,9 @@ assistanceAgent.claim.list.button.create = Crear
 assistanceAgent.claim.list.title = Lista de Reclamos
 assistanceAgent.claim.form.title = Detalles del Reclamo
 
-assistanceAgent.claim.list.label.employeeCode = Código de Empleado
+assistanceAgent.claim.list.label.type = Tipo de Reclamo
 assistanceAgent.claim.list.label.leg = Tramo del Vuelo
-assistanceAgent.claim.list.label.moment = Momento
+assistanceAgent.claim.list.label.indicator = Situación Actual
 assistanceAgent.claim.list.label.published = ¿Está Publicado?
 
 assistanceAgent.claim.list.button.create = Crear

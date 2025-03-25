@@ -19,6 +19,7 @@ import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidMoney;
 import acme.client.components.validation.ValidString;
 import acme.client.components.validation.ValidUrl;
+import acme.constraints.ValidAssistanceAgent;
 import acme.entities.airlines.Airline;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +27,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-//@ValidAssistanceAgent
+@ValidAssistanceAgent
 public class AssistanceAgent extends AbstractRole {
 
 	// Serialisation identifier -----------------------------------------------

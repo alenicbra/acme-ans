@@ -11,9 +11,9 @@
 any.claim.list.title = Completed Claims List
 any.claim.form.title = Claim Details
 
-any.claim.list.label.employeeCode = Employee Code
+any.claim.list.label.type = Claim Type
 any.claim.list.label.leg = Leg
-any.claim.list.label.moment = Moment
+any.claim.list.label.indicator = Actual Situation
 any.claim.list.label.published = Is Published?
 
 any.claim.form.label.registrationMoment = Registration Moment

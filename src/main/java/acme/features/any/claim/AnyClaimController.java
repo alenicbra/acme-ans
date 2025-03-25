@@ -27,7 +27,7 @@ public class AnyClaimController extends AbstractGuiController<Any, Claim> {
 	@PostConstruct
 	protected void initialise() {
 		super.addBasicCommand("show", this.showService);
-		super.addCustomCommand("list-completed", "list", this.listCompletedService);
+		super.addBasicCommand("list", this.listCompletedService);
 	}
 
 }

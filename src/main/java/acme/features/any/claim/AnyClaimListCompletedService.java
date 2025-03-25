@@ -2,7 +2,6 @@
 package acme.features.any.claim;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -26,24 +25,16 @@ public class AnyClaimListCompletedService extends AbstractGuiService<Any, Claim>
 
 	@Override
 	public void authorise() {
-		boolean status;
-		int masterId;
-		Collection<Claim> claims;
-
-		masterId = super.getRequest().getData("masterId", int.class);
-		claims = this.repository.findManyClaimsByMasterId(masterId);
-		status = !claims.isEmpty() && claims.stream().allMatch(c -> !c.getIndicator().equals(IndicatorType.IN_PROGRESS));
-
-		super.getResponse().setAuthorised(status);
+		super.getResponse().setAuthorised(true);
 	}
 
 	@Override
 	public void load() {
-		List<Claim> objects;
+		Collection<Claim> objects;
 		int masterId;
 
-		masterId = super.getRequest().getData("masterId", int.class);
-		objects = this.repository.findManyClaimsByMasterId(masterId).stream().filter(c -> !c.getIndicator().equals(IndicatorType.IN_PROGRESS)).toList();
+		masterId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		objects = this.repository.findManyClaimsCompletedByMasterId(masterId, IndicatorType.IN_PROGRESS);
 
 		super.getBuffer().addData(objects);
 	}
@@ -55,7 +46,7 @@ public class AnyClaimListCompletedService extends AbstractGuiService<Any, Claim>
 		String published;
 		Dataset dataset;
 
-		dataset = super.unbindObject(object, "employeeCode", "leg", "moment");
+		dataset = super.unbindObject(object, "type", "leg", "indicator");
 		published = !object.isDraftMode() ? "✓" : "x";
 		dataset.put("published", published);
 

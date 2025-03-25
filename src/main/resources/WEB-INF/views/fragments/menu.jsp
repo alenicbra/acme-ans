@@ -24,7 +24,7 @@
 			<acme:menu-suboption code="master.menu.josemanuel.favourite-link" action="http://www.youtube.com/"/>
 			<acme:menu-suboption code="master.menu.ramon.favourite-link" action="http://www.adidas.com/"/>
 			<acme:menu-separator/>	
-			<acme:menu-suboption code="master.menu.anonymous.claims-completed" action="/any/claim/list-completed"/>
+			<acme:menu-suboption code="master.menu.anonymous.claims-completed" action="/any/claim/list"/>
 		</acme:menu-option>
 
 		<acme:menu-option code="master.menu.administrator" access="hasRealm('Administrator')">
@@ -37,7 +37,7 @@
 		</acme:menu-option>
 		
 		<acme:menu-option code="master.menu.assistance-agent" access="hasRealm('AssistanceAgent')">
-			<acme:menu-suboption code="master.menu.assistance-agent.claim" action="/assistance-agent/claim/list-undergoing"/>
+			<acme:menu-suboption code="master.menu.assistance-agent.claim" action="/assistance-agent/claim/list"/>
 			<acme:menu-suboption code="master.menu.assistance-agent.dashboard" action="/assistance-agent/assistance-agent-form/show"/>
 	  	</acme:menu-option>
 

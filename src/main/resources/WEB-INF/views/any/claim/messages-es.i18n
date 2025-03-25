@@ -11,9 +11,9 @@
 any.claim.list.title = Lista de Reclamos Completados
 any.claim.form.title = Detalles del Reclamo
 
-any.claim.list.label.employeeCode = Código de Empleado
+any.claim.list.label.type = Tipo de Reclamo
 any.claim.list.label.leg = Tramo del Vuelo
-any.claim.list.label.moment = Momento
+any.claim.list.label.indicator = Situación Actual
 any.claim.list.label.published = ¿Está Publicado?
 
 any.claim.form.label.registrationMoment = Momento de Registro

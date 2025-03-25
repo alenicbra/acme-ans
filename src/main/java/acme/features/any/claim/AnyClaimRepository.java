@@ -14,8 +14,8 @@ import acme.entities.legs.Leg;
 @Repository
 public interface AnyClaimRepository extends AbstractRepository {
 
-	@Query("select c from Claim c where c.assistanceAgent.id = :id")
-	public Collection<Claim> findManyClaimsByMasterId(int id);
+	@Query("select c from Claim c where c.assistanceAgent.id = :id and c.indicator != :type")
+	public Collection<Claim> findManyClaimsCompletedByMasterId(int id, IndicatorType type);
 
 	@Query("select c from Claim c where c.indicator != :type")
 	public Collection<Claim> findAllCompletedClaims(IndicatorType type);

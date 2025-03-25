@@ -27,7 +27,7 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 		AssistanceAgent assistanceAgent;
 		Claim claim;
 
-		masterId = super.getRequest().getData("masterId", int.class);
+		masterId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		claim = this.repository.findOneClaimById(masterId);
 		assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
 		status = claim != null && claim.isDraftMode() && super.getRequest().getPrincipal().hasRealm(assistanceAgent);
@@ -41,7 +41,7 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 		int masterId;
 		Claim claim;
 
-		masterId = super.getRequest().getData("masterId", int.class);
+		masterId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		claim = this.repository.findOneClaimById(masterId);
 
 		object = new TrackingLog();

@@ -24,7 +24,12 @@ public class AssistanceAgentClaimListUndergoingService extends AbstractGuiServic
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		AssistanceAgent assistanceAgent;
+		boolean status;
+
+		assistanceAgent = (AssistanceAgent) super.getRequest().getPrincipal().getActiveRealm();
+		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent);
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
@@ -32,7 +37,7 @@ public class AssistanceAgentClaimListUndergoingService extends AbstractGuiServic
 		Collection<Claim> objects;
 		int masterId;
 
-		masterId = super.getRequest().getData("masterId", int.class);
+		masterId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		objects = this.repository.findManyClaimsByMasterId(masterId);
 
 		super.getBuffer().addData(objects);
@@ -45,7 +50,7 @@ public class AssistanceAgentClaimListUndergoingService extends AbstractGuiServic
 		String published;
 		Dataset dataset;
 
-		dataset = super.unbindObject(object, "employeeCode", "leg", "moment");
+		dataset = super.unbindObject(object, "type", "leg", "indicator");
 		published = !object.isDraftMode() ? "✓" : "x";
 		dataset.put("published", published);
 

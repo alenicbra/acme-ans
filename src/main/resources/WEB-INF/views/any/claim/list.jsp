@@ -16,8 +16,8 @@
 <%@taglib prefix="acme" uri="http://acme-framework.org/"%>
 
 <acme:list>
-	<acme:list-column code="any.claim.list.label.employeeCode" path="employeeCode"/>
+	<acme:list-column code="any.claim.list.label.type" path="type"/>
 	<acme:list-column code="any.claim.list.label.leg" path="leg"/>
-	<acme:list-column code="any.claim.list.label.moment" path="moment"/>
+	<acme:list-column code="any.claim.list.label.indicator" path="indicator"/>
 	<acme:list-column code="any.claim.list.label.published" path="published"/>		
 </acme:list>
