@@ -26,6 +26,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+//@ValidAssistanceAgent
 public class AssistanceAgent extends AbstractRole {
 
 	// Serialisation identifier -----------------------------------------------
@@ -36,7 +37,6 @@ public class AssistanceAgent extends AbstractRole {
 
 	// The first two or three letters correspond to their initials
 	@Mandatory
-	@ValidString(pattern = "^[A-Z]{2,3}\\d{6}$")
 	@Column(unique = true)
 	private String				employeeCode;
 

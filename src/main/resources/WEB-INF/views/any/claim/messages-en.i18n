@@ -12,7 +12,7 @@ any.claim.list.title = Completed Claims List
 any.claim.form.title = Claim Details
 
 any.claim.list.label.employeeCode = Employee Code
-any.claim.list.label.flight = Flight
+any.claim.list.label.leg = Leg
 any.claim.list.label.moment = Moment
 any.claim.list.label.published = Is Published?
 
@@ -22,6 +22,6 @@ any.claim.form.label.description = Description
 any.claim.form.label.type = Type of Claim
 any.claim.form.label.indicator = Indicator
 any.claim.form.label.assistanceAgent = Assistance Agent
-any.claim.form.label.flight = Flight
+any.claim.form.label.leg = Leg
 
 any.claim.form.button.tracking-logs = Tracking Logs

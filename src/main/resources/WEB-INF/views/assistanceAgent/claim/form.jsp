@@ -21,7 +21,7 @@
 	<acme:input-moment code="assistanceAgent.claim.form.label.registrationMoment" path="registrationMoment"/>
 	<acme:input-select code="assistanceAgent.claim.form.label.type" path="type" choices="${types}"/>
 	<acme:input-select code="assistanceAgent.claim.form.label.indicator" path="indicator" choices="${indicators}"/>
-	<acme:input-select code="assistanceAgent.claim.form.label.flight" path="flight" choices="${flights}"/>	
+	<acme:input-select code="assistanceAgent.claim.form.label.leg" path="leg" choices="${legs}"/>	
 
 	<jstl:choose>
 		<jstl:when test="${acme:anyOf(_command, 'show|update|delete')}">

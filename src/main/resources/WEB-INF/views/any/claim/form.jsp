@@ -21,7 +21,7 @@
 	<acme:input-moment code="any.claim.form.label.registrationMoment" path="registrationMoment"/>
 	<acme:input-select code="any.claim.form.label.type" path="type" choices="${types}"/>
 	<acme:input-select code="any.claim.form.label.indicator" path="indicator" choices="${indicators}"/>
-	<acme:input-select code="any.claim.form.label.flight" path="flight" choices="${flights}"/>
+	<acme:input-select code="any.claim.form.label.leg" path="leg" choices="${legs}"/>
 	<acme:input-select code="any.claim.form.label.assistanceAgent" path="assistanceAgent" choices="${assistanceAgents}"/>	
 
 	<jstl:choose>

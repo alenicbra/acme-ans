@@ -12,7 +12,7 @@ any.claim.list.title = Lista de Reclamos Completados
 any.claim.form.title = Detalles del Reclamo
 
 any.claim.list.label.employeeCode = Código de Empleado
-any.claim.list.label.flight = Vuelo
+any.claim.list.label.leg = Tramo del Vuelo
 any.claim.list.label.moment = Momento
 any.claim.list.label.published = ¿Está Publicado?
 
@@ -22,6 +22,6 @@ any.claim.form.label.description = Descripción
 any.claim.form.label.type = Tipo de Reclamo
 any.claim.form.label.indicator = Indicador
 any.claim.form.label.assistanceAgent = Agente de Asistencia
-any.claim.form.label.flight = Vuelo
+any.claim.form.label.leg = Tramo del Vuelo
 
 any.claim.form.button.trackingLogs = Registros de Seguimiento

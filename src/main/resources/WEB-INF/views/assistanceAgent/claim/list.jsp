@@ -17,7 +17,7 @@
 
 <acme:list>
 	<acme:list-column code="assistanceAgent.claim.list.label.employeeCode" path="employeeCode"/>
-	<acme:list-column code="assistanceAgent.claim.list.label.flight" path="flight"/>
+	<acme:list-column code="assistanceAgent.claim.list.label.leg" path="leg"/>
 	<acme:list-column code="assistanceAgent.claim.list.label.moment" path="moment"/>
 	<acme:list-column code="assistanceAgent.claim.list.label.published" path="published"/>		
 </acme:list>

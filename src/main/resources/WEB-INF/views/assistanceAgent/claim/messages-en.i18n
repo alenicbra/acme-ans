@@ -14,7 +14,7 @@ assistanceAgent.claim.list.title = Claims List
 assistanceAgent.claim.form.title = Claim Details
 
 assistanceAgent.claim.list.label.employeeCode = Employee Code
-assistanceAgent.claim.list.label.flight = Flight
+assistanceAgent.claim.list.label.leg = Leg
 assistanceAgent.claim.list.label.moment = Moment
 assistanceAgent.claim.list.label.published = Is Published?
 
@@ -32,4 +32,4 @@ assistanceAgent.claim.form.label.description = Description
 assistanceAgent.claim.form.label.type = Type of Claim
 assistanceAgent.claim.form.label.indicator = Indicator
 assistanceAgent.claim.form.label.assistanceAgent = Assistance Agent
-assistanceAgent.claim.form.label.flight = Flight
+assistanceAgent.claim.form.label.leg = Leg

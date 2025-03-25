@@ -14,7 +14,7 @@ assistanceAgent.claim.list.title = Lista de Reclamos
 assistanceAgent.claim.form.title = Detalles del Reclamo
 
 assistanceAgent.claim.list.label.employeeCode = Código de Empleado
-assistanceAgent.claim.list.label.flight = Vuelo
+assistanceAgent.claim.list.label.leg = Tramo del Vuelo
 assistanceAgent.claim.list.label.moment = Momento
 assistanceAgent.claim.list.label.published = ¿Está Publicado?
 
@@ -32,4 +32,4 @@ assistanceAgent.claim.form.label.description = Descripción
 assistanceAgent.claim.form.label.type = Tipo de Reclamo
 assistanceAgent.claim.form.label.indicator = Indicador
 assistanceAgent.claim.form.label.assistanceAgent = Agente de Asistencia
-assistanceAgent.claim.form.label.flight = Vuelo
+assistanceAgent.claim.form.label.leg = Tramo del Vuelo

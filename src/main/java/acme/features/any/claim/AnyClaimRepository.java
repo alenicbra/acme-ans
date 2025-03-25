@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import acme.client.repositories.AbstractRepository;
 import acme.entities.claims.Claim;
 import acme.entities.claims.IndicatorType;
+import acme.entities.legs.Leg;
 
 @Repository
 public interface AnyClaimRepository extends AbstractRepository {
@@ -18,5 +19,8 @@ public interface AnyClaimRepository extends AbstractRepository {
 
 	@Query("select c from Claim c where c.indicator != :type")
 	public Collection<Claim> findAllCompletedClaims(IndicatorType type);
+
+	@Query("select l from Leg l")
+	public Collection<Leg> findAllLegs();
 
 }
