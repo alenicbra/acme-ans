@@ -1,5 +1,5 @@
 
-package acme.features.flights;
+package acme.features.manager.flights;
 
 import java.util.Collection;
 
@@ -42,7 +42,6 @@ public class flightListService extends AbstractGuiService<AirlineManager, Flight
 
 	@Override
 	public void unbind(final Flight object) {
-		assert object != null;
 
 		Dataset dataset;
 

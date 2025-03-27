@@ -1,5 +1,5 @@
 
-package acme.features.flights;
+package acme.features.manager.flights;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -11,7 +11,7 @@ import acme.entities.flights.Flight;
 import acme.realms.AirlineManager;
 
 @GuiService
-public class flightUpdateService extends AbstractGuiService<AirlineManager, Flight> {
+public class flightShowService extends AbstractGuiService<AirlineManager, Flight> {
 
 	@Autowired
 	private flightRepository repo;
@@ -19,54 +19,41 @@ public class flightUpdateService extends AbstractGuiService<AirlineManager, Flig
 
 	@Override
 	public void authorise() {
-		Boolean status;
-		int managerId;
+		boolean status;
 		int masterId;
 
 		final Principal principal = super.getRequest().getPrincipal();
-		managerId = principal.getActiveRealm().getId();
+		final int managerId = principal.getActiveRealm().getId();
+
 		masterId = super.getRequest().getData("id", int.class);
 		Flight flight = this.repo.findOneById(masterId);
-
-		status = flight != null && principal.hasRealmOfType(AirlineManager.class) && flight.getManager().getId() == managerId && flight.getDraftMode();
+		status = flight != null && flight.getManager().getId() == managerId;
 
 		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
 	public void load() {
-		int id = super.getRequest().getData("id", int.class);
-		Flight object = this.repo.findOneById(id);
+		Flight object;
+		int id;
+
+		id = super.getRequest().getData("id", int.class);
+		object = this.repo.findOneById(id);
 
 		super.getBuffer().addData(object);
 	}
 
 	@Override
-	public void bind(final Flight object) {
-		assert object != null;
-
-		super.bindObject(object, "tag", "indication", "cost", "description");
-	}
-
-	@Override
-	public void validate(final Flight object) {
-		assert object != null;
-	}
-
-	@Override
-	public void perform(final Flight object) {
-		assert object != null;
-
-		this.repo.save(object);
-	}
-
-	@Override
 	public void unbind(final Flight object) {
-		assert object != null;
 
 		Dataset dataset;
 
 		dataset = super.unbindObject(object, "tag", "indication", "cost", "description");
+		dataset.put("destination", object.destination().getIataCode());
+		dataset.put("origin", object.origin().getIataCode());
+		dataset.put("arrival", object.scheduledArrival());
+		dataset.put("departure", object.scheduledDeparture());
+		dataset.put("layovers", object.totalLayovers());
 		super.getResponse().addData(dataset);
 	}
 

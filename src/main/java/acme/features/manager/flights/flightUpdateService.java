@@ -1,16 +1,17 @@
 
-package acme.features.flights;
+package acme.features.manager.flights;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.components.principals.Principal;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.flights.Flight;
 import acme.realms.AirlineManager;
 
 @GuiService
-public class flightCreateService extends AbstractGuiService<AirlineManager, Flight> {
+public class flightUpdateService extends AbstractGuiService<AirlineManager, Flight> {
 
 	@Autowired
 	private flightRepository repo;
@@ -19,44 +20,45 @@ public class flightCreateService extends AbstractGuiService<AirlineManager, Flig
 	@Override
 	public void authorise() {
 		Boolean status;
+		int managerId;
+		int masterId;
 
-		status = super.getRequest().getPrincipal().hasRealmOfType(AirlineManager.class);
+		final Principal principal = super.getRequest().getPrincipal();
+		managerId = principal.getActiveRealm().getId();
+		masterId = super.getRequest().getData("id", int.class);
+		Flight flight = this.repo.findOneById(masterId);
+
+		status = flight != null && principal.hasRealmOfType(AirlineManager.class) && flight.getManager().getId() == managerId && flight.getDraftMode();
+
 		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
 	public void load() {
-		final int id = super.getRequest().getPrincipal().getActiveRealm().getId();
-
-		Flight object = new Flight();
-		object.setManager(this.repo.findOneManagerById(id));
-		object.setDraftMode(true);
+		int id = super.getRequest().getData("id", int.class);
+		Flight object = this.repo.findOneById(id);
 
 		super.getBuffer().addData(object);
 	}
 
 	@Override
 	public void bind(final Flight object) {
-		assert object != null;
 
 		super.bindObject(object, "tag", "indication", "cost", "description");
 	}
 
 	@Override
 	public void validate(final Flight object) {
-		assert object != null;
 	}
 
 	@Override
 	public void perform(final Flight object) {
-		assert object != null;
 
 		this.repo.save(object);
 	}
 
 	@Override
 	public void unbind(final Flight object) {
-		assert object != null;
 
 		Dataset dataset;
 

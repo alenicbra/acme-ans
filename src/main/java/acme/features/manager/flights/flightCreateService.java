@@ -1,5 +1,5 @@
 
-package acme.features.flights;
+package acme.features.manager.flights;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,7 +10,7 @@ import acme.entities.flights.Flight;
 import acme.realms.AirlineManager;
 
 @GuiService
-public class flightDeleteService extends AbstractGuiService<AirlineManager, Flight> {
+public class flightCreateService extends AbstractGuiService<AirlineManager, Flight> {
 
 	@Autowired
 	private flightRepository repo;
@@ -37,26 +37,22 @@ public class flightDeleteService extends AbstractGuiService<AirlineManager, Flig
 
 	@Override
 	public void bind(final Flight object) {
-		assert object != null;
 
 		super.bindObject(object, "tag", "indication", "cost", "description");
 	}
 
 	@Override
 	public void validate(final Flight object) {
-		assert object != null;
 	}
 
 	@Override
 	public void perform(final Flight object) {
-		assert object != null;
 
-		this.repo.delete(object);
+		this.repo.save(object);
 	}
 
 	@Override
 	public void unbind(final Flight object) {
-		assert object != null;
 
 		Dataset dataset;
 

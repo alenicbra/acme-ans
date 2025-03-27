@@ -1,5 +1,5 @@
 
-package acme.features.flights;
+package acme.features.manager.flights;
 
 import java.util.Collection;
 
@@ -46,14 +46,12 @@ public class flightPublishService extends AbstractGuiService<AirlineManager, Fli
 
 	@Override
 	public void bind(final Flight object) {
-		assert object != null;
 
 		super.bindObject(object, "tag", "indication", "cost", "description");
 	}
 
 	@Override
 	public void validate(final Flight object) {
-		assert object != null;
 
 		if (!super.getBuffer().getErrors().hasErrors()) {
 			super.state(object.totalLayovers() >= 1, "layovers", "manager.flights.total-layovers.error");
@@ -66,7 +64,6 @@ public class flightPublishService extends AbstractGuiService<AirlineManager, Fli
 
 	@Override
 	public void perform(final Flight object) {
-		assert object != null;
 
 		object.setDraftMode(false);
 		this.repo.save(object);
@@ -74,7 +71,6 @@ public class flightPublishService extends AbstractGuiService<AirlineManager, Fli
 
 	@Override
 	public void unbind(final Flight object) {
-		assert object != null;
 
 		Dataset dataset;
 
