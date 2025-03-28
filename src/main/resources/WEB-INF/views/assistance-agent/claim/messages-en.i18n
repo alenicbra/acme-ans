@@ -10,8 +10,8 @@
 
 assistanceAgent.claim.list.button.create = Create
 
-assistanceAgent.claim.list.title = Claims List
-assistanceAgent.claim.form.title = Claim Details
+assistance-agent.claim.list.title = Claims List
+assistance-agent.claim.form.title = Claim Details
 
 assistanceAgent.claim.list.label.type = Claim Type
 assistanceAgent.claim.list.label.leg = Leg
