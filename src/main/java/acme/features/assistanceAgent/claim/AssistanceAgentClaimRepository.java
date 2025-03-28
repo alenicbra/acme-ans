@@ -33,4 +33,7 @@ public interface AssistanceAgentClaimRepository extends AbstractRepository {
 	@Query("select t from TrackingLog t where t.claim.id = :id")
 	public Collection<TrackingLog> findManyTrackingLogsByClaimId(int id);
 
+	@Query("select count(t) = 0 from TrackingLog t where t.draftMode = true and t.claim.id = :id")
+	public boolean allTrackingLogsPublishedByClaimId(int id);
+
 }
