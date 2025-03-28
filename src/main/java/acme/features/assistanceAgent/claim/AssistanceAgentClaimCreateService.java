@@ -57,7 +57,7 @@ public class AssistanceAgentClaimCreateService extends AbstractGuiService<Assist
 		legId = super.getRequest().getData("leg", int.class);
 		leg = this.repository.findOneLegById(legId);
 
-		super.bindObject(object, "registrationMoment", "email", "description", "link", "type", "indicator");
+		super.bindObject(object, "registrationMoment", "email", "description", "leg", "indicator", "type");
 		object.setLeg(leg);
 	}
 
@@ -93,16 +93,13 @@ public class AssistanceAgentClaimCreateService extends AbstractGuiService<Assist
 
 		legs = this.repository.findAllLegs();
 
-		choices = SelectChoices.from(legs, "code", object.getLeg());
+		choices = SelectChoices.from(legs, "flightNumberNumber", object.getLeg());
 		choicesType = SelectChoices.from(ClaimType.class, object.getType());
 		choicesIndicator = SelectChoices.from(IndicatorType.class, object.getIndicator());
 
-		dataset = super.unbindObject(object, "registrationMoment", "email", "description", "link", "draftMode");
-		dataset.put("legs", choices.getSelected().getKey());
-		dataset.put("leg", choices);
-		dataset.put("indicators", choicesIndicator.getSelected().getKey());
-		dataset.put("indicator", choices);
-		dataset.put("type", choicesType.getSelected().getKey());
+		dataset = super.unbindObject(object, "registrationMoment", "email", "description", "leg", "indicator", "type");
+		dataset.put("legs", choices);
+		dataset.put("indicators", choicesIndicator);
 		dataset.put("types", choicesType);
 
 		super.getResponse().addData(dataset);
