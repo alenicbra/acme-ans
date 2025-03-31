@@ -2,13 +2,11 @@
 package acme.features.assistanceAgent.claim;
 
 import java.util.Collection;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
-import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.claims.Claim;
@@ -64,14 +62,6 @@ public class AssistanceAgentClaimCreateService extends AbstractGuiService<Assist
 	@Override
 	public void validate(final Claim object) {
 		assert object != null;
-		if (!super.getBuffer().getErrors().hasErrors("registrationMoment")) {
-			Date minimumDeadline;
-
-			minimumDeadline = MomentHelper.getCurrentMoment();
-			super.state(MomentHelper.isBefore(object.getRegistrationMoment(), minimumDeadline), "registrationMoment", "assistanceAgent.claim.form.error.registration-more-time");
-		}
-
-		// TODO
 
 	}
 

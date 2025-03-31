@@ -68,8 +68,6 @@ public class AssistanceAgentClaimUpdateService extends AbstractGuiService<Assist
 	public void validate(final Claim object) {
 		assert object != null;
 
-		// TODO
-
 	}
 
 	@Override

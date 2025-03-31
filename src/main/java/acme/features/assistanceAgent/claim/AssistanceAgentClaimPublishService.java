@@ -68,7 +68,8 @@ public class AssistanceAgentClaimPublishService extends AbstractGuiService<Assis
 	public void validate(final Claim object) {
 		assert object != null;
 
-		// TODO
+		if (!super.getBuffer().getErrors().hasErrors("indicator"))
+			super.state(object.getIndicator() != IndicatorType.IN_PROGRESS, "indicator", "assistanceAgent.claim.form.error.indicator-not-in-progress");
 
 	}
 
