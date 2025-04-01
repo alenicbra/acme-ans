@@ -22,7 +22,7 @@ public interface AssistanceAgentClaimRepository extends AbstractRepository {
 	@Query("select c from Claim c where c.id = :id")
 	public Claim findOneClaimById(int id);
 
-	@Query("select l from Leg l")
+	@Query("SELECT l FROM Leg l WHERE l.draftMode = false AND l.flight.draftMode = false")
 	public Collection<Leg> findAllLegs();
 
 	@Query("select a from AssistanceAgent a where a.id = :id")
@@ -34,8 +34,8 @@ public interface AssistanceAgentClaimRepository extends AbstractRepository {
 	@Query("select t from TrackingLog t where t.claim.id = :id")
 	public Collection<TrackingLog> findManyTrackingLogsByClaimId(int id);
 
-	// @Query("select count(t) = 0 from TrackingLog t where t.draftMode = true and t.claim.id = :id")
-	// public boolean allTrackingLogsPublishedByClaimId(int id);
+	@Query("select count(t) = 0 from TrackingLog t where t.draftMode = true and t.claim.id = :id")
+	public boolean allTrackingLogsPublishedByClaimId(int id);
 
 	// @Query("SELECT COUNT(t) = 0 FROM TrackingLog t WHERE t.claim.id = :id AND (t.resolutionReason IS NULL OR t.resolutionReason = '')")
 	// public boolean allTrackingLogsReasonFilled(int id);

@@ -66,8 +66,7 @@ public class AssistanceAgentClaimPublishService extends AbstractGuiService<Assis
 
 	@Override
 	public void validate(final Claim object) {
-		assert object != null;
-
+		super.state(this.repository.allTrackingLogsPublishedByClaimId(object.getId()), "*", "assistanceAgent.claim.form.error.all-tracking-logs-published");
 		if (!super.getBuffer().getErrors().hasErrors("indicator"))
 			super.state(object.getIndicator() != IndicatorType.IN_PROGRESS, "indicator", "assistanceAgent.claim.form.error.indicator-not-in-progress");
 

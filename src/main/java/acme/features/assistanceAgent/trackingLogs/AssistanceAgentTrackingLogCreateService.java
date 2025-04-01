@@ -51,6 +51,7 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 		object = new TrackingLog();
 		object.setDraftMode(true);
 		object.setClaim(claim);
+		object.setIndicator(IndicatorType.IN_PROGRESS);
 		object.setLastUpdateMoment(MomentHelper.getCurrentMoment());
 
 		super.getBuffer().addData(object);

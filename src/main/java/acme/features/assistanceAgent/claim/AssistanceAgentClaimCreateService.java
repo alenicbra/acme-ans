@@ -47,6 +47,7 @@ public class AssistanceAgentClaimCreateService extends AbstractGuiService<Assist
 		object = new Claim();
 		object.setDraftMode(true);
 		object.setAssistanceAgent(assistanceAgent);
+		object.setIndicator(IndicatorType.IN_PROGRESS);
 		object.setRegistrationMoment(MomentHelper.getCurrentMoment());
 
 		super.getBuffer().addData(object);
@@ -67,7 +68,7 @@ public class AssistanceAgentClaimCreateService extends AbstractGuiService<Assist
 	@Override
 	public void validate(final Claim object) {
 		if (!super.getBuffer().getErrors().hasErrors("indicator"))
-			super.state(object.getIndicator() != IndicatorType.IN_PROGRESS, "indicator", "assistanceAgent.claim.form.error.indicator-not-in-progress");
+			super.state(object.getIndicator() == IndicatorType.IN_PROGRESS, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
 	}
 
 	@Override

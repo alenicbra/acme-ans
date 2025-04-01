@@ -66,14 +66,12 @@ public class AssistanceAgentClaimUpdateService extends AbstractGuiService<Assist
 
 	@Override
 	public void validate(final Claim object) {
-		assert object != null;
-
+		if (!super.getBuffer().getErrors().hasErrors("indicator"))
+			super.state(object.getIndicator() == IndicatorType.IN_PROGRESS, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
 	}
 
 	@Override
 	public void perform(final Claim object) {
-		assert object != null;
-
 		this.repository.save(object);
 	}
 

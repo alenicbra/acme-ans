@@ -12,7 +12,7 @@ user-account-customer-02,true,"UserIdentity{name: 'Aisha', surname: 'نمر ሐ�
 user-account-customer-03,true,"UserIdentity{name: 'Liam', surname: 'fox 狐狸', email: 'liam@acme.com'}",customer3,customer3
 user-account-agent-01,true,"UserIdentity{name: 'Jose Manuel', surname: 'Miret Martin', email: 'josema@acme.com'}",agent1,agent1
 user-account-agent-02,true,"UserIdentity{name: 'Alejandro', surname: 'Izquierdo Bejarano', email: 'alex@acme.com'}",agent2,agent2
-user-account-manager-03,true,"UserIdentity{name: 'Paco', surname: 'Lorenzo Martínez', email: 'holaCaracola@acme.com'}",manager3,manager3
+user-account-agent-03,true,"UserIdentity{name: 'Paco', surname: 'Lorenzo Martínez', email: 'holaCaracola@acme.com'}",agent3,agent3
 user-account-member-01,true,"UserIdentity{name: 'Ramon', surname: 'Lopez Rueda', email: 'ramloprue@acme.com'}",member,member
 user-account-member-02,true,"UserIdentity{name: 'Luis', surname: 'Ruiz Piedra', email: 'luiruipie@acme.com'}",member1,member1
 user-account-member-03,true,"UserIdentity{name: 'Miriam', surname: 'Reina Luna', email: 'mirreilun@acme.com'}",member2,member2
