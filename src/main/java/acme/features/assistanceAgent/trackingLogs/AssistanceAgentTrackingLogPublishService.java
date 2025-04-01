@@ -82,7 +82,7 @@ public class AssistanceAgentTrackingLogPublishService extends AbstractGuiService
 
 			bool1 = object.getIndicator() != IndicatorType.IN_PROGRESS && !object.getResolutionReason().isBlank() && object.getResolutionReason() != null;
 
-			super.state(bool1, "resolutionReason", "assistanceAgent.claim.form.error.resolution-reason-not-null");
+			super.state(bool1 || object.getIndicator() == IndicatorType.IN_PROGRESS, "resolutionReason", "assistanceAgent.claim.form.error.resolution-reason-not-null");
 		}
 	}
 
