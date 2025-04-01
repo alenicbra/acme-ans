@@ -22,5 +22,12 @@
 	<acme:list-column code="assistanceAgent.trackingLog.list.label.published" path="published"/>		
 </acme:list>
 
-<acme:button code="assistanceAgent.trackingLog.list.button.create" action="/assistance-agent/tracking-log/create?masterId=${masterId}"/>
+<jstl:choose>
+		<jstl:when test="${!exceptionalCase && !notAnyMore}">
+			<acme:button code="assistanceAgent.trackingLog.list.button.create" action="/assistance-agent/tracking-log/create?masterId=${masterId}"/>
+		</jstl:when>	
+		<jstl:when test="${exceptionalCase && !notAnyMore}">
+			<acme:button code="assistanceAgent.trackingLog.list.button.create-exceptional-case" action="/assistance-agent/tracking-log/exceptional-case?masterId=${masterId}"/>
+		</jstl:when>		
+</jstl:choose>
 

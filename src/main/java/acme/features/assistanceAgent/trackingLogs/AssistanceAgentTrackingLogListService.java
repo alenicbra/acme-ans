@@ -51,19 +51,24 @@ public class AssistanceAgentTrackingLogListService extends AbstractGuiService<As
 
 	@Override
 	public void unbind(final TrackingLog object) {
-		assert object != null;
-
 		String published;
 		Dataset dataset;
 		int masterId;
+		Claim claim;
+		Boolean notAnyMore;
 
 		masterId = super.getRequest().getData("masterId", int.class);
+		claim = this.repository.findOneClaimById(masterId);
+		notAnyMore = this.repository.countTrackingLogsForExceptionalCase(masterId) == 2;
 
 		dataset = super.unbindObject(object, "lastUpdateMoment", "resolutionPercentage", "indicator");
 		published = !object.isDraftMode() ? "✓" : "x";
 		dataset.put("published", published);
 
 		super.getResponse().addGlobal("masterId", masterId);
+		super.getResponse().addGlobal("exceptionalCase", !claim.isDraftMode());
+		super.getResponse().addGlobal("notAnyMore", notAnyMore);
+
 		super.getResponse().addData(dataset);
 	}
 }

@@ -16,7 +16,8 @@ assistanceAgent.trackingLog.list.label.lastUpdateMoment = Última Actualización
 assistanceAgent.trackingLog.list.label.indicator = Situación Actual  
 assistanceAgent.trackingLog.list.label.published = ¿Está Publicado?  
 
-assistanceAgent.trackingLog.list.button.create = Crear  
+assistanceAgent.trackingLog.list.button.create = Crear 
+assistanceAgent.trackingLog.list.button.create-exceptional-case = Caso Excepcional 
 
 assistanceAgent.trackingLog.form.button.create = Crear  
 assistanceAgent.trackingLog.form.button.update = Actualizar  

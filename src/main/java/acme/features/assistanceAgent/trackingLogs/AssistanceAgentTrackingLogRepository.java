@@ -24,4 +24,7 @@ public interface AssistanceAgentTrackingLogRepository extends AbstractRepository
 
 	@Query("select max(t.resolutionPercentage) from TrackingLog t where t.claim.id = :claimId and t.id != :id")
 	public Double findMaxResolutionPercentageByClaimId(int id, int claimId);
+
+	@Query("SELECT COUNT(t) FROM TrackingLog t WHERE t.claim.id = :claimId AND t.resolutionPercentage = 100.00")
+	public Long countTrackingLogsForExceptionalCase(int claimId);
 }

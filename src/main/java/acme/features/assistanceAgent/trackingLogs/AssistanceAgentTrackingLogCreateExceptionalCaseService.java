@@ -14,7 +14,7 @@ import acme.entities.trackingLogs.TrackingLog;
 import acme.realms.AssistanceAgent;
 
 @GuiService
-public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<AssistanceAgent, TrackingLog> {
+public class AssistanceAgentTrackingLogCreateExceptionalCaseService extends AbstractGuiService<AssistanceAgent, TrackingLog> {
 
 	// Internal state ---------------------------------------------------------
 
@@ -51,7 +51,7 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 		object = new TrackingLog();
 		object.setDraftMode(true);
 		object.setClaim(claim);
-		object.setIndicator(IndicatorType.IN_PROGRESS);
+		object.setResolutionPercentage(100.00);
 		object.setLastUpdateMoment(MomentHelper.getCurrentMoment());
 
 		super.getBuffer().addData(object);
@@ -66,32 +66,12 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 
 	@Override
 	public void validate(final TrackingLog object) {
-		if (!super.getBuffer().getErrors().hasErrors("indicator")) {
-			boolean bool1;
-			boolean bool2;
-
-			if (!super.getBuffer().getErrors().hasErrors("resolutionPercentage")) {
-				bool1 = object.getIndicator() == IndicatorType.IN_PROGRESS && object.getResolutionPercentage() < 100;
-				bool2 = object.getIndicator() != IndicatorType.IN_PROGRESS && object.getResolutionPercentage() == 100;
-				super.state(bool1 || bool2, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
-			}
-		}
-		if (!super.getBuffer().getErrors().hasErrors("resolutionPercentage")) {
-			Double maxResolutionPercentage;
-			double finalMaxResolutionPercentage;
-
-			maxResolutionPercentage = this.repository.findMaxResolutionPercentageByClaimId(object.getId(), object.getClaim().getId());
-			finalMaxResolutionPercentage = maxResolutionPercentage != null ? maxResolutionPercentage : 0.0;
-
-			super.state(object.getResolutionPercentage() > finalMaxResolutionPercentage, "resolutionPercentage", "assistanceAgent.claim.form.error.less-than-max-resolution-percentage");
-		}
-		if (!super.getBuffer().getErrors().hasErrors("resolutionReason")) {
-			boolean bool1;
-
-			bool1 = object.getIndicator() != IndicatorType.IN_PROGRESS && !object.getResolutionReason().isBlank() && object.getResolutionReason() != null;
-
-			super.state(bool1 || object.getIndicator() == IndicatorType.IN_PROGRESS, "resolutionReason", "assistanceAgent.claim.form.error.resolution-reason-not-null");
-		}
+		if (!super.getBuffer().getErrors().hasErrors("indicator"))
+			super.state(object.getIndicator() != IndicatorType.IN_PROGRESS, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress-exceptional-case");
+		if (!super.getBuffer().getErrors().hasErrors("resolutionPercentage"))
+			super.state(object.getResolutionPercentage() == 100, "resolutionPercentage", "assistanceAgent.claim.form.error.must-be-100");
+		if (!super.getBuffer().getErrors().hasErrors("resolutionReason"))
+			super.state(!object.getResolutionReason().isBlank() && object.getResolutionReason() != null, "resolutionReason", "assistanceAgent.claim.form.error.resolution-reason-not-null");
 	}
 
 	@Override

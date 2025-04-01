@@ -17,6 +17,7 @@ assistanceAgent.trackingLog.list.label.indicator = Actual Situation
 assistanceAgent.trackingLog.list.label.published = Is Published?
 
 assistanceAgent.trackingLog.list.button.create = Create
+assistanceAgent.trackingLog.list.button.create-exceptional-case = Exceptional Case
 
 assistanceAgent.trackingLog.form.button.create = Create
 assistanceAgent.trackingLog.form.button.update = Update
