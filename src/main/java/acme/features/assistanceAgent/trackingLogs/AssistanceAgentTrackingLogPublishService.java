@@ -7,13 +7,12 @@ import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
-import acme.entities.claims.Claim;
 import acme.entities.claims.IndicatorType;
 import acme.entities.trackingLogs.TrackingLog;
 import acme.realms.AssistanceAgent;
 
 @GuiService
-public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<AssistanceAgent, TrackingLog> {
+public class AssistanceAgentTrackingLogPublishService extends AbstractGuiService<AssistanceAgent, TrackingLog> {
 
 	// Internal state ---------------------------------------------------------
 
@@ -28,28 +27,23 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 		boolean status;
 		int masterId;
 		AssistanceAgent assistanceAgent;
-		Claim claim;
+		TrackingLog trackingLog;
 
-		masterId = super.getRequest().getData("masterId", int.class);
-		claim = this.repository.findOneClaimById(masterId);
-		assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
-		status = claim != null && super.getRequest().getPrincipal().hasRealm(assistanceAgent);
+		masterId = super.getRequest().getData("id", int.class);
+		trackingLog = this.repository.findOneTrackingLogById(masterId);
+		assistanceAgent = trackingLog == null ? null : trackingLog.getClaim().getAssistanceAgent();
+		status = trackingLog != null && trackingLog.isDraftMode() && super.getRequest().getPrincipal().hasRealm(assistanceAgent);
 
 		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
 	public void load() {
-		TrackingLog object;
 		int masterId;
-		Claim claim;
+		TrackingLog object;
 
-		masterId = super.getRequest().getData("masterId", int.class);
-		claim = this.repository.findOneClaimById(masterId);
-
-		object = new TrackingLog();
-		object.setDraftMode(true);
-		object.setClaim(claim);
+		masterId = super.getRequest().getData("id", int.class);
+		object = this.repository.findOneTrackingLogById(masterId);
 
 		super.getBuffer().addData(object);
 	}
@@ -65,11 +59,16 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 	public void validate(final TrackingLog object) {
 		assert object != null;
 
+		if (!super.getBuffer().getErrors().hasErrors("indicator"))
+			super.state(object.getIndicator() != IndicatorType.IN_PROGRESS, "indicator", "assistanceAgent.trackingLog.form.error.indicator-not-in-progress");
+
 	}
 
 	@Override
 	public void perform(final TrackingLog object) {
 		assert object != null;
+
+		object.setDraftMode(false);
 
 		this.repository.save(object);
 	}
@@ -82,8 +81,7 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 
 		choicesIndicator = SelectChoices.from(IndicatorType.class, object.getIndicator());
 
-		dataset = super.unbindObject(object, "lastUpdateMoment", "step", "resolutionPercentage", "resolutionReason", "indicator");
-		dataset.put("masterId", super.getRequest().getData("masterId", int.class));
+		dataset = super.unbindObject(object, "lastUpdateMoment", "step", "resolutionPercentage", "draftMode", "resolutionReason", "indicator");
 		dataset.put("indicators", choicesIndicator);
 
 		super.getResponse().addData(dataset);
