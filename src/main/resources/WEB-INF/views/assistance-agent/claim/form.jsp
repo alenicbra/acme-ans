@@ -18,13 +18,13 @@
 <acme:form> 
 	<acme:input-textbox code="assistanceAgent.claim.form.label.description" path="description"/>
 	<acme:input-email code="assistanceAgent.claim.form.label.email" path="email"/>
-	<acme:input-moment code="assistanceAgent.claim.form.label.registrationMoment" path="registrationMoment"/>
+	<acme:input-moment code="assistanceAgent.claim.form.label.registrationMoment" path="registrationMoment" readonly="true"/>
 	<acme:input-select code="assistanceAgent.claim.form.label.type" path="type" choices="${types}"/>
 	<acme:input-select code="assistanceAgent.claim.form.label.indicator" path="indicator" choices="${indicators}"/>
 	<acme:input-select code="assistanceAgent.claim.form.label.leg" path="leg" choices="${legs}"/>	
 
 	<jstl:choose>
-		<jstl:when test="${acme:anyOf(_command, 'show|update|delete|publish') && draftMode == true}">
+		<jstl:when test="${acme:anyOf(_command, 'show|update|delete|publish') && draftMode}">
 			<acme:submit code="assistanceAgent.claim.form.button.update" action="/assistance-agent/claim/update"/>
 			<acme:submit code="assistanceAgent.claim.form.button.delete" action="/assistance-agent/claim/delete"/>
 			<acme:submit code="assistanceAgent.claim.form.button.publish" action="/assistance-agent/claim/publish"/>
@@ -33,7 +33,7 @@
 		<jstl:when test="${_command == 'create'}">
 			<acme:submit code="assistanceAgent.claim.form.button.create" action="/assistance-agent/claim/create"/>
 		</jstl:when>	
-		<jstl:when test="${_command == 'show' && draftMode == false}">
+		<jstl:when test="${_command == 'show' && !draftMode}">
 			<acme:button code="assistanceAgent.claim.form.button.trackingLogs" action="/assistance-agent/tracking-log/list?masterId=${id}"/>
 		</jstl:when>		
 	</jstl:choose>	

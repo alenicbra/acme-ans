@@ -1,31 +1,36 @@
 
-package acme.features.any.claim;
+package acme.features.assistanceAgent.claim;
 
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
-import acme.client.components.principals.Any;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.claims.Claim;
 import acme.entities.claims.IndicatorType;
+import acme.realms.AssistanceAgent;
 
 @GuiService
-public class AnyClaimListCompletedService extends AbstractGuiService<Any, Claim> {
+public class AssistanceAgentClaimListCompletedService extends AbstractGuiService<AssistanceAgent, Claim> {
 
 	// Internal state ---------------------------------------------------------
 
 	@Autowired
-	private AnyClaimRepository repository;
+	private AssistanceAgentClaimRepository repository;
 
 	// AbstractService interface ----------------------------------------------
 
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		AssistanceAgent assistanceAgent;
+		boolean status;
+
+		assistanceAgent = (AssistanceAgent) super.getRequest().getPrincipal().getActiveRealm();
+		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent);
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
@@ -46,9 +51,10 @@ public class AnyClaimListCompletedService extends AbstractGuiService<Any, Claim>
 		String published;
 		Dataset dataset;
 
-		dataset = super.unbindObject(object, "type", "leg", "indicator");
+		dataset = super.unbindObject(object, "type", "indicator");
 		published = !object.isDraftMode() ? "✓" : "x";
 		dataset.put("published", published);
+		dataset.put("leg", object.getLeg().getFlightNumberNumber());
 
 		super.getResponse().addData(dataset);
 	}

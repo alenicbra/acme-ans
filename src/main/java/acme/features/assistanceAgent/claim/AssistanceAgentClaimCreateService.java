@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
+import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.claims.Claim;
@@ -28,7 +29,12 @@ public class AssistanceAgentClaimCreateService extends AbstractGuiService<Assist
 
 	@Override
 	public void authorise() {
-		super.getResponse().setAuthorised(true);
+		AssistanceAgent assistanceAgent;
+		boolean status;
+
+		assistanceAgent = (AssistanceAgent) super.getRequest().getPrincipal().getActiveRealm();
+		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent);
+		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
@@ -41,14 +47,13 @@ public class AssistanceAgentClaimCreateService extends AbstractGuiService<Assist
 		object = new Claim();
 		object.setDraftMode(true);
 		object.setAssistanceAgent(assistanceAgent);
+		object.setRegistrationMoment(MomentHelper.getCurrentMoment());
 
 		super.getBuffer().addData(object);
 	}
 
 	@Override
 	public void bind(final Claim object) {
-		assert object != null;
-
 		int legId;
 		Leg leg;
 
@@ -61,13 +66,14 @@ public class AssistanceAgentClaimCreateService extends AbstractGuiService<Assist
 
 	@Override
 	public void validate(final Claim object) {
-		assert object != null;
-
+		if (!super.getBuffer().getErrors().hasErrors("indicator"))
+			super.state(object.getIndicator() != IndicatorType.IN_PROGRESS, "indicator", "assistanceAgent.claim.form.error.indicator-not-in-progress");
 	}
 
 	@Override
 	public void perform(final Claim object) {
-		assert object != null;
+
+		object.setRegistrationMoment(MomentHelper.getCurrentMoment());
 
 		this.repository.save(object);
 	}

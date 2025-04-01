@@ -59,6 +59,7 @@ public class AssistanceAgentClaimShowService extends AbstractGuiService<Assistan
 		SelectChoices choicesIndicator;
 		SelectChoices choicesType;
 
+		// ('', '', '')
 		legs = this.repository.findAllLegs();
 
 		choices = SelectChoices.from(legs, "flightNumberNumber", object.getLeg());

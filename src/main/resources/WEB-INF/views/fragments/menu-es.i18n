@@ -29,7 +29,8 @@ master.menu.administrator.shut-system-down = Parar el sistema
 # master.menu.assistanceAgent ##########################################################
 
 master.menu.assistance-agent = Agente de Asistencia
-master.menu.assistance-agent.claim = Mis Reclamos
+master.menu.assistance-agent.claim-undergoing = Mis Reclamos en Proceso
+master.menu.assistance-agent.claim-completed = Mis Reclamos Completados
 master.menu.assistance-agent.dashboard = Panel de Control
 
 # master.menu.provider ########################################################

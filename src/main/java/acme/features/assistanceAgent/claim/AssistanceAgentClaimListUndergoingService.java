@@ -9,6 +9,7 @@ import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.claims.Claim;
+import acme.entities.claims.IndicatorType;
 import acme.realms.AssistanceAgent;
 
 @GuiService
@@ -38,7 +39,7 @@ public class AssistanceAgentClaimListUndergoingService extends AbstractGuiServic
 		int masterId;
 
 		masterId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		objects = this.repository.findManyClaimsByMasterId(masterId);
+		objects = this.repository.findManyClaimsUndergoingByMasterId(masterId, IndicatorType.IN_PROGRESS);
 
 		super.getBuffer().addData(objects);
 	}
@@ -50,9 +51,10 @@ public class AssistanceAgentClaimListUndergoingService extends AbstractGuiServic
 		String published;
 		Dataset dataset;
 
-		dataset = super.unbindObject(object, "type", "leg", "indicator");
+		dataset = super.unbindObject(object, "type", "indicator");
 		published = !object.isDraftMode() ? "✓" : "x";
 		dataset.put("published", published);
+		dataset.put("leg", object.getLeg().getFlightNumberNumber());
 
 		super.getResponse().addData(dataset);
 	}

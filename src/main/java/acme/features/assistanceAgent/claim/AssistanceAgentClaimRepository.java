@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import acme.client.repositories.AbstractRepository;
 import acme.entities.claims.Claim;
+import acme.entities.claims.IndicatorType;
 import acme.entities.legs.Leg;
 import acme.entities.trackingLogs.TrackingLog;
 import acme.realms.AssistanceAgent;
@@ -38,5 +39,11 @@ public interface AssistanceAgentClaimRepository extends AbstractRepository {
 
 	// @Query("SELECT COUNT(t) = 0 FROM TrackingLog t WHERE t.claim.id = :id AND (t.resolutionReason IS NULL OR t.resolutionReason = '')")
 	// public boolean allTrackingLogsReasonFilled(int id);
+
+	@Query("select c from Claim c where c.assistanceAgent.id = :id and c.indicator != :type")
+	public Collection<Claim> findManyClaimsCompletedByMasterId(int id, IndicatorType type);
+
+	@Query("select c from Claim c where c.assistanceAgent.id = :id and c.indicator = :type")
+	public Collection<Claim> findManyClaimsUndergoingByMasterId(int id, IndicatorType type);
 
 }

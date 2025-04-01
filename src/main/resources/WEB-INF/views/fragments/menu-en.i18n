@@ -29,7 +29,8 @@ master.menu.administrator.shut-system-down = Shut system down
 # master.menu.assistanceAgent ##########################################################
 
 master.menu.assistance-agent = Assistance Agent
-master.menu.assistance-agent.claim = My claims
+master.menu.assistance-agent.claim-undergoing = My Undergoing Claims
+master.menu.assistance-agent.claim-completed = My Completed Claims
 master.menu.assistance-agent.dashboard = Dashboard
 
 # master.menu.provider ########################################################
