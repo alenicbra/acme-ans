@@ -1,6 +1,7 @@
 
 package acme.entities.bookings;
 
+import java.beans.Transient;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -17,7 +18,9 @@ import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidMoney;
 import acme.client.components.validation.ValidString;
+import acme.client.helpers.SpringHelper;
 import acme.entities.flights.Flight;
+import acme.features.customer.passenger.PassengerCustomerRepository;
 import acme.realms.Customer;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,7 +44,6 @@ public class Booking extends AbstractEntity {
 	@Mandatory
 	private TravelClass			travelClass;
 
-	@Mandatory
 	@ValidMoney
 	private Money				price;
 
@@ -64,5 +66,24 @@ public class Booking extends AbstractEntity {
 	@Valid
 	@ManyToOne
 	private Flight				flight;
+
+
+	@Transient
+	public Money getPrice() {
+		Money price = new Money();
+		PassengerCustomerRepository PassengerCustomerRepository = SpringHelper.getBean(PassengerCustomerRepository.class);
+
+		if (this.getFlight() == null) {
+			price.setAmount(0.0);
+			price.setCurrency("EUR");
+		} else {
+			Flight flight = this.getFlight();
+			Integer numberOfPassenger = PassengerCustomerRepository.findPassengerByBookingId(this.getId()).size();
+			price.setAmount(flight.getCost().getAmount() * numberOfPassenger);
+			price.setCurrency(flight.getCost().getCurrency());
+		}
+
+		return price;
+	}
 
 }

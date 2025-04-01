@@ -18,23 +18,13 @@ import acme.realms.Customer;
 public class BookingCustomerPublishService extends AbstractGuiService<Customer, Booking> {
 
 	@Autowired
-	private BookingCustomerRepository BookingCustomerRepository;
+	private BookingCustomerRepository bookingCustomerRepository;
 
-
-	@Override
-	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
-		Integer bookingId = super.getRequest().getData("id", int.class);
-		Booking booking = this.BookingCustomerRepository.findBookingById(bookingId);
-		Integer customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		status = status && booking.getCustomer().getId() == customerId && booking.getIsPublished();
-		super.getResponse().setAuthorised(status);
-	}
 
 	@Override
 	public void load() {
 		Integer id = super.getRequest().getData("id", int.class);
-		Booking booking = this.BookingCustomerRepository.findBookingById(id);
+		Booking booking = this.bookingCustomerRepository.findBookingById(id);
 		super.getBuffer().addData(booking);
 	}
 
@@ -45,7 +35,7 @@ public class BookingCustomerPublishService extends AbstractGuiService<Customer, 
 
 	@Override
 	public void validate(final Booking booking) {
-		Booking bookingWithSameLocatorCode = this.BookingCustomerRepository.findBookingByLocatorCode(booking.getLocatorCode());
+		Booking bookingWithSameLocatorCode = this.bookingCustomerRepository.findBookingByLocatorCode(booking.getLocatorCode());
 		boolean status = bookingWithSameLocatorCode == null || bookingWithSameLocatorCode.getId() == booking.getId();
 		super.state(status, "locatorCode", "acme.validation.identifier.repeated.message");
 		status = !booking.getLastNibble().isBlank();
@@ -53,15 +43,25 @@ public class BookingCustomerPublishService extends AbstractGuiService<Customer, 
 	}
 
 	@Override
+	public void authorise() {
+		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+		Integer bookingId = super.getRequest().getData("id", int.class);
+		Booking booking = this.bookingCustomerRepository.findBookingById(bookingId);
+		Integer customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		status = status && booking.getCustomer().getId() == customerId && booking.getIsPublished();
+		super.getResponse().setAuthorised(status);
+	}
+
+	@Override
 	public void perform(final Booking booking) {
 		booking.setIsPublished(true);
-		this.BookingCustomerRepository.save(booking);
+		this.bookingCustomerRepository.save(booking);
 	}
 
 	@Override
 	public void unbind(final Booking booking) {
 		SelectChoices travelClasses = SelectChoices.from(TravelClass.class, booking.getTravelClass());
-		Collection<Flight> flights = this.BookingCustomerRepository.findAllFlight();
+		Collection<Flight> flights = this.bookingCustomerRepository.findAllFlight();
 		SelectChoices flightChoices = SelectChoices.from(flights, "id", booking.getFlight());
 
 		Dataset dataset = super.unbindObject(booking, "flight", "customer", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "isPublished", "id");

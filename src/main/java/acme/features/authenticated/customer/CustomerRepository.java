@@ -10,7 +10,7 @@ import acme.realms.Customer;
 @Repository
 public interface CustomerRepository extends AbstractRepository {
 
-	@Query("SELECT c FROM Customer c WHERE c.customerIdentifier = :customerIdentifier")
-	Customer findCustomerByIdentifier(String customerIdentifier);
+	@Query("SELECT c FROM Customer c WHERE c.identifier = :identifier")
+	Customer findCustomerByIdentifier(String identifier);
 
 }

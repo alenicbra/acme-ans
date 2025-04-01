@@ -10,15 +10,15 @@ import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.bookings.Booking;
-import acme.entities.bookings.BookingPassengers;
+import acme.entities.bookings.BookingPassenger;
 import acme.entities.passengers.Passenger;
 import acme.realms.Customer;
 
 @GuiService
-public class BookingPassengerCustomerCreateService extends AbstractGuiService<Customer, BookingPassengers> {
+public class BookingPassengerCustomerCreateService extends AbstractGuiService<Customer, BookingPassenger> {
 
 	@Autowired
-	private BookingPassengerCustomerRepository BookingPassengerCustomerRepository;
+	private BookingPassengerCustomerRepository bookingPassengerCustomerRepository;
 
 
 	@Override
@@ -26,11 +26,11 @@ public class BookingPassengerCustomerCreateService extends AbstractGuiService<Cu
 		Boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
 
 		Integer bookingId = super.getRequest().getData("bookingId", int.class);
-		Booking booking = this.BookingPassengerCustomerRepository.getBookingById(bookingId);
+		Booking booking = this.bookingPassengerCustomerRepository.getBookingById(bookingId);
 		status = status && booking != null && !booking.getIsPublished();
 
 		Integer passengerId = super.getRequest().getData("passengerId", int.class);
-		Passenger passenger = this.BookingPassengerCustomerRepository.getPassengerById(passengerId);
+		Passenger passenger = this.bookingPassengerCustomerRepository.getPassengerById(passengerId);
 		status = status && passenger != null && passenger.getIsPublished();
 
 		Integer customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
@@ -41,37 +41,37 @@ public class BookingPassengerCustomerCreateService extends AbstractGuiService<Cu
 	@Override
 	public void load() {
 		Integer bookingId = super.getRequest().getData("bookingId", int.class);
-		Booking booking = this.BookingPassengerCustomerRepository.getBookingById(bookingId);
-		BookingPassengers bookingPassenger = new BookingPassengers();
+		Booking booking = this.bookingPassengerCustomerRepository.getBookingById(bookingId);
+		BookingPassenger bookingPassenger = new BookingPassenger();
 		bookingPassenger.setBooking(booking);
 		super.getBuffer().addData(bookingPassenger);
 	}
 
 	@Override
-	public void bind(final BookingPassengers bookingPassenger) {
+	public void bind(final BookingPassenger bookingPassenger) {
 		super.bindObject(bookingPassenger, "passenger", "booking");
 	}
 
 	@Override
-	public void validate(final BookingPassengers bookingPassenger) {
+	public void validate(final BookingPassenger bookingPassenger) {
 
 	}
 
 	@Override
-	public void perform(final BookingPassengers bookingPassenger) {
-		this.BookingPassengerCustomerRepository.save(bookingPassenger);
+	public void perform(final BookingPassenger bookingPassenger) {
+		this.bookingPassengerCustomerRepository.save(bookingPassenger);
 	}
 
 	@Override
-	public void unbind(final BookingPassengers bookingPassenger) {
+	public void unbind(final BookingPassenger bookingPassenger) {
 		assert bookingPassenger != null;
 
 		Integer customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
 		Integer bookingId = super.getRequest().getData("bookingId", int.class);
 
-		Collection<Passenger> alreadyAddedPassengers = this.BookingPassengerCustomerRepository.getPassengersInBooking(bookingId);
-		Collection<Passenger> noAddedPassengers = this.BookingPassengerCustomerRepository.getAllPassengersByCustomerId(customerId).stream().filter(p -> !alreadyAddedPassengers.contains(p)).toList();
+		Collection<Passenger> alreadyAddedPassengers = this.bookingPassengerCustomerRepository.getPassengersInBooking(bookingId);
+		Collection<Passenger> noAddedPassengers = this.bookingPassengerCustomerRepository.getAllPassengersByCustomerId(customerId).stream().filter(p -> !alreadyAddedPassengers.contains(p)).toList();
 		SelectChoices passengerChoices = SelectChoices.from(noAddedPassengers, "fullName", bookingPassenger.getPassenger());
 
 		Dataset dataset = super.unbindObject(bookingPassenger, "passenger", "booking");
