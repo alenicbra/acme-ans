@@ -75,7 +75,7 @@ public class AssistanceAgentTrackingLogUpdateService extends AbstractGuiService<
 			maxResolutionPercentage = this.repository.findMaxResolutionPercentageByClaimId(object.getId(), object.getClaim().getId());
 			finalMaxResolutionPercentage = maxResolutionPercentage != null ? maxResolutionPercentage : 0.0;
 
-			super.state(object.getResolutionPercentage() > finalMaxResolutionPercentage, "resolutionPercentage", "assistanceAgent.claim.form.error.less-than-max-resolution-percentage");
+			super.state(object.getResolutionPercentage() >= finalMaxResolutionPercentage, "resolutionPercentage", "assistanceAgent.claim.form.error.less-than-max-resolution-percentage");
 		}
 		if (!super.getBuffer().getErrors().hasErrors("resolutionReason")) {
 			boolean bool1;
