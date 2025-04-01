@@ -58,11 +58,25 @@ public class AssistanceAgentTrackingLogPublishService extends AbstractGuiService
 
 	@Override
 	public void validate(final TrackingLog object) {
-		assert object != null;
+		if (!super.getBuffer().getErrors().hasErrors("indicator")) {
+			boolean bool1;
+			boolean bool2;
 
-		if (!super.getBuffer().getErrors().hasErrors("indicator"))
-			super.state(object.getIndicator() != IndicatorType.IN_PROGRESS, "indicator", "assistanceAgent.trackingLog.form.error.indicator-not-in-progress");
+			if (!super.getBuffer().getErrors().hasErrors("resolutionPercentage")) {
+				bool1 = object.getIndicator() == IndicatorType.IN_PROGRESS && object.getResolutionPercentage() < 100;
+				bool2 = object.getIndicator() != IndicatorType.IN_PROGRESS && object.getResolutionPercentage() == 100;
+				super.state(bool1 || bool2, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
+			}
+		}
+		if (!super.getBuffer().getErrors().hasErrors("resolutionPercentage")) {
+			Double maxResolutionPercentage;
+			double finalMaxResolutionPercentage;
 
+			maxResolutionPercentage = this.repository.findMaxResolutionPercentageByClaimId(object.getId(), object.getClaim().getId());
+			finalMaxResolutionPercentage = maxResolutionPercentage != null ? maxResolutionPercentage : 0.0;
+
+			super.state(object.getResolutionPercentage() >= finalMaxResolutionPercentage, "resolutionPercentage", "assistanceAgent.claim.form.error.less-than-max-resolution-percentage");
+		}
 	}
 
 	@Override

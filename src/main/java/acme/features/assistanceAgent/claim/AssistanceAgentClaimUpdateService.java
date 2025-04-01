@@ -66,8 +66,15 @@ public class AssistanceAgentClaimUpdateService extends AbstractGuiService<Assist
 
 	@Override
 	public void validate(final Claim object) {
-		if (!super.getBuffer().getErrors().hasErrors("indicator"))
-			super.state(object.getIndicator() == IndicatorType.IN_PROGRESS, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
+		if (!super.getBuffer().getErrors().hasErrors("indicator")) {
+			boolean bool1;
+			boolean bool2;
+
+			bool1 = object.getIndicator() == IndicatorType.IN_PROGRESS && this.repository.findMaxResolutionPercentageByClaimId(object.getId()) < 100;
+			bool2 = object.getIndicator() != IndicatorType.IN_PROGRESS && this.repository.findMaxResolutionPercentageByClaimId(object.getId()) == 100;
+
+			super.state(bool1 || bool2, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
+		}
 	}
 
 	@Override
