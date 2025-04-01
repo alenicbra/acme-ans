@@ -11,6 +11,7 @@ import javax.validation.Valid;
 
 import acme.client.components.basis.AbstractEntity;
 import acme.client.components.datatypes.Money;
+import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoment;
@@ -46,6 +47,11 @@ public class Booking extends AbstractEntity {
 
 	@Optional
 	private String				lastNibble;
+
+	@Mandatory
+	@Valid
+	@Automapped
+	private Boolean				isPublished;
 
 	// Relationships -------------------------------------------------------------
 
