@@ -1,0 +1,11 @@
+authenticated.member.form.title = Formulario miembro de cabina
+
+authenticated.member.form.label.employeeCode = Codigo de empleado
+authenticated.member.form.label.phoneNumber = Numero de telefono
+authenticated.member.form.label.languageSkills = Idiomas
+authenticated.member.form.label.availabilityStatus = Disponibilidad
+authenticated.member.form.label.salary = Salario
+authenticated.member.form.label.yearsOfExperience = Experiencia(años)
+
+authenticated.member.form.button.create = Registrar
+authenticated.member.form.button.update = Actualizar

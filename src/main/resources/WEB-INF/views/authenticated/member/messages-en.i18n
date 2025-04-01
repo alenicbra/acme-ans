@@ -1,0 +1,11 @@
+authenticated.member.form.title = Member form
+
+authenticated.member.form.label.employeeCode = Employee Code
+authenticated.member.form.label.phoneNumber = Phone Number
+authenticated.member.form.label.languageSkills = Language Skills
+authenticated.member.form.label.availabilityStatus = Availability Status
+authenticated.member.form.label.salary = Salary
+authenticated.member.form.label.yearsOfExperience = Experience(years)
+
+authenticated.member.form.button.create = Register
+authenticated.member.form.button.update = Update

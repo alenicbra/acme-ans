@@ -1,0 +1,21 @@
+member.flight-assignment.list.title = Flight Assignments
+member.flight-assignment.form.title = Flight Assignments Form
+
+member.flight-assignment.form.label.duty = Duty:
+member.flight-assignment.form.label.lastUpdatedMoment = Last update: 
+member.flight-assignment.form.label.currentStatus = Status:
+member.flight-assignment.form.label.remarks = Remarks:
+member.flight-assignment.form.label.draftMode = Draft
+member.flight-assignment.form.label.member = Member:
+member.flight-assignment.form.label.leg = Leg:
+
+member.flight-assignment.form.button.return = Return
+member.flight-assignment.form.button.update = Update
+member.flight-assignment.form.button.delete = Delete
+member.flight-assignment.form.button.create = Create
+
+member.flight-assignment.list.label.duty = Duty:
+member.flight-assignment.list.label.lastUpdatedMoment = Latest update: 
+member.flight-assignment.list.label.currentStatus = State:
+
+member.flight-assignment.list.button.create = Create

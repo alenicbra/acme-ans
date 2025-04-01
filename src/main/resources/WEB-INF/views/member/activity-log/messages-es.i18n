@@ -1,0 +1,19 @@
+member.activity-log.list.title = Registros de Actividad
+member.activity-log.form.title = Formulario de Registros de Actividad
+
+member.activity-log.form.label.registrationMoment = Registro:
+member.activity-log.form.label.typeOfIncident = Tipo de incidente:
+member.activity-log.form.label.description = Descripcion:
+member.activity-log.form.label.severityLevel = Nivel de gravedad:
+member.activity-log.form.label.draftMode = Borrador
+		
+member.activity-log.form.button.update = Update
+member.activity-log.form.button.create = Create
+
+member.activity-log.list.label.registrationMoment = Registro
+member.activity-log.list.label.typeOfIncident = Tipo de incidente
+member.activity-log.list.label.description = Descripcion
+member.activity-log.list.label.severityLevel = Nivel de gravedad
+member.activity-log.list.label.draftMode = Borrador
+
+member.activity-log.list.button.create = Create
