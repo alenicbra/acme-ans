@@ -55,10 +55,12 @@ public class AssistanceAgentTrackingLogListService extends AbstractGuiService<As
 		Dataset dataset;
 		int masterId;
 		Claim claim;
-		Boolean notAnyMore;
+		boolean exceptionalCase;
+		boolean notAnyMore;
 
 		masterId = super.getRequest().getData("masterId", int.class);
 		claim = this.repository.findOneClaimById(masterId);
+		exceptionalCase = this.repository.countTrackingLogsForExceptionalCase(masterId) == 1;
 		notAnyMore = this.repository.countTrackingLogsForExceptionalCase(masterId) == 2;
 
 		dataset = super.unbindObject(object, "lastUpdateMoment", "resolutionPercentage", "indicator");
@@ -66,7 +68,7 @@ public class AssistanceAgentTrackingLogListService extends AbstractGuiService<As
 		dataset.put("published", published);
 
 		super.getResponse().addGlobal("masterId", masterId);
-		super.getResponse().addGlobal("exceptionalCase", !claim.isDraftMode());
+		super.getResponse().addGlobal("exceptionalCase", !claim.isDraftMode() && exceptionalCase);
 		super.getResponse().addGlobal("notAnyMore", notAnyMore);
 
 		super.getResponse().addData(dataset);

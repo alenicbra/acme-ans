@@ -33,3 +33,6 @@ assistanceAgent.claim.form.label.type = Type of Claim
 assistanceAgent.claim.form.label.indicator = Indicator
 assistanceAgent.claim.form.label.assistanceAgent = Assistance Agent
 assistanceAgent.claim.form.label.leg = Leg
+
+assistanceAgent.claim.form.error.indicator-in-progress = If the maximum resolution percentage of all associated tracking logs has already reached 100%, it must not be "IN-PROGRESS"
+assistanceAgent.claim.form.error.all-tracking-logs-published = All the tracking logs associated to this claim must be published

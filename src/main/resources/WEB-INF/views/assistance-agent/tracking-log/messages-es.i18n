@@ -29,4 +29,11 @@ assistanceAgent.trackingLog.form.label.step = Paso en Proceso
 assistanceAgent.trackingLog.form.label.resolutionPercentage = Porcentaje de Resolución  
 assistanceAgent.trackingLog.form.label.resolutionReason = Motivo de Resolución  
 assistanceAgent.trackingLog.form.label.indicator = Indicador  
-assistanceAgent.trackingLog.form.label.claim = Reclamo  
+assistanceAgent.trackingLog.form.label.claim = Reclamo 
+
+assistanceAgent.claim.form.error.indicator-in-progress-exceptional-case = El indicador no puede estar en progreso para este caso excepcional
+assistanceAgent.claim.form.error.must-be-100 = El porcentaje de resolución debe ser 100%
+assistanceAgent.claim.form.error.resolution-reason-not-null = La razón de resolución no puede estar en blanco o nula si el indicador es "ACEPTADO" o "RECHAZADO"
+assistanceAgent.claim.form.error.indicator-in-progress = El indicador solo puede estar en "EN PROGRESO" si el porcentaje de resolución es menor al 100%. En el caso de ser igual a 100%, debe ser "ACEPTADO" o "RECHAZADO"
+assistanceAgent.claim.form.error.less-than-max-resolution-percentage = El nuevo porcentaje de resolución de este registro de seguimiento debe ser mayor que los que ya han sido cargados
+ 
