@@ -13,12 +13,8 @@ import acme.realms.Customer;
 @GuiController
 public class BookingPassengerCustomerController extends AbstractGuiController<Customer, BookingPassenger> {
 
-	// Internal state ---------------------------------------------------------
-
 	@Autowired
 	private BookingPassengerCustomerCreateService BookingPassengerCustomerCreateService;
-
-	// Constructors -----------------------------------------------------------
 
 
 	@PostConstruct

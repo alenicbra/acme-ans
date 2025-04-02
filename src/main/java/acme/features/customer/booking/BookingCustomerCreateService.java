@@ -38,13 +38,13 @@ public class BookingCustomerCreateService extends AbstractGuiService<Customer, B
 		int customerId = principal.getId();
 		Customer customer = this.bookingCustomerRepository.findCustomerById(customerId);
 		Date date = MomentHelper.getCurrentMoment();
-		String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+		String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		Random random = new Random();
 		int length = 6 + random.nextInt(3);
 		StringBuilder sb = new StringBuilder(length);
 		for (int i = 0; i < length; i++) {
-			char c = chars.charAt(random.nextInt(chars.length()));
-			sb.append(c);
+			char ch = chars.charAt(random.nextInt(chars.length()));
+			sb.append(ch);
 		}
 
 		booking.setCustomer(customer);
@@ -68,6 +68,8 @@ public class BookingCustomerCreateService extends AbstractGuiService<Customer, B
 
 	@Override
 	public void perform(final Booking booking) {
+		Date today = MomentHelper.getCurrentMoment();
+		booking.setPurchaseMoment(today);
 		this.bookingCustomerRepository.save(booking);
 	}
 
