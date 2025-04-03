@@ -43,8 +43,8 @@ public class AssistanceAgentTrackingLogListService extends AbstractGuiService<As
 		Collection<TrackingLog> objects;
 		int masterId;
 
-		masterId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		objects = this.repository.findManyTrackingLogsByMasterId(masterId);
+		masterId = super.getRequest().getData("masterId", int.class);
+		objects = this.repository.findManyTrackingLogsClaimId(masterId);
 
 		super.getBuffer().addData(objects);
 	}
@@ -53,24 +53,36 @@ public class AssistanceAgentTrackingLogListService extends AbstractGuiService<As
 	public void unbind(final TrackingLog object) {
 		String published;
 		Dataset dataset;
-		int masterId;
-		Claim claim;
-		boolean exceptionalCase;
-		boolean notAnyMore;
-
-		masterId = super.getRequest().getData("masterId", int.class);
-		claim = this.repository.findOneClaimById(masterId);
-		exceptionalCase = this.repository.countTrackingLogsForExceptionalCase(masterId) == 1;
-		notAnyMore = this.repository.countTrackingLogsForExceptionalCase(masterId) == 2;
 
 		dataset = super.unbindObject(object, "lastUpdateMoment", "resolutionPercentage", "indicator");
 		published = !object.isDraftMode() ? "✓" : "x";
 		dataset.put("published", published);
 
-		super.getResponse().addGlobal("masterId", masterId);
-		super.getResponse().addGlobal("exceptionalCase", !claim.isDraftMode() && exceptionalCase);
-		super.getResponse().addGlobal("notAnyMore", notAnyMore);
-
 		super.getResponse().addData(dataset);
+	}
+
+	@Override
+	public void unbind(final Collection<TrackingLog> object) {
+		int masterId;
+		Claim claim;
+		Boolean noMore;
+		Boolean notCreateButton;
+		Boolean exceptionalCase;
+		Boolean greatRealm;
+
+		masterId = super.getRequest().getData("masterId", int.class);
+		claim = this.repository.findOneClaimById(masterId);
+
+		exceptionalCase = !claim.isDraftMode() && this.repository.countTrackingLogsForExceptionalCase(masterId) == 1;
+		notCreateButton = claim.isDraftMode() && this.repository.countTrackingLogsForExceptionalCaseNotDraftMode(masterId) == 1;
+		noMore = !claim.isDraftMode() && this.repository.countTrackingLogsForExceptionalCaseNotDraftMode(masterId) == 2;
+
+		greatRealm = super.getRequest().getPrincipal().hasRealm(claim.getAssistanceAgent());
+
+		super.getResponse().addGlobal("masterId", masterId);
+		super.getResponse().addGlobal("exceptionalCase", exceptionalCase);
+		super.getResponse().addGlobal("notCreateButton", notCreateButton);
+		super.getResponse().addGlobal("noMore", noMore);
+		super.getResponse().addGlobal("greatRealm", greatRealm);
 	}
 }

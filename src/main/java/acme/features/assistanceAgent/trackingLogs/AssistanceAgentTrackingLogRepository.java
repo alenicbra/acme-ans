@@ -13,8 +13,8 @@ import acme.entities.trackingLogs.TrackingLog;
 @Repository
 public interface AssistanceAgentTrackingLogRepository extends AbstractRepository {
 
-	@Query("select t from TrackingLog t where t.claim.assistanceAgent.id = :id")
-	public Collection<TrackingLog> findManyTrackingLogsByMasterId(int id);
+	@Query("select t from TrackingLog t where t.claim.id = :id")
+	public Collection<TrackingLog> findManyTrackingLogsClaimId(int id);
 
 	@Query("select c from Claim c where c.id = :id")
 	public Claim findOneClaimById(int id);
@@ -25,6 +25,12 @@ public interface AssistanceAgentTrackingLogRepository extends AbstractRepository
 	@Query("select max(t.resolutionPercentage) from TrackingLog t where t.claim.id = :claimId and t.id != :id")
 	public Double findMaxResolutionPercentageByClaimId(int id, int claimId);
 
-	@Query("SELECT COUNT(t) FROM TrackingLog t WHERE t.claim.id = :claimId AND t.resolutionPercentage = 100.00")
+	@Query("SELECT COUNT(t) FROM TrackingLog t WHERE t.claim.id = :claimId AND t.resolutionPercentage = 100.00 AND t.draftMode = false")
 	public Long countTrackingLogsForExceptionalCase(int claimId);
+
+	@Query("SELECT COUNT(t) FROM TrackingLog t WHERE t.claim.id = :claimId AND t.resolutionPercentage = 100.00")
+	public Long countTrackingLogsForExceptionalCaseNotDraftMode(int claimId);
+
+	@Query("SELECT CASE WHEN COUNT(t) = 0 THEN false WHEN COUNT(t) = COUNT(CASE WHEN t.draftMode = TRUE THEN 1 ELSE NULL END) THEN true ELSE false END FROM TrackingLog t WHERE t.claim.id = :claimId")
+	public Boolean allTrackingLogsDraftMode(int claimId);
 }

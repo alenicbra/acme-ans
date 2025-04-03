@@ -73,7 +73,7 @@ public class AssistanceAgentTrackingLogPublishService extends AbstractGuiService
 			double finalMaxResolutionPercentage;
 			boolean notAnyMore;
 
-			notAnyMore = this.repository.countTrackingLogsForExceptionalCase(object.getClaim().getId()) == 2;
+			notAnyMore = this.repository.countTrackingLogsForExceptionalCaseNotDraftMode(object.getClaim().getId()) == 2;
 			maxResolutionPercentage = this.repository.findMaxResolutionPercentageByClaimId(object.getId(), object.getClaim().getId());
 			finalMaxResolutionPercentage = maxResolutionPercentage != null ? maxResolutionPercentage : 0.0;
 
