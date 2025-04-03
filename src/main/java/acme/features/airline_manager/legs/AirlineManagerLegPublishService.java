@@ -1,5 +1,5 @@
 
-package acme.features.manager.legs;
+package acme.features.airline_manager.legs;
 
 import java.util.Collection;
 
@@ -17,10 +17,10 @@ import acme.entities.legs.LegStatus;
 import acme.realms.AirlineManager;
 
 @GuiService
-public class legDeleteService extends AbstractGuiService<AirlineManager, Leg> {
+public class AirlineManagerLegPublishService extends AbstractGuiService<AirlineManager, Leg> {
 
 	@Autowired
-	private LegRepository repo;
+	private AirlineManagerLegRepository repo;
 
 
 	@Override
@@ -46,15 +46,16 @@ public class legDeleteService extends AbstractGuiService<AirlineManager, Leg> {
 
 	@Override
 	public void bind(final Leg object) {
-		int departureId = super.getRequest().getData("departureAirport", int.class);
-		int arrivalId = super.getRequest().getData("arrivalAirport", int.class);
+
+		int departureId = super.getRequest().getData("departure", int.class);
+		int arrivalId = super.getRequest().getData("arrival", int.class);
 		int aircraftId = super.getRequest().getData("aircraft", int.class);
 
 		Airport departure = this.repo.findAirportById(departureId);
 		Airport arrival = this.repo.findAirportById(arrivalId);
 		Aircraft aircraft = this.repo.findAircraftById(aircraftId);
 
-		super.bindObject(object, "flightNumber", "scheduledDeparture", "scheduledArrival", "status");
+		super.bindObject(object, "flightNumberNumber", "scheduledDeparture", "scheduledArrival", "status");
 		object.setAircraft(aircraft);
 		object.setArrivalAirport(arrival);
 		object.setDepartureAirport(departure);
@@ -66,7 +67,8 @@ public class legDeleteService extends AbstractGuiService<AirlineManager, Leg> {
 
 	@Override
 	public void perform(final Leg object) {
-		this.repo.delete(object);
+		object.setDraftMode(false);
+		this.repo.save(object);
 	}
 
 	@Override
@@ -79,7 +81,7 @@ public class legDeleteService extends AbstractGuiService<AirlineManager, Leg> {
 		SelectChoices departureChoices = SelectChoices.from(airports, "iataCode", object.getDepartureAirport());
 		SelectChoices typeChoices = SelectChoices.from(LegStatus.class, object.getStatus());
 
-		Dataset dataset = super.unbindObject(object, "flightNumber", "scheduledDeparture", "scheduledArrival");
+		Dataset dataset = super.unbindObject(object, "flightNumberNumber", "scheduledDeparture", "scheduledArrival");
 
 		dataset.put("status", typeChoices.getSelected().getKey());
 		dataset.put("statuses", typeChoices);

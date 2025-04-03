@@ -1,5 +1,5 @@
 
-package acme.features.manager.legs;
+package acme.features.airline_manager.legs;
 
 import java.util.Collection;
 
@@ -13,10 +13,10 @@ import acme.entities.legs.Leg;
 import acme.realms.AirlineManager;
 
 @GuiService
-public class legShowService extends AbstractGuiService<AirlineManager, Leg> {
+public class AirlineManagerLegListService extends AbstractGuiService<AirlineManager, Leg> {
 
 	@Autowired
-	private LegRepository repo;
+	private AirlineManagerLegRepository repo;
 
 
 	@Override
@@ -43,13 +43,13 @@ public class legShowService extends AbstractGuiService<AirlineManager, Leg> {
 	@Override
 	public void unbind(final Leg object) {
 
-		Dataset dataset = super.unbindObject(object, "flightNumber", "scheduledDeparture", "scheduledArrival", "status");
-
-		dataset.put("departure", object.getDepartureAirport());
-		dataset.put("arrival", object.getArrivalAirport());
-		dataset.put("aircraft", object.getAircraft());
+		Dataset dataset = super.unbindObject(object, "id", "flightNumberNumber", "scheduledDeparture");
+		dataset.put("flightDraftMode", object.getFlight().getDraftMode());
 
 		super.getResponse().addData(dataset);
+		super.getResponse().addGlobal("flightDraftMode", object.getFlight().getDraftMode());
+		super.getResponse().addGlobal("flightId", object.getFlight().getId());
 
 	}
+
 }

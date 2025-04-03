@@ -1,18 +1,20 @@
 
-package acme.features.manager.legs;
+package acme.features.airline_manager.legs;
 
 import java.util.Collection;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+import acme.client.repositories.AbstractRepository;
 import acme.entities.aircrafts.Aircraft;
 import acme.entities.airports.Airport;
 import acme.entities.flights.Flight;
 import acme.entities.legs.Leg;
 
-public interface LegRepository extends JpaRepository<Leg, Integer> {
+@Repository
+public interface AirlineManagerLegRepository extends AbstractRepository {
 
 	@Query("SELECT l FROM Leg l WHERE l.flight = :flight ORDER BY l.scheduledDeparture ASC")
 	Leg findFirstByFlight(@Param("flight") Flight flight);
@@ -32,10 +34,10 @@ public interface LegRepository extends JpaRepository<Leg, Integer> {
 	@Query("Select a From Airport a Where a.id = :id")
 	Airport findAirportById(@Param("id") int id);
 
-	@Query("Select a From Aircraft")
+	@Query("Select a From Aircraft a")
 	Collection<Aircraft> findAllAircraft();
 
-	@Query("Select a From Airport")
+	@Query("Select a From Airport a")
 	Collection<Airport> findAllAirport();
 
 	@Query("Select l From Leg l Where l.id = :id")

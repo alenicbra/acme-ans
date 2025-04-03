@@ -1,5 +1,7 @@
 
-package acme.features.manager.flights;
+package acme.features.airline_manager.flight;
+
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -8,13 +10,14 @@ import acme.client.components.principals.Principal;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.flights.Flight;
+import acme.entities.legs.Leg;
 import acme.realms.AirlineManager;
 
 @GuiService
-public class flightUpdateService extends AbstractGuiService<AirlineManager, Flight> {
+public class AirlineManagerFlightPublishService extends AbstractGuiService<AirlineManager, Flight> {
 
 	@Autowired
-	private flightRepository repo;
+	private AirlineManagerFlightRepository repo;
 
 
 	@Override
@@ -49,11 +52,20 @@ public class flightUpdateService extends AbstractGuiService<AirlineManager, Flig
 
 	@Override
 	public void validate(final Flight object) {
+
+		if (!super.getBuffer().getErrors().hasErrors()) {
+			super.state(object.totalLayovers() >= 1, "layovers", "manager.flights.total-layovers.error");
+
+			Collection<Leg> legs = this.repo.getLegsByFlight(object);
+			Boolean status = legs.stream().anyMatch(e -> e.getDraftMode());
+			super.state(!status, "legs", "manager.flights.legs.error");
+		}
 	}
 
 	@Override
 	public void perform(final Flight object) {
 
+		object.setDraftMode(false);
 		this.repo.save(object);
 	}
 

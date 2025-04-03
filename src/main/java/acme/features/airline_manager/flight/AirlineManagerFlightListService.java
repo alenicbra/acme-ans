@@ -1,5 +1,5 @@
 
-package acme.features.manager.flights;
+package acme.features.airline_manager.flight;
 
 import java.util.Collection;
 
@@ -13,18 +13,15 @@ import acme.entities.flights.Flight;
 import acme.realms.AirlineManager;
 
 @GuiService
-public class flightListService extends AbstractGuiService<AirlineManager, Flight> {
+public class AirlineManagerFlightListService extends AbstractGuiService<AirlineManager, Flight> {
 
 	@Autowired
-	private flightRepository repo;
+	private AirlineManagerFlightRepository repo;
 
 
 	@Override
 	public void authorise() {
-		Principal principal = super.getRequest().getPrincipal();
-		Boolean status = principal.hasRealmOfType(AirlineManager.class);
-
-		super.getResponse().setAuthorised(status);
+		super.getResponse().setAuthorised(true);
 	}
 
 	@Override
@@ -45,7 +42,7 @@ public class flightListService extends AbstractGuiService<AirlineManager, Flight
 
 		Dataset dataset;
 
-		dataset = super.unbindObject(object, "tag");
+		dataset = super.unbindObject(object, "id", "tag");
 		super.getResponse().addData(dataset);
 	}
 

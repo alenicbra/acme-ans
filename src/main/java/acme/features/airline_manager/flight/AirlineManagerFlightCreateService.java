@@ -1,5 +1,5 @@
 
-package acme.features.manager.flights;
+package acme.features.airline_manager.flight;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -10,10 +10,10 @@ import acme.entities.flights.Flight;
 import acme.realms.AirlineManager;
 
 @GuiService
-public class flightDeleteService extends AbstractGuiService<AirlineManager, Flight> {
+public class AirlineManagerFlightCreateService extends AbstractGuiService<AirlineManager, Flight> {
 
 	@Autowired
-	private flightRepository repo;
+	private AirlineManagerFlightRepository repo;
 
 
 	@Override
@@ -26,8 +26,11 @@ public class flightDeleteService extends AbstractGuiService<AirlineManager, Flig
 
 	@Override
 	public void load() {
-		int id = super.getRequest().getData("id", int.class);
-		Flight object = this.repo.findOneById(id);
+		final int id = super.getRequest().getPrincipal().getActiveRealm().getId();
+
+		Flight object = new Flight();
+		object.setManager(this.repo.findOneManagerById(id));
+		object.setDraftMode(true);
 
 		super.getBuffer().addData(object);
 	}
@@ -45,7 +48,7 @@ public class flightDeleteService extends AbstractGuiService<AirlineManager, Flig
 	@Override
 	public void perform(final Flight object) {
 
-		this.repo.delete(object);
+		this.repo.save(object);
 	}
 
 	@Override

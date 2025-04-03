@@ -1,5 +1,5 @@
 
-package acme.features.manager.flights;
+package acme.features.airline_manager.flight;
 
 import javax.annotation.PostConstruct;
 
@@ -11,25 +11,25 @@ import acme.entities.flights.Flight;
 import acme.realms.AirlineManager;
 
 @GuiController
-public class flightController extends AbstractGuiController<AirlineManager, Flight> {
+public class AirlineManagerFlightController extends AbstractGuiController<AirlineManager, Flight> {
 
 	@Autowired
-	private flightCreateService		createService;
+	private AirlineManagerFlightCreateService		createService;
 
 	@Autowired
-	private flightDeleteService		deleteService;
+	private AirlineManagerFlightDeleteService		deleteService;
 
 	@Autowired
-	private flightListService		listService;
+	private AirlineManagerFlightListService		listService;
 
 	@Autowired
-	private flightPublishService	publishService;
+	private AirlineManagerFlightPublishService	publishService;
 
 	@Autowired
-	private flightShowService		showService;
+	private AirlineManagerFlightShowService		showService;
 
 	@Autowired
-	private flightUpdateService		updateService;
+	private AirlineManagerFlightUpdateService		updateService;
 
 
 	@PostConstruct
@@ -38,7 +38,7 @@ public class flightController extends AbstractGuiController<AirlineManager, Flig
 		super.addBasicCommand("update", this.updateService);
 		super.addBasicCommand("delete", this.deleteService);
 		super.addBasicCommand("show", this.showService);
-		super.addCustomCommand("list-mine", "list", this.listService);
+		super.addBasicCommand("list", this.listService);
 		super.addCustomCommand("publish", "update", this.publishService);
 	}
 }
