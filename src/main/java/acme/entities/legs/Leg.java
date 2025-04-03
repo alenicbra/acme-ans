@@ -55,8 +55,6 @@ public class Leg extends AbstractEntity {
 	@Valid
 	private LegStatus			status;
 
-	private Boolean				draftMode;
-
 	// Relationships -----------------------------------------------------------
 
 	@ManyToOne(optional = false)
