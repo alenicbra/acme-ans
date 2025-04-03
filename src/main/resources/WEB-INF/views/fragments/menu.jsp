@@ -48,6 +48,10 @@
 			<acme:menu-suboption code="master.menu.consumer.favourite-link" action="http://www.example.com/"/>
 		</acme:menu-option>
 		
+		<acme:menu-option code="master.menu.airline-manager" access="hasRealm('AirlineManager')">
+			<acme:menu-suboption code="master.menu.airline-manager.my-flights" action="/airline-manager/flight/list"/>
+    </acme:menu-option>
+      
 		<acme:menu-option code="master.menu.member" access="hasRealm('Member')">
 			<acme:menu-suboption code="master.menu.member.list-flight-assignments-completed" action="/member/flight-assignment/list"/>
 			<acme:menu-suboption code="master.menu.member.list-flight-assignments-planned" action="/member/flight-assignment/list-planned"/>
