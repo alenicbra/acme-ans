@@ -1,0 +1,22 @@
+member.flight-assignment.list.title = Mis Asignaciones de Vuelo
+member.flight-assignment.form.title = Detalles de la Asignacion de Vuelo
+
+member.flight-assignment.form.label.duty = Responsabilidad:
+member.flight-assignment.form.label.lastUpdatedMoment = Últ. actualización: 
+member.flight-assignment.form.label.currentStatus = Estado:
+member.flight-assignment.form.label.remarks = Notas:
+member.flight-assignment.form.label.draftMode = Borrador
+member.flight-assignment.form.label.member = Miembro:
+member.flight-assignment.form.label.leg = Tramo:
+
+member.flight-assignment.form.button.return = Volver
+member.flight-assignment.form.button.update = Actualizar
+member.flight-assignment.form.button.delete = Borrar
+member.flight-assignment.form.button.create = Crear
+member.flight-assignment.form.button.activity-log = Registros de actividad
+
+member.flight-assignment.list.label.duty = Responsabilidad
+member.flight-assignment.list.label.lastUpdatedMoment = Últ. actualización
+member.flight-assignment.list.label.currentStatus = Estado
+
+member.flight-assignment.list.button.create = Crear

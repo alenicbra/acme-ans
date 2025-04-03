@@ -78,6 +78,9 @@ public class Leg extends AbstractEntity {
 	@ManyToOne
 	private Flight				flight;
 
+	@Automapped
+	private boolean				draftMode;
+
 	// Derived Attributes -----------------------------------------------------
 
 
