@@ -57,7 +57,7 @@ public class AirlineManagerFlightPublishService extends AbstractGuiService<Airli
 			super.state(object.totalLayovers() >= 1, "layovers", "manager.flights.total-layovers.error");
 
 			Collection<Leg> legs = this.repo.getLegsByFlight(object);
-			Boolean status = legs.stream().anyMatch(e -> e.getDraftMode());
+			Boolean status = legs.stream().anyMatch(e -> e.isDraftMode());
 			super.state(!status, "legs", "manager.flights.legs.error");
 		}
 	}
