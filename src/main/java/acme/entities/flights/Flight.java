@@ -37,7 +37,7 @@ public class Flight extends AbstractEntity {
 
 	@Mandatory
 	@Automapped
-	private Boolean				indication;
+	private boolean				indication;
 
 	@ValidMoney
 	@Mandatory
@@ -49,7 +49,6 @@ public class Flight extends AbstractEntity {
 	@ValidString(max = 254)
 	private String				description;
 
-	private Boolean				draftMode;
 	// Derived Attributes -----------------------------------------------------
 
 
