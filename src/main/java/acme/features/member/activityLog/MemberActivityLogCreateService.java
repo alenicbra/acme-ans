@@ -4,13 +4,15 @@ package acme.features.member.activityLog;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.activityLogs.ActivityLog;
+import acme.entities.flightAssignments.FlightAssignment;
 import acme.realms.Member;
 
 @GuiService
-public class MemberActivityLogShowService extends AbstractGuiService<Member, ActivityLog> {
+public class MemberActivityLogCreateService extends AbstractGuiService<Member, ActivityLog> {
 
 	// Internal state -------------------------------------------------------
 
@@ -38,19 +40,41 @@ public class MemberActivityLogShowService extends AbstractGuiService<Member, Act
 	@Override
 	public void load() {
 		ActivityLog al;
-		int id;
+		int masterId;
+		FlightAssignment fa;
 
-		id = super.getRequest().getData("id", int.class);
-		al = this.repository.findActivityLogById(id);
+		masterId = super.getRequest().getData("masterId", int.class);
+		fa = this.repository.findFlightAssignmentById(masterId);
+
+		al = new ActivityLog();
+		al.setFlightAssignment(fa);
+		al.setRegistrationMoment(MomentHelper.getCurrentMoment());
+		al.setDraftMode(true);
 
 		super.getBuffer().addData(al);
+	}
+
+	@Override
+	public void bind(final ActivityLog al) {
+		super.bindObject(al, "registrationMoment", "typeOfIncident", "description", "severityLevel");
+	}
+
+	@Override
+	public void validate(final ActivityLog al) {
+		;
+	}
+
+	@Override
+	public void perform(final ActivityLog al) {
+		this.repository.save(al);
 	}
 
 	@Override
 	public void unbind(final ActivityLog al) {
 		Dataset dataset;
 
-		dataset = super.unbindObject(al, "registrationMoment", "typeOfIncident", "description", "severityLevel", "draftMode", "flightAssignment");
+		dataset = super.unbindObject(al, "registrationMoment", "typeOfIncident", "description", "severityLevel", "flightAssignment", "draftMode");
+		dataset.put("masterId", super.getRequest().getData("masterId", int.class));
 
 		super.getResponse().addData(dataset);
 	}

@@ -13,6 +13,7 @@ member.flight-assignment.form.button.return = Return
 member.flight-assignment.form.button.update = Update
 member.flight-assignment.form.button.delete = Delete
 member.flight-assignment.form.button.create = Create
+member.flight-assignment.form.button.activity-log = Activity Logs
 
 member.flight-assignment.list.label.duty = Duty:
 member.flight-assignment.list.label.lastUpdatedMoment = Latest update: 

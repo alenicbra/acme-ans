@@ -5,15 +5,16 @@ member.activity-log.form.label.registrationMoment = Registration Moment:
 member.activity-log.form.label.typeOfIncident = Type of incident: 
 member.activity-log.form.label.description = Description:
 member.activity-log.form.label.severityLevel = Severity level:
+member.activity-log.form.label.flightAssignment = Flight assignment:
 member.activity-log.form.label.draftMode = Draft:
 		
 member.activity-log.form.button.update = Update
+member.activity-log.form.button.publish = Publish
+member.activity-log.form.button.delete = Delete
 member.activity-log.form.button.create = Create
 
 member.activity-log.list.label.registrationMoment = Registration Moment
 member.activity-log.list.label.typeOfIncident = Type of incident
-member.activity-log.list.label.description = Description
 member.activity-log.list.label.severityLevel = Severity level
-member.activity-log.list.label.draftMode = Draft
 
 member.activity-log.list.button.create = Create

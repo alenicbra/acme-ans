@@ -43,4 +43,6 @@ public interface MemberFlightAssignmentRepository extends AbstractRepository {
 	@Query("SELECT al FROM ActivityLog al WHERE al.flightAssignment.id = ?1")
 	Collection<ActivityLog> findActivityLogsByAssignmentId(int id);
 
+	@Query("SELECT fa FROM FlightAssignment fa WHERE fa.leg.id = ?1")
+	Collection<FlightAssignment> findAllFlightAssignmentByLegId(int id);
 }

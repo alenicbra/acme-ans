@@ -10,7 +10,7 @@ import acme.entities.activityLogs.ActivityLog;
 import acme.realms.Member;
 
 @GuiService
-public class MemberActivityLogShowService extends AbstractGuiService<Member, ActivityLog> {
+public class MemberActivityLogDeleteService extends AbstractGuiService<Member, ActivityLog> {
 
 	// Internal state -------------------------------------------------------
 
@@ -47,12 +47,22 @@ public class MemberActivityLogShowService extends AbstractGuiService<Member, Act
 	}
 
 	@Override
+	public void bind(final ActivityLog al) {
+		super.bindObject(al, "registrationMoment", "typeOfIncident", "description", "severityLevel");
+	}
+
+	@Override
+	public void perform(final ActivityLog al) {
+		this.repository.delete(al);
+	}
+
+	@Override
 	public void unbind(final ActivityLog al) {
 		Dataset dataset;
 
-		dataset = super.unbindObject(al, "registrationMoment", "typeOfIncident", "description", "severityLevel", "draftMode", "flightAssignment");
+		dataset = super.unbindObject(al, "registrationMoment", "typeOfIncident", "description", "severityLevel", "flightAssignment", "draftMode");
+		dataset.put("masterId", super.getRequest().getData("masterId", int.class));
 
 		super.getResponse().addData(dataset);
 	}
-
 }

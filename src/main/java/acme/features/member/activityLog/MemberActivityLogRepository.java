@@ -8,18 +8,24 @@ import org.springframework.stereotype.Repository;
 
 import acme.client.repositories.AbstractRepository;
 import acme.entities.activityLogs.ActivityLog;
-import acme.realms.Member;
+import acme.entities.flightAssignments.FlightAssignment;
 
 @Repository
 public interface MemberActivityLogRepository extends AbstractRepository {
 
+	@Query("SELECT al FROM ActivityLog al")
+	Collection<ActivityLog> findAllActivityLogs();
+
 	@Query("SELECT al FROM ActivityLog al WHERE al.id = :id")
 	ActivityLog findActivityLogById(int id);
 
-	@Query("SELECT m FROM Member m WHERE m.id = :id")
-	Member findMemberById(int id);
+	@Query("select al from ActivityLog al where al.flightAssignment.id = ?1")
+	Collection<ActivityLog> findActivityLogsByAssignmentId(int id);
 
-	@Query("SELECT al FROM ActivityLog al WHERE al.flightAssignment.member.id = :id")
-	Collection<ActivityLog> findActivityLogByMemberId(int id);
+	@Query("select f from FlightAssignment f where f.id = ?1")
+	FlightAssignment findFlightAssignmentById(int id);
+
+	@Query("SELECT fa FROM FlightAssignment fa")
+	Collection<FlightAssignment> findAllFlightAssignments();
 
 }

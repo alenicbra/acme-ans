@@ -58,7 +58,7 @@ public class Member extends AbstractRole {
 	private Integer				yearsOfExperience;
 
 
-	private enum AvailabilityStatus {
+	public enum AvailabilityStatus {
 		AVAILABLE, ON_VACATION, ON_LEAVE
 	}
 

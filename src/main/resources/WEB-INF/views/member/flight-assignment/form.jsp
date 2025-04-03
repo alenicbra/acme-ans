@@ -16,10 +16,10 @@
 		<jstl:when test="${_command == 'show' && draftMode == false}">
 			<acme:submit code="member.flight-assignment.form.button.return" action="/member/flight-assignment/list"/>
 		</jstl:when>
-		<jstl:when test="${acme:anyOf(_command, 'show|update|delete') && draftMode == true && leadDuty==duty}">
+		<jstl:when test="${acme:anyOf(_command, 'show|update|delete') && draftMode == true}">
 			<acme:submit code="member.flight-assignment.form.button.update" action="/member/flight-assignment/update"/>
 			<acme:submit code="member.flight-assignment.form.button.delete" action="/member/flight-assignment/delete"/>
-			<acme:submit code="member.flight-assignment.form.button.activity-log" action="/member/activity-log/list?flightAssigmentId=${id}"/>
+			<acme:submit code="member.flight-assignment.form.button.activity-log" action="/member/activity-log/list?masterId=${id}"/>
 		</jstl:when>
 		<jstl:when test="${_command == 'create'}">
 			<acme:submit code="member.flight-assignment.form.button.create" action="/member/flight-assignment/create"/>

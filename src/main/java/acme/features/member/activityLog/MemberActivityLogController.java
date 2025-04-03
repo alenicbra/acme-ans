@@ -21,11 +21,17 @@ public class MemberActivityLogController extends AbstractGuiController<Member, A
 	@Autowired
 	private MemberActivityLogShowService	showService;
 
-	//@Autowired
-	//private MemberActivityLogCreateService	createService;
+	@Autowired
+	private MemberActivityLogCreateService	createService;
 
-	//@Autowired
-	//private MemberActivityLogUpdateService	updateService;
+	@Autowired
+	private MemberActivityLogUpdateService	updateService;
+
+	@Autowired
+	private MemberActivityLogDeleteService	deleteService;
+
+	@Autowired
+	private MemberActivityLogPublishService	publishService;
 
 	// Constructors -----------------------------------------------------------
 
@@ -34,8 +40,10 @@ public class MemberActivityLogController extends AbstractGuiController<Member, A
 	protected void initialise() {
 		super.addBasicCommand("list", this.listService);
 		super.addBasicCommand("show", this.showService);
-		//super.addBasicCommand("create", this.createService);
-		//super.addBasicCommand("update", this.updateService);
+		super.addBasicCommand("create", this.createService);
+		super.addBasicCommand("update", this.updateService);
+		super.addBasicCommand("delete", this.deleteService);
+		super.addCustomCommand("publish", "update", this.publishService);
 
 	}
 

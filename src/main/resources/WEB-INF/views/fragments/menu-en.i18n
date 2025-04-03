@@ -39,7 +39,6 @@ master.menu.consumer.favourite-link = Favourite link
 master.menu.member = Flight Crew Member
 master.menu.member.list-flight-assignments-completed = List completed flight assignments
 master.menu.member.list-flight-assignments-planned = List planned flight assignments
-master.menu.member.list-activity-logs = List activity logs
 
 # master.menu.user-account ####################################################
 

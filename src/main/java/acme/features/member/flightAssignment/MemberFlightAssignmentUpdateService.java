@@ -88,15 +88,14 @@ public class MemberFlightAssignmentUpdateService extends AbstractGuiService<Memb
 		currentStatusChoice = SelectChoices.from(CurrentStatus.class, fa.getCurrentStatus());
 
 		legs = this.repository.findAllLegs();
-		legChoice = SelectChoices.from(legs, "id", fa.getLeg());
+		legChoice = SelectChoices.from(legs, "flightNumberNumber", fa.getLeg());
 
 		members = this.repository.findAllMembers();
-		memberChoice = SelectChoices.from(members, "id", fa.getMember());
+		memberChoice = SelectChoices.from(members, "employeeCode", fa.getMember());
 
 		dataset = super.unbindObject(fa, "duty", "lastUpdatedMoment", "currentStatus", "remarks", "draftMode", "leg", "member");
 		dataset.put("dutyChoice", dutyChoice);
 		dataset.put("currentStatusChoice", currentStatusChoice);
-		dataset.put("leadDuty", Duty.LEAD_ATTENDANT);
 		dataset.put("legChoice", legChoice);
 		dataset.put("memberChoice", memberChoice);
 
