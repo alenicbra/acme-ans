@@ -1,6 +1,6 @@
-key,flightNumberNumber,scheduledDeparture,scheduledArrival,status,key:departureAirport,key:arrivalAirport,key:aircraft,key:flight
-"leg-01","1001","2023/11/15 08:00","2023/11/15 11:30","ON_TIME","airport-01","airport-03","aircraft-02","flight-01"
-"leg-02","1002","2023/10/16 12:45","2023/10/16 16:00","DELAYED","airport-02","airport-04","aircraft-01","flight-02"
-"leg-03","1003","2023/09/17 07:15","2023/09/17 10:45","CANCELLED","airport-03","airport-05","aircraft-03","flight-03"
-"leg-04","1004","2023/08/18 18:30","2023/08/18 22:10","LANDED","airport-04","airport-01","aircraft-05","flight-04"
-"leg-05","1005","2023/07/19 09:20","2023/07/19 13:00","ON_TIME","airport-05","airport-02","aircraft-04","flight-05"
+key,flightNumberNumber,scheduledDeparture,scheduledArrival,status,draftMode,key:departureAirport,key:arrivalAirport,key:aircraft,key:flight
+"leg-01","1001","2023/11/15 08:00","2023/11/15 11:30","ON_TIME",false,"airport-01","airport-03","aircraft-02","flight-01"
+"leg-02","1002","2023/10/16 12:45","2023/10/16 16:00","DELAYED",false,"airport-02","airport-04","aircraft-01","flight-02"
+"leg-03","1003","2023/09/17 07:15","2023/09/17 10:45","CANCELLED",false,"airport-03","airport-05","aircraft-03","flight-03"
+"leg-04","1004","2023/08/18 18:30","2023/08/18 22:10","LANDED",false,"airport-04","airport-01","aircraft-05","flight-04"
+"leg-05","1005","2023/07/19 09:20","2023/07/19 13:00","ON_TIME",false,"airport-05","airport-02","aircraft-04","flight-05"
