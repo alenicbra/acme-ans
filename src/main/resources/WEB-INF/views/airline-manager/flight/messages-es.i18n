@@ -1,9 +1,5 @@
 manager.flight.list.label.id = Id
-manager.flight.list.label.origin = Ciudad Origen
-manager.flight.list.label.destiny = Ciudad Destino
-manager.flight.list.label.departureDate = Fecha de Salida
-manager.flight.list.label.arrivalDate= Fecha de Llegada
-manager.flight.list.label.isPublished= Publicado
+mastter.flight.list.label.tag = Etiqueta
 
 manager.flight.form.label.origin = Ciudad Origen
 manager.flight.form.label.destiny = Ciudad Destino
@@ -26,3 +22,6 @@ manager.flight.form.button.create = Crear
 
 airline-manager.flight.form.title = Mi Vuelo
 airline-manager.flight.list.title = Mis Vuelos
+
+acme.validation.flight.leg-not-published.message = Todas las escalas tienen que estar publicados
+acme.validation.flight.no-legs.message = El vuelo necesita al menos una escala para ser publicado

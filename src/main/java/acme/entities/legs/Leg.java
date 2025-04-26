@@ -60,22 +60,23 @@ public class Leg extends AbstractEntity {
 	// Relationships -----------------------------------------------------------
 
 	@ManyToOne(optional = false)
-	@Automapped
 	@Mandatory
+	@Valid
 	private Airport				departureAirport;
 
 	@ManyToOne(optional = false)
-	@Automapped
 	@Mandatory
+	@Valid
 	private Airport				arrivalAirport;
 
 	@ManyToOne(optional = false)
-	@Automapped
 	@Mandatory
+	@Valid
 	private Aircraft			aircraft;
 
 	@Mandatory
-	@ManyToOne
+	@Valid
+	@ManyToOne(optional = false)
 	private Flight				flight;
 
 	// Derived Attributes -----------------------------------------------------

@@ -11,7 +11,6 @@ import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.aircrafts.Aircraft;
 import acme.entities.airports.Airport;
-import acme.entities.flights.Flight;
 import acme.entities.legs.Leg;
 import acme.entities.legs.LegStatus;
 import acme.realms.AirlineManager;
@@ -25,13 +24,11 @@ public class AirlineManagerLegUpdateService extends AbstractGuiService<AirlineMa
 
 	@Override
 	public void authorise() {
-		int flightId = super.getRequest().getData("flightId", int.class);
 		int legId = super.getRequest().getData("id", int.class);
 		int managerId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
 		Leg leg = this.repo.findLegById(legId);
-		Flight flight = this.repo.findFlightById(flightId);
-		Boolean status = super.getRequest().getPrincipal().hasRealmOfType(AirlineManager.class) && flight != null && flight.getManager().getId() == managerId && !leg.getDraftMode();
+		Boolean status = super.getRequest().getPrincipal().hasRealmOfType(AirlineManager.class) && leg.getFlight() != null && leg.getFlight().getManager().getId() == managerId && leg.getDraftMode();
 
 		super.getResponse().setAuthorised(status);
 	}
