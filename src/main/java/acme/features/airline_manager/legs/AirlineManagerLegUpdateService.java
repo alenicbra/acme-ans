@@ -60,7 +60,11 @@ public class AirlineManagerLegUpdateService extends AbstractGuiService<AirlineMa
 	}
 
 	@Override
-	public void validate(final Leg object) {
+	public void validate(final Leg leg) {
+		if (leg.getDepartureAirport() != null && leg.getArrivalAirport() != null) {
+			boolean areAirportsEquals = leg.getDepartureAirport().equals(leg.getArrivalAirport());
+			super.state(!areAirportsEquals, "*", "acme.validation.leg.sameAirports.message");
+		}
 	}
 
 	@Override
