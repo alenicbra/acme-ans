@@ -55,7 +55,7 @@ public class Leg extends AbstractEntity {
 	@Valid
 	private LegStatus			status;
 
-	private Boolean				draftMode;
+	Boolean						draftMode;
 
 	// Relationships -----------------------------------------------------------
 
@@ -78,9 +78,6 @@ public class Leg extends AbstractEntity {
 	@Valid
 	@ManyToOne(optional = false)
 	private Flight				flight;
-
-	@Automapped
-	private boolean				draftMode;
 
 	// Derived Attributes -----------------------------------------------------
 
