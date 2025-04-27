@@ -25,3 +25,5 @@ airline-manager.flight.list.title = My Flights
 
 acme.validation.flight.leg-not-published.message = Every leg have to be published
 acme.validation.flight.no-legs.message = Flight need at least a leg to be published.
+
+manager.flight.error.tag.long = The tag must have less than 50 characters 
