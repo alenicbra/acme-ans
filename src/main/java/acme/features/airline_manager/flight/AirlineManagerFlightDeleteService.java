@@ -1,12 +1,15 @@
 
 package acme.features.airline_manager.flight;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.flights.Flight;
+import acme.entities.legs.Leg;
 import acme.realms.AirlineManager;
 
 @GuiService
@@ -44,7 +47,11 @@ public class AirlineManagerFlightDeleteService extends AbstractGuiService<Airlin
 
 	@Override
 	public void perform(final Flight object) {
+		Collection<Leg> legs;
 
+		legs = this.repo.getLegsByFlightId(object.getId());
+
+		this.repo.deleteAll(legs);
 		this.repo.delete(object);
 	}
 

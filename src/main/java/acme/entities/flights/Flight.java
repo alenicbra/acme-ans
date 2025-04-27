@@ -65,28 +65,28 @@ public class Flight extends AbstractEntity {
 	@Transient
 	public Date scheduledDeparture() {
 		AirlineManagerLegRepository repository = SpringHelper.getBean(AirlineManagerLegRepository.class);
-		Leg first = repository.findFirstByFlight(this);
+		Leg first = repository.findFirstLegByFlightIdOrderByScheduledDeparture(this.getId());
 		return first != null ? first.getScheduledDeparture() : null;
 	}
 
 	@Transient
 	public Date scheduledArrival() {
 		AirlineManagerLegRepository repository = SpringHelper.getBean(AirlineManagerLegRepository.class);
-		Leg last = repository.findLastByFlight(this);
+		Leg last = repository.findFirstLegByFlightIdOrderByScheduledDepartureDesc(this.getId());
 		return last != null ? last.getScheduledArrival() : null;
 	}
 
 	@Transient
 	public Airport origin() {
 		AirlineManagerLegRepository repository = SpringHelper.getBean(AirlineManagerLegRepository.class);
-		Leg first = repository.findFirstByFlight(this);
+		Leg first = repository.findFirstLegByFlightIdOrderByScheduledDeparture(this.getId());
 		return first != null ? first.getDepartureAirport() : null;
 	}
 
 	@Transient
 	public Airport destination() {
 		AirlineManagerLegRepository repository = SpringHelper.getBean(AirlineManagerLegRepository.class);
-		Leg last = repository.findLastByFlight(this);
+		Leg last = repository.findFirstLegByFlightIdOrderByScheduledDepartureDesc(this.getId());
 		return last != null ? last.getArrivalAirport() : null;
 	}
 

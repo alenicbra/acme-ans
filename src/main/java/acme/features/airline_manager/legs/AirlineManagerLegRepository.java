@@ -16,11 +16,9 @@ import acme.entities.legs.Leg;
 @Repository
 public interface AirlineManagerLegRepository extends AbstractRepository {
 
-	@Query("SELECT l FROM Leg l WHERE l.flight = :flight ORDER BY l.scheduledDeparture ASC")
-	Leg findFirstByFlight(@Param("flight") Flight flight);
+	Leg findFirstLegByFlightIdOrderByScheduledDeparture(Integer flightId);
 
-	@Query("SELECT l FROM Leg l WHERE l.flight = :flight ORDER BY l.scheduledDeparture ASC")
-	Leg findLastByFlight(@Param("flight") Flight flight);
+	Leg findFirstLegByFlightIdOrderByScheduledDepartureDesc(Integer flightId);
 
 	@Query("SELECT COUNT(l) FROM Leg l WHERE l.flight = :flight")
 	long getLayoversByFlight(@Param("flight") Flight flight);

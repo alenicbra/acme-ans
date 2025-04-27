@@ -59,3 +59,8 @@ master.menu.user-account.become-consumer = Hazte consumidor
 master.menu.user-account.consumer-profile = Perfil de consumidor
 master.menu.user-account.become-member = Hazte miembro de cabina
 master.menu.user-account.member-profile = Perfil de miembro de cabina
+
+# master.menu.airline-manager ####################################################
+
+master.menu.airline-manager = Gerentes
+master.menu.airline-manager.my-flights = Mis vuelos
