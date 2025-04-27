@@ -54,9 +54,6 @@ public class Leg extends AbstractEntity {
 	@Automapped
 	@Valid
 	private LegStatus			status;
-
-	Boolean						draftMode;
-
 	// Relationships -----------------------------------------------------------
 
 	@ManyToOne(optional = false)

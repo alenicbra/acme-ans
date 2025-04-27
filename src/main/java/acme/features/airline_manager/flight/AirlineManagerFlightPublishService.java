@@ -65,6 +65,7 @@ public class AirlineManagerFlightPublishService extends AbstractGuiService<Airli
 				super.state(isLegPublished, "*", "acme.validation.flight.leg-not-published.message");
 				break;
 			}
+
 	}
 
 	@Override
