@@ -7,7 +7,9 @@ import java.time.Instant;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -25,6 +27,14 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(indexes = {
+    @Index(columnList = "flight_id"),
+    @Index(columnList = "status"),
+    @Index(columnList = "aircraft_id"),
+    @Index(columnList = "departure_airport_id"),
+    @Index(columnList = "arrival_airport_id"),
+    @Index(columnList = "scheduled_departure")
+})
 @Getter
 @Setter
 @ValidLeg

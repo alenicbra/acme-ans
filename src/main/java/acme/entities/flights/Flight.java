@@ -5,7 +5,9 @@ import java.beans.Transient;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.Valid;
 
 import acme.client.components.basis.AbstractEntity;
@@ -25,6 +27,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(indexes = {
+    @Index(columnList = "manager_id"),
+    @Index(columnList = "draft_mode"),
+    @Index(columnList = "tag")
+})
 @Getter
 @Setter
 public class Flight extends AbstractEntity {
