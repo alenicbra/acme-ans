@@ -5,7 +5,9 @@ import java.beans.Transient;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.Valid;
 
 import acme.client.components.basis.AbstractEntity;
@@ -16,6 +18,7 @@ import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoney;
 import acme.client.components.validation.ValidString;
 import acme.client.helpers.SpringHelper;
+import acme.constraints.utils.ValidShortString;
 import acme.entities.airports.Airport;
 import acme.entities.legs.Leg;
 import acme.features.airline_manager.legs.AirlineManagerLegRepository;
@@ -24,6 +27,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(indexes = {
+	@Index(columnList = "manager_id")
+})
 @Getter
 @Setter
 public class Flight extends AbstractEntity {
@@ -34,7 +40,7 @@ public class Flight extends AbstractEntity {
 
 	// Attributes -------------------------------------------------------------
 
-	@ValidString(max = 50)
+	@ValidShortString
 	@Mandatory
 	@Automapped
 	private String				tag;
@@ -50,7 +56,7 @@ public class Flight extends AbstractEntity {
 
 	@Optional
 	@Automapped
-	@ValidString(max = 254)
+	@ValidString
 	private String				description;
 
 	@Mandatory

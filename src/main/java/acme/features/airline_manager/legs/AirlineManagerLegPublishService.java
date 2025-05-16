@@ -31,7 +31,6 @@ public class AirlineManagerLegPublishService extends AbstractGuiService<AirlineM
 
 		Boolean status = super.getRequest().getPrincipal().hasRealmOfType(AirlineManager.class) && leg.getFlight() != null && leg.getFlight().getManager().getId() == managerId && leg.getDraftMode();
 
-
 		super.getResponse().setAuthorised(status);
 	}
 
@@ -61,7 +60,11 @@ public class AirlineManagerLegPublishService extends AbstractGuiService<AirlineM
 	}
 
 	@Override
-	public void validate(final Leg object) {
+	public void validate(final Leg leg) {
+		if (leg.getDepartureAirport() != null && leg.getArrivalAirport() != null) {
+			boolean areAirportsEquals = leg.getDepartureAirport().equals(leg.getArrivalAirport());
+			super.state(!areAirportsEquals, "*", "acme.validation.leg.sameAirports.message");
+		}
 	}
 
 	@Override
