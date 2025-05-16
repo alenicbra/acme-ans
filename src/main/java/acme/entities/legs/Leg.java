@@ -28,12 +28,7 @@ import lombok.Setter;
 
 @Entity
 @Table(indexes = {
-    @Index(columnList = "flight_id"),
-    @Index(columnList = "status"),
-    @Index(columnList = "aircraft_id"),
-    @Index(columnList = "departure_airport_id"),
-    @Index(columnList = "arrival_airport_id"),
-    @Index(columnList = "scheduled_departure")
+	@Index(columnList = "flight_id")
 })
 @Getter
 @Setter

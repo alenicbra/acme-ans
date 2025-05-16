@@ -28,9 +28,7 @@ import lombok.Setter;
 
 @Entity
 @Table(indexes = {
-    @Index(columnList = "manager_id"),
-    @Index(columnList = "draft_mode"),
-    @Index(columnList = "tag")
+	@Index(columnList = "manager_id")
 })
 @Getter
 @Setter
