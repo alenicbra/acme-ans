@@ -61,7 +61,7 @@ public class AirlineManagerFlightPublishService extends AbstractGuiService<Airli
 			if (leg.getAircraft() != null) {
 				boolean isAircraftActive = leg.getAircraft().isActive();
 				super.state(isAircraftActive, "*", "acme.validation.flight.aircraft-under-maintenance.message");
-				boolean isLegPublished = !leg.getDraftMode();
+				boolean isLegPublished = !leg.isDraftMode();
 				super.state(isLegPublished, "*", "acme.validation.flight.leg-not-published.message");
 				break;
 			}

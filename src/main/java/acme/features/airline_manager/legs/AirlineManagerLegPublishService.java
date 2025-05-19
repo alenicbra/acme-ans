@@ -29,8 +29,7 @@ public class AirlineManagerLegPublishService extends AbstractGuiService<AirlineM
 
 		Leg leg = this.repo.findLegById(legId);
 
-		Boolean status = super.getRequest().getPrincipal().hasRealmOfType(AirlineManager.class) && leg.getFlight() != null && leg.getFlight().getManager().getId() == managerId && leg.getDraftMode();
-
+		Boolean status = super.getRequest().getPrincipal().hasRealmOfType(AirlineManager.class) && leg.getFlight() != null && leg.getFlight().getManager().getId() == managerId && leg.isDraftMode();
 
 		super.getResponse().setAuthorised(status);
 	}
