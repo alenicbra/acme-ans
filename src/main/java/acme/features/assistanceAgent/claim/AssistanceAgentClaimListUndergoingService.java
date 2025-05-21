@@ -10,6 +10,7 @@ import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.claims.Claim;
 import acme.entities.claims.IndicatorType;
+import acme.entities.trackingLogs.TrackingLog;
 import acme.realms.AssistanceAgent;
 
 @GuiService
@@ -50,6 +51,13 @@ public class AssistanceAgentClaimListUndergoingService extends AbstractGuiServic
 
 		String published;
 		Dataset dataset;
+
+		Collection<TrackingLog> tlogs;
+		IndicatorType value;
+
+		tlogs = this.repository.findManyTrackingLogsByClaimId(object.getId());
+		value = tlogs.stream().map(t -> t.getIndicator()).filter(t -> t.equals(IndicatorType.ACCEPTED) || t.equals(IndicatorType.DENIED)).findFirst().orElse(IndicatorType.IN_PROGRESS);
+		object.setIndicator(value);
 
 		dataset = super.unbindObject(object, "type", "indicator");
 		published = !object.isDraftMode() ? "✓" : "x";

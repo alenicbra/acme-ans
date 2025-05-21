@@ -34,6 +34,7 @@ public class AssistanceAgentClaimCreateService extends AbstractGuiService<Assist
 
 		assistanceAgent = (AssistanceAgent) super.getRequest().getPrincipal().getActiveRealm();
 		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent);
+
 		super.getResponse().setAuthorised(status);
 	}
 
@@ -69,6 +70,13 @@ public class AssistanceAgentClaimCreateService extends AbstractGuiService<Assist
 	public void validate(final Claim object) {
 		if (!super.getBuffer().getErrors().hasErrors("indicator"))
 			super.state(object.getIndicator() == IndicatorType.IN_PROGRESS, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
+
+		if (!super.getBuffer().getErrors().hasErrors("leg")) {
+			Collection<Leg> legs;
+			legs = this.repository.findAllLegs();
+
+			super.state(legs.contains(object.getLeg()), "leg", "assistanceAgent.claim.form.error.leg-wrong");
+		}
 	}
 
 	@Override

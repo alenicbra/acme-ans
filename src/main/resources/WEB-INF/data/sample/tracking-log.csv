@@ -1,13 +1,37 @@
 key,last-update-moment,step,resolution-percentage,resolution-reason,indicator,key:claim,draft-mode
-tracking-log-01,2017/05/12 14:30,"Step 1",90.30,,IN_PROGRESS,claim-01,true
-tracking-log-02,2016/07/19 09:45,"Step 2",50.05,,IN_PROGRESS,claim-02,true
-tracking-log-03,2015/11/05 16:00,"Step 3",75.50,,IN_PROGRESS,claim-03,true
-tracking-log-04,2014/09/23 08:00,"Step 4",10.60,,IN_PROGRESS,claim-04,true
-tracking-log-05,2013/01/13 12:15,"Step 5",20.20,,IN_PROGRESS,claim-05,true
-tracking-log-06,2016/12/01 17:30,"Step 6",60.70,,IN_PROGRESS,claim-06,true
-tracking-log-07,2017/09/10 11:00,"Step 1",30.81,,IN_PROGRESS,claim-01,true
+tracking-log-01,2000/01/01 00:00,"Step 1",99.99,,IN_PROGRESS,claim-01,true
+tracking-log-02,2012/07/02 00:00,"Step 2",00.00,,IN_PROGRESS,claim-02,true
+tracking-log-03,2000/01/01 00:00,"Step 3",75.50,,IN_PROGRESS,claim-03,true
+tracking-log-04,2000/01/01 00:01,"Step 4",10.60,,IN_PROGRESS,claim-04,true
+tracking-log-05,2000/01/01 00:01,"Step 5",00.00,,IN_PROGRESS,claim-05,true
+tracking-log-06,2024/12/31 23:59,"Step 6",60.70,,IN_PROGRESS,claim-06,true
+tracking-log-07,2024/12/31 23:59,"Step 1",30.81,,IN_PROGRESS,claim-01,true
 tracking-log-08,2015/08/21 13:20,"Step 2",85.28,,IN_PROGRESS,claim-02,true
-tracking-log-09,2016/04/17 09:10,"Step 3",45.73,,IN_PROGRESS,claim-03,true
+tracking-log-09,2025/01/01 00:00,"Step 3",45.73,,IN_PROGRESS,claim-03,true
 tracking-log-10,2014/10/05 14:50,"Step 4",70.02,,IN_PROGRESS,claim-04,true
-tracking-log-11,2013/06/25 16:30,"Step 5",95.10,,IN_PROGRESS,claim-05,true
-tracking-log-12,2016/11/14 12:00,"Step 6",50.50,,IN_PROGRESS,claim-06,true
+tracking-log-11,2013/06/25 16:30,"Step 5",99.99,,IN_PROGRESS,claim-05,true
+tracking-log-12,2025/01/01 00:00,"Step 6",50.50,,IN_PROGRESS,claim-06,true
+tracking-log-13,2017/05/12 14:30,"Lorem ipsum dolor sit ame",90.30,,IN_PROGRESS,claim-07,true
+tracking-log-14,2016/07/19 09:45,"L",50.05,,IN_PROGRESS,claim-07,true
+tracking-log-15,2015/11/05 16:00,"Lo",75.50,,IN_PROGRESS,claim-07,true
+tracking-log-16,2014/09/23 08:00,"Lorem ipsum dolor sit amet, consectetur adipiscin",10.60,,IN_PROGRESS,claim-07,true
+tracking-log-17,2013/01/13 12:15,"Lorem ipsum dolor sit amet, consectetur adipiscing",20.20,,IN_PROGRESS,claim-07,true
+tracking-log-18,2016/12/01 17:30,"โลเร็ม อิปซัม",60.70,,IN_PROGRESS,claim-07,true
+tracking-log-19,2017/09/10 11:00,"لوريم إيبسوم",60.70,,IN_PROGRESS,claim-07,true
+tracking-log-20,2015/08/21 13:20,"洛伦·伊普森",85.28,,IN_PROGRESS,claim-07,true
+tracking-log-21,2016/04/17 09:10,"<marquee>Hacked</marquee>",45.73,,IN_PROGRESS,claim-07,true
+tracking-log-22,2014/10/05 14:50,"<script>alert(‘Hacked!’);</script>",70.02,,IN_PROGRESS,claim-07,true
+tracking-log-23,2013/06/25 16:30,"' or 'A' = 'A ",95.10,,IN_PROGRESS,claim-07,true
+tracking-log-24,2016/11/14 12:00,"Step 6",50.50,,IN_PROGRESS,claim-07,true
+tracking-log-25,2017/05/12 14:30,"Lorem ipsum dolor sit ame",100.00,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",ACCEPTED,claim-08,false
+tracking-log-26,2016/07/19 09:45,"L",100.00,"L",ACCEPTED,claim-09,false
+tracking-log-27,2015/11/05 16:00,"Lo",100.00,"Lo",ACCEPTED,claim-10,false
+tracking-log-28,2014/09/23 08:00,"Lorem ipsum dolor sit amet, consectetur adipiscin",100.00,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",ACCEPTED,claim-11,false
+tracking-log-29,2013/01/13 12:15,"Lorem ipsum dolor sit amet, consectetur adipiscing",100.00,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor*",ACCEPTED,claim-12,false
+tracking-log-30,2016/12/01 17:30,"โลเร็ม อิปซัม",100.00,"โลเร็ม อิปซัม ",ACCEPTED,claim-13,false
+tracking-log-31,2017/09/10 11:00,"لوريم إيبسوم",100.00,"لوريم إيبسوم",ACCEPTED,claim-14,false
+tracking-log-32,2015/08/21 13:20,"洛伦·伊普森",100.00,"洛伦·伊普森",ACCEPTED,claim-15,false
+tracking-log-33,2016/04/17 09:10,"<marquee>Hacked</marquee>",100.00,"<marquee>Hacked</marquee>",ACCEPTED,claim-16,false
+tracking-log-34,2014/10/05 14:50,"<script>alert(‘Hacked!’);</script>",100.00,"<script>alert(‘Hacked!’);</script>",ACCEPTED,claim-18,false
+tracking-log-35,2013/06/25 16:30,"' or 'A' = 'A ",100.00,"' or 'A' = 'A",ACCEPTED,claim-19,false
+tracking-log-36,2016/11/14 12:00,"Step 6",100.00,,ACCEPTED,claim-20,false
