@@ -1,60 +1,52 @@
 
-package acme.features.assistanceAgent.claim;
+package acme.features.administrator.claim;
 
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import acme.client.components.models.Dataset;
+import acme.client.components.principals.Administrator;
 import acme.client.components.views.SelectChoices;
-import acme.client.services.AbstractGuiService;
-import acme.client.services.GuiService;
+import acme.client.services.AbstractService;
 import acme.entities.claims.Claim;
 import acme.entities.claims.ClaimType;
 import acme.entities.claims.IndicatorType;
 import acme.entities.legs.Leg;
-import acme.entities.trackingLogs.TrackingLog;
-import acme.realms.AssistanceAgent;
 
-@GuiService
-public class AssistanceAgentClaimShowService extends AbstractGuiService<AssistanceAgent, Claim> {
+@Service
+public class AdministratorClaimShowService extends AbstractService<Administrator, Claim> {
 
 	// Internal state ---------------------------------------------------------
 
 	@Autowired
-	private AssistanceAgentClaimRepository repository;
+	private AdministratorClaimRepository repository;
 
-	// AbstractGuiService interface -------------------------------------------
+	// AbstractService interface ----------------------------------------------
 
 
 	@Override
 	public void authorise() {
 		boolean status;
-		int masterId;
-		Claim claim;
+		int ClaimId;
+		Claim Claim;
 
-		masterId = super.getRequest().getData("id", int.class);
-		claim = this.repository.findOneClaimById(masterId);
-		status = claim != null && super.getRequest().getPrincipal().hasRealm(claim.getAssistanceAgent());
+		ClaimId = super.getRequest().getData("id", int.class);
+		Claim = this.repository.findOneClaimById(ClaimId);
+		status = Claim != null && !Claim.isDraftMode();
 
 		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
 	public void load() {
-		Claim claim;
+		Claim object;
 		int id;
-		Collection<TrackingLog> tlogs;
-		IndicatorType value;
-
 		id = super.getRequest().getData("id", int.class);
-		claim = this.repository.findOneClaimById(id);
+		object = this.repository.findOneClaimById(id);
 
-		tlogs = this.repository.findManyTrackingLogsByClaimId(id);
-		value = tlogs.stream().map(t -> t.getIndicator()).filter(t -> t.equals(IndicatorType.ACCEPTED) || t.equals(IndicatorType.DENIED)).findFirst().orElse(IndicatorType.IN_PROGRESS);
-		claim.setIndicator(value);
-
-		super.getBuffer().addData(claim);
+		super.getBuffer().addData(object);
 	}
 
 	@Override

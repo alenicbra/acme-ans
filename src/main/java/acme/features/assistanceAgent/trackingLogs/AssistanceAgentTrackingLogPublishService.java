@@ -8,6 +8,7 @@ import acme.client.components.views.SelectChoices;
 import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
+import acme.entities.claims.Claim;
 import acme.entities.claims.IndicatorType;
 import acme.entities.trackingLogs.TrackingLog;
 import acme.realms.AssistanceAgent;
@@ -95,9 +96,15 @@ public class AssistanceAgentTrackingLogPublishService extends AbstractGuiService
 	public void perform(final TrackingLog object) {
 		assert object != null;
 
+		Claim claim;
+
+		claim = this.repository.findOneClaimById(object.getClaim().getId());
+		claim.setIndicator(object.getIndicator());
+
 		object.setDraftMode(false);
 		object.setLastUpdateMoment(MomentHelper.getCurrentMoment());
 
+		this.repository.save(claim);
 		this.repository.save(object);
 	}
 

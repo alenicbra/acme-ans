@@ -10,8 +10,8 @@
 
 assistanceAgent.claim.list.button.create = Crear
 
-assistanceAgent.claim.list.title = Lista de Reclamos
-assistanceAgent.claim.form.title = Detalles del Reclamo
+assistance-agent.claim.list.title = Lista de Reclamos
+assistance-agent.claim.form.title = Detalles del Reclamo
 
 assistanceAgent.claim.list.label.type = Tipo de Reclamo
 assistanceAgent.claim.list.label.leg = Tramo del Vuelo
