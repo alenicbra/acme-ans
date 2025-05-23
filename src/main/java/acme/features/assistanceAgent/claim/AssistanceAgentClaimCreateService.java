@@ -31,9 +31,26 @@ public class AssistanceAgentClaimCreateService extends AbstractGuiService<Assist
 	public void authorise() {
 		AssistanceAgent assistanceAgent;
 		boolean status;
+		boolean bool;
+		int legId;
+		Leg leg;
+
+		if (super.getRequest().getMethod().equals("GET"))
+			bool = true;
+		else {
+			legId = super.getRequest().getData("leg", int.class);
+			leg = this.repository.findLegById(legId);
+
+			boolean isLegValid = leg != null;
+			boolean isLegNotDraft = isLegValid && !leg.getDraftMode();
+			boolean isFlightNotDraft = isLegNotDraft && !leg.getFlight().getDraftMode();
+			boolean isLegIdZero = legId == 0;
+
+			bool = isLegIdZero || isLegValid && isLegNotDraft && isFlightNotDraft;
+		}
 
 		assistanceAgent = (AssistanceAgent) super.getRequest().getPrincipal().getActiveRealm();
-		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent);
+		status = bool && super.getRequest().getPrincipal().hasRealm(assistanceAgent);
 
 		super.getResponse().setAuthorised(status);
 	}
