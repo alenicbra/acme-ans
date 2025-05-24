@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+<<<<<<< HEAD
                             
+=======
+                                
+>>>>>>> 2efe8c682d5cf43f3fd5f1ca42456b882498480d
     
     
     
@@ -66,9 +70,50 @@
     
     
     
+<<<<<<< HEAD
     <wb-module deploy-name="Acme-ANS-D04-25.5.0">
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
         
+=======
+    
+    <wb-module deploy-name="Acme-ANS-D04-25.5.0">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+        
+        
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <wb-module deploy-name="Acme-ANS-D03-25.5.0">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
+>>>>>>> 2efe8c682d5cf43f3fd5f1ca42456b882498480d
         
         
         
@@ -136,8 +181,12 @@
         
         
         <wb-resource deploy-path="/" source-path="/target/m2e-wtp/web-resources"/>
+<<<<<<< HEAD
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
         
+=======
+
+>>>>>>> 2efe8c682d5cf43f3fd5f1ca42456b882498480d
         
         
         
@@ -205,8 +254,12 @@
         
         
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+<<<<<<< HEAD
                                                                                                                                                                                                                                                                                                                                                                                                                                                                 
         
+=======
+
+>>>>>>> 2efe8c682d5cf43f3fd5f1ca42456b882498480d
         
         
         
@@ -261,8 +314,12 @@
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+<<<<<<< HEAD
                                                                                                                                                                         
         
+=======
+
+>>>>>>> 2efe8c682d5cf43f3fd5f1ca42456b882498480d
         
         
         
@@ -282,8 +339,12 @@
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+<<<<<<< HEAD
                                                                                                         
         
+=======
+
+>>>>>>> 2efe8c682d5cf43f3fd5f1ca42456b882498480d
         
         
         
@@ -295,13 +356,34 @@
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/annotations"/>
+<<<<<<< HEAD
                                 
+=======
+
+>>>>>>> 2efe8c682d5cf43f3fd5f1ca42456b882498480d
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/acme-framework-25.3.0"/>
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
         
         
+<<<<<<< HEAD
+=======
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/acme-framework-25.2.0"/>
+
+                                        
+        
+        
+        
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/acme-framework-25.5.0"/>
+                        
+        
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/webapp"/>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+        
+        
+        
+>>>>>>> 2efe8c682d5cf43f3fd5f1ca42456b882498480d
         
         
         
@@ -370,8 +452,15 @@
         <property name="java-output-path" value="/Hello-World-22.0/target/classes"/>
                 
         <property name="context-root" value="Acme-ANS-D04"/>
+<<<<<<< HEAD
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             
     
+=======
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+    
+    
+
+>>>>>>> 2efe8c682d5cf43f3fd5f1ca42456b882498480d
     
     
     
@@ -440,8 +529,11 @@
     
     
     </wb-module>
+<<<<<<< HEAD
                                                                                                                                                                                                                                                                                     
 
+=======
+>>>>>>> 2efe8c682d5cf43f3fd5f1ca42456b882498480d
 
 
 

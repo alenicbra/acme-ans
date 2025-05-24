@@ -6,9 +6,10 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -18,6 +19,7 @@ import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidString;
+import acme.constraints.leg.ValidLeg;
 import acme.entities.aircrafts.Aircraft;
 import acme.entities.airports.Airport;
 import acme.entities.flights.Flight;
@@ -25,8 +27,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(indexes = {
+	@Index(columnList = "flight_id")
+})
 @Getter
 @Setter
+@ValidLeg
 public class Leg extends AbstractEntity {
 
 	// Serialisation version --------------------------------------------------
@@ -36,7 +42,7 @@ public class Leg extends AbstractEntity {
 	// Attributes -------------------------------------------------------------
 
 	@ValidString(pattern = "^[0-9]{4}$")
-	@Column(unique = true)
+	@Automapped
 	@Mandatory
 	private String				flightNumberNumber;
 
@@ -54,6 +60,8 @@ public class Leg extends AbstractEntity {
 	@Automapped
 	@Valid
 	private LegStatus			status;
+
+	Boolean						draftMode;
 	// Relationships -----------------------------------------------------------
 
 	@ManyToOne(optional = false)

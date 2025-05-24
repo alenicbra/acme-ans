@@ -8,5 +8,17 @@
 # purposes.  The copyright owner does not offer any warranties or representations, nor do
 # they accept any liabilities with respect to them.
 
-acme.validation.assistanceAgent.code  	= The first two or three letters of their employeeCode correspond to their initials.
+acme.validation.employeeCode.format.message = The code must follow the pattern "^[A-Z]{2-3}\d{6}$", where the first two or three letters correspond to their initials
+acme.validation.employeeCode.initials.message = The first two or three letters of their employeeCode correspond to their initials. 
+acme.validation.assistanceAgent.code = The first two or three letters of their employeeCode correspond to their initials.
 acme.validation.range. = The percentage must be higher than 0 and less or equal than 100.
+
+## utils #######################################
+
+acme.validation.text.long.fifty = This field must have less than 50 characters
+
+## legs ########################################
+
+acme.validation.leg.negative-duration = The departure time must be after the arrival time
+acme.validation.leg.sameAirports.message = The arrival and departure airports must be different
+acme.validation.leg.flightNumber.unique = This number already represent another leg

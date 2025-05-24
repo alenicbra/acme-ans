@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
+import acme.client.helpers.PrincipalHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.claims.Claim;
@@ -31,10 +32,25 @@ public class AssistanceAgentClaimPublishService extends AbstractGuiService<Assis
 		boolean status;
 		int masterId;
 		Claim claim;
+		int legId;
+		Leg leg;
+		boolean externalRelation = true;
+
+		if (super.getRequest().getMethod().equals("POST")) {
+			legId = super.getRequest().getData("leg", int.class);
+			leg = this.repository.findLegById(legId);
+
+			boolean isLegIdZero = legId == 0;
+			boolean isLegValid = leg != null;
+			boolean isLegNotDraft = isLegValid && !leg.getDraftMode();
+			boolean isFlightNotDraft = isLegNotDraft && !leg.getFlight().getDraftMode();
+
+			externalRelation = isLegIdZero || isLegValid && isLegNotDraft && isFlightNotDraft;
+		}
 
 		masterId = super.getRequest().getData("id", int.class);
 		claim = this.repository.findOneClaimById(masterId);
-		status = claim != null && claim.isDraftMode() && super.getRequest().getPrincipal().hasRealm(claim.getAssistanceAgent());
+		status = claim != null && claim.isDraftMode() && externalRelation && super.getRequest().getPrincipal().hasRealm(claim.getAssistanceAgent());
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -108,6 +124,12 @@ public class AssistanceAgentClaimPublishService extends AbstractGuiService<Assis
 		dataset.put("types", choicesType);
 
 		super.getResponse().addData(dataset);
+	}
+
+	@Override
+	public void onSuccess() {
+		if (super.getRequest().getMethod().equals("POST"))
+			PrincipalHelper.handleUpdate();
 	}
 
 }

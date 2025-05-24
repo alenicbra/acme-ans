@@ -13,6 +13,7 @@ import acme.entities.claims.Claim;
 import acme.entities.claims.ClaimType;
 import acme.entities.claims.IndicatorType;
 import acme.entities.legs.Leg;
+import acme.entities.trackingLogs.TrackingLog;
 import acme.realms.AssistanceAgent;
 
 @GuiService
@@ -43,9 +44,15 @@ public class AssistanceAgentClaimShowService extends AbstractGuiService<Assistan
 	public void load() {
 		Claim claim;
 		int id;
+		Collection<TrackingLog> tlogs;
+		IndicatorType value;
 
 		id = super.getRequest().getData("id", int.class);
 		claim = this.repository.findOneClaimById(id);
+
+		tlogs = this.repository.findManyTrackingLogsByClaimId(id);
+		value = tlogs.stream().map(t -> t.getIndicator()).filter(t -> t.equals(IndicatorType.ACCEPTED) || t.equals(IndicatorType.DENIED)).findFirst().orElse(IndicatorType.IN_PROGRESS);
+		claim.setIndicator(value);
 
 		super.getBuffer().addData(claim);
 	}
