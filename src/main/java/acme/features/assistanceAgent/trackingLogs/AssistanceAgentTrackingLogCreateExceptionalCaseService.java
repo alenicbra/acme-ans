@@ -1,6 +1,8 @@
 
 package acme.features.assistanceAgent.trackingLogs;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
@@ -47,14 +49,17 @@ public class AssistanceAgentTrackingLogCreateExceptionalCaseService extends Abst
 		TrackingLog object;
 		int masterId;
 		Claim claim;
+		Collection<TrackingLog> trackingLogs;
 
 		masterId = super.getRequest().getData("masterId", int.class);
 		claim = this.repository.findOneClaimById(masterId);
+		trackingLogs = this.repository.findManyTrackingLogsClaimId(masterId);
 
 		object = new TrackingLog();
 		object.setDraftMode(true);
 		object.setClaim(claim);
 		object.setResolutionPercentage(100.00);
+		object.setIndicator(trackingLogs.stream().map(t -> t.getIndicator()).filter(i -> i != IndicatorType.IN_PROGRESS).findFirst().get());
 		object.setLastUpdateMoment(MomentHelper.getCurrentMoment());
 
 		super.getBuffer().addData(object);
@@ -99,7 +104,6 @@ public class AssistanceAgentTrackingLogCreateExceptionalCaseService extends Abst
 
 		dataset = super.unbindObject(object, "lastUpdateMoment", "step", "resolutionPercentage", "resolutionReason", "indicator");
 		dataset.put("masterId", super.getRequest().getData("masterId", int.class));
-		dataset.put("indicators", choicesIndicator);
 		dataset.put("exceptionalCase", exceptionalCase);
 
 		super.getResponse().addData(dataset);

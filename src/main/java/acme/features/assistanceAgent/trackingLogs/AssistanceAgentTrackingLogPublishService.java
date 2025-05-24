@@ -59,6 +59,7 @@ public class AssistanceAgentTrackingLogPublishService extends AbstractGuiService
 
 	@Override
 	public void validate(final TrackingLog object) {
+		super.state(!object.getClaim().isDraftMode(), "*", "assistanceAgent.claim.form.error.claim-must-be-published");
 		if (!super.getBuffer().getErrors().hasErrors("indicator")) {
 			boolean bool1;
 			boolean bool2;

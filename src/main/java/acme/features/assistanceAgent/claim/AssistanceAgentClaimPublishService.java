@@ -82,7 +82,6 @@ public class AssistanceAgentClaimPublishService extends AbstractGuiService<Assis
 
 	@Override
 	public void validate(final Claim object) {
-		super.state(this.repository.allTrackingLogsPublishedByClaimId(object.getId()), "*", "assistanceAgent.claim.form.error.all-tracking-logs-published");
 		if (!super.getBuffer().getErrors().hasErrors("indicator")) {
 			boolean bool1;
 			boolean bool2;
