@@ -37,4 +37,5 @@ assistanceAgent.claim.form.error.resolution-reason-not-null = La razón de resol
 assistanceAgent.claim.form.error.indicator-in-progress = El indicador solo puede estar en "EN PROGRESO" si el porcentaje de resolución es menor al 100%. En el caso de ser igual a 100%, debe ser "ACEPTADO" o "RECHAZADO"
 assistanceAgent.claim.form.error.less-than-max-resolution-percentage = El nuevo porcentaje de resolución de este registro de seguimiento debe ser mayor que los que ya han sido cargados
 assistanceAgent.claim.form.error.claim-must-be-published = Antes de publicar un registro de seguimiento debes de publicar su reclamo correspondiente
+assistanceAgent.claim.form.error.only-two-tracking-logs-100 = Solo puedes tener 2 registros de seguimiento con un porcentaje del 100 %. Elimina los otros registros de seguimiento que no están publicados
  

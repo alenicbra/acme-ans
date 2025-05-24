@@ -7,8 +7,8 @@ claim-05,2000/01/01 00:01,lorem-ipsum@dolor.sit.amet.consectetur.adipiscing.elit
 claim-06,2000/01/01 00:01,lorem-ipsum@dolor.sit.amet.consectetur.adipiscing.elit.sed.do.eiusmod.tempor.incididunt.ut.labore.et.dolore.magna.aliqua.Ut.enim.ad.minim.veniam.quis.nostrud.exercitation.ullamco.laboris.nisi.ut.aliquip.ex.ea.commodo.consequat.duis.aute.irure.dolor.es.org,"Poor customer service at the gate",OTHER_ISSUES,IN_PROGRESS,agent-02,leg-02,true
 claim-07,2024/12/31 23:59,john.doe@example.com,"Delayed flight; compensation requested",FLIGHT_ISSUES,IN_PROGRESS,agent-02,leg-01,true
 claim-08,2024/12/31 23:59,jane.smith@example.com,"Luggage lost during transfer",LUGGAGE_ISSUES,ACCEPTED,agent-02,leg-02,false
-claim-09,2025/01/01 00:00,mike.brown@example.com,"Seat was broken; not functional",SECURITY_INCIDENT,ACCEPTED,agent-02,leg-02,false
-claim-10,2025/01/01 00:00,lucy.green@example.com,"Flight cancellation without notice",OTHER_ISSUES,ACCEPTED,agent-02,leg-01,false
+claim-09,2025/01/01 00:00,mike.brown@example.com,"Seat was broken; not functional",SECURITY_INCIDENT,DENIED,agent-02,leg-02,false
+claim-10,2025/01/01 00:00,lucy.green@example.com,"Flight cancellation without notice",OTHER_ISSUES,DENIED,agent-02,leg-01,false
 claim-11,2017/05/12 14:30,john.doe@example.com,"Delayed flight; compensation requested",FLIGHT_ISSUES,ACCEPTED,agent-02,leg-01,false
 claim-12,2016/07/19 09:45,jane.smith@example.com,"Luggage lost during transfer",LUGGAGE_ISSUES,ACCEPTED,agent-02,leg-02,false
 claim-13,2015/11/05 16:00,mike.brown@example.com,"Seat was broken; not functional",SECURITY_INCIDENT,ACCEPTED,agent-02,leg-02,false

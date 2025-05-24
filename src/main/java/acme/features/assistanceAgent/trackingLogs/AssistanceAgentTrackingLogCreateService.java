@@ -2,6 +2,7 @@
 package acme.features.assistanceAgent.trackingLogs;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -38,7 +39,7 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 		claim = this.repository.findOneClaimById(masterId);
 		assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
 		tlogs = this.repository.findManyTrackingLogsClaimId(masterId);
-		status = claim != null && claim.isDraftMode() && (!tlogs.stream().allMatch(t -> !t.isDraftMode()) || tlogs.isEmpty()) && super.getRequest().getPrincipal().hasRealm(assistanceAgent);
+		status = claim != null && (!tlogs.stream().allMatch(t -> !t.isDraftMode()) || tlogs.isEmpty()) && super.getRequest().getPrincipal().hasRealm(assistanceAgent);
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -63,8 +64,6 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 
 	@Override
 	public void bind(final TrackingLog object) {
-		assert object != null;
-
 		super.bindObject(object, "lastUpdateMoment", "step", "resolutionPercentage", "resolutionReason", "indicator");
 	}
 
@@ -74,32 +73,26 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 			boolean bool1;
 			boolean bool2;
 
-			if (!super.getBuffer().getErrors().hasErrors("resolutionPercentage")) {
-				bool1 = object.getIndicator() == IndicatorType.IN_PROGRESS && object.getResolutionPercentage() < 100;
-				bool2 = object.getIndicator() != IndicatorType.IN_PROGRESS && object.getResolutionPercentage() == 100;
-				super.state(bool1 || bool2, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
-			}
-		}
-		if (!super.getBuffer().getErrors().hasErrors("resolutionPercentage")) {
-			Double maxResolutionPercentage;
-			double finalMaxResolutionPercentage;
-
-			maxResolutionPercentage = this.repository.findMaxResolutionPercentageByClaimId(object.getId(), object.getClaim().getId());
-			finalMaxResolutionPercentage = maxResolutionPercentage != null ? maxResolutionPercentage : 0.0;
-
-			super.state(object.getResolutionPercentage() > finalMaxResolutionPercentage, "resolutionPercentage", "assistanceAgent.claim.form.error.less-than-max-resolution-percentage");
+			bool1 = object.getIndicator() == IndicatorType.IN_PROGRESS && object.getResolutionPercentage() < 100;
+			bool2 = object.getIndicator() != IndicatorType.IN_PROGRESS && object.getResolutionPercentage() == 100;
+			super.state(bool1 || bool2, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
 		}
 		if (!super.getBuffer().getErrors().hasErrors("resolutionReason")) {
-			boolean bool1;
+			boolean isInProgress = object.getIndicator() == IndicatorType.IN_PROGRESS;
 
-			bool1 = object.getIndicator() != IndicatorType.IN_PROGRESS && !object.getResolutionReason().isBlank() && object.getResolutionReason() != null;
+			boolean valid = isInProgress && !Optional.ofNullable(object.getResolutionReason()).map(String::strip).filter(s -> !s.isEmpty()).isPresent()
+				|| !isInProgress && Optional.ofNullable(object.getResolutionReason()).map(String::strip).filter(s -> !s.isEmpty()).isPresent();
 
-			super.state(bool1 || object.getIndicator() == IndicatorType.IN_PROGRESS, "resolutionReason", "assistanceAgent.claim.form.error.resolution-reason-not-null");
+			super.state(valid, "resolutionReason", "assistanceAgent.claim.form.error.resolution-reason-not-null");
 		}
 	}
 
 	@Override
 	public void perform(final TrackingLog object) {
+		Claim claim;
+
+		claim = this.repository.findOneClaimById(object.getClaim().getId());
+		claim.setIndicator(object.getIndicator());
 
 		object.setLastUpdateMoment(MomentHelper.getCurrentMoment());
 
