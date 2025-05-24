@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
-import acme.client.helpers.PrincipalHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.claims.Claim;
@@ -68,8 +67,6 @@ public class AssistanceAgentClaimPublishService extends AbstractGuiService<Assis
 
 	@Override
 	public void bind(final Claim object) {
-		assert object != null;
-
 		int legId;
 		Leg leg;
 
@@ -82,21 +79,10 @@ public class AssistanceAgentClaimPublishService extends AbstractGuiService<Assis
 
 	@Override
 	public void validate(final Claim object) {
-		if (!super.getBuffer().getErrors().hasErrors("indicator")) {
-			boolean bool1;
-			boolean bool2;
-
-			bool1 = object.getIndicator() == IndicatorType.IN_PROGRESS && this.repository.findMaxResolutionPercentageByClaimId(object.getId()) < 100;
-			bool2 = object.getIndicator() != IndicatorType.IN_PROGRESS && this.repository.findMaxResolutionPercentageByClaimId(object.getId()) == 100;
-
-			super.state(bool1 || bool2, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
-		}
 	}
 
 	@Override
 	public void perform(final Claim object) {
-		assert object != null;
-
 		object.setDraftMode(false);
 
 		this.repository.save(object);
@@ -123,12 +109,6 @@ public class AssistanceAgentClaimPublishService extends AbstractGuiService<Assis
 		dataset.put("types", choicesType);
 
 		super.getResponse().addData(dataset);
-	}
-
-	@Override
-	public void onSuccess() {
-		if (super.getRequest().getMethod().equals("POST"))
-			PrincipalHelper.handleUpdate();
 	}
 
 }
