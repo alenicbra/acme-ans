@@ -1,0 +1,29 @@
+manager.flight.list.label.id = Id
+manager.flight.list.label.tag = Tag
+
+manager.flight.form.label.origin = Origin City
+manager.flight.form.label.destiny = Destiny City
+manager.flight.form.label.departureDate = Departure Date
+manager.flight.form.label.arrivalDate= Arrival Date
+manager.flight.form.label.tag = Tag
+manager.flight.form.label.requiresSelfTransfer = Requires Self Transfer
+manager.flight.form.label.cost = Cost
+manager.flight.form.label.description = Description
+manager.flight.form.label.numberOfLayovers = Number Of Layovers
+manager.flight.form.label.draftMode = Draft Mode
+
+manager.flight.list.button.create = Create
+
+manager.flight.form.button.legs = Legs
+manager.flight.form.button.update = Update
+manager.flight.form.button.delete = Delete 
+manager.flight.form.button.publish = Publish
+manager.flight.form.button.create = Create
+
+airline-manager.flight.form.title = My Flight
+airline-manager.flight.list.title = My Flights
+
+acme.validation.flight.leg-not-published.message = Every leg have to be published
+acme.validation.flight.no-legs.message = Flight need at least a leg to be published.
+
+manager.flight.error.tag.long = The tag must have less than 50 characters 

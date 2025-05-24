@@ -1,4 +1,3 @@
 key,key:userAccount,employee-code,spoken-languages,moment,brief-bio,salary,link,key:airline
-agent-01,user-account-agent-01,JMM123456,"English, Spanish, French","2017/03/20 22:10","Photographer and traveler; capturing moments from around the world.","USD 3,204.1",http://example.com/1,airline-01
-agent-02,user-account-agent-02,AIB987654,"Mandarin, German, Japanese","2012/11/15 08:45","Experienced digital marketer specializing in SEO and content strategy.","GBP 2,180.06",http://example.com/2,airline-02
-manager-03,user-account-manager-03,PLM456789,"Portuguese, Italian, Russian","2015/06/30 14:30","Software engineer with a passion for AI and cloud computing.","EUR 1,250.24",http://example.com/2,airline-03
+agent-01,user-account-agent-01,MMJ123456,"English, Spanish, French","2017/03/20 22:10","Photographer and traveler; capturing moments from around the world.","USD 3,204.1",http://example.com/1,airline-01
+agent-02,user-account-agent-02,IBA987654,"Mandarin, German, Japanese","2012/11/15 08:45","Experienced digital marketer specializing in SEO and content strategy.","GBP 2,180.06",http://example.com/2,airline-02
