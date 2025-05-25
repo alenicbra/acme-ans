@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
-import acme.client.helpers.PrincipalHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.claims.Claim;
@@ -36,16 +35,22 @@ public class AssistanceAgentClaimPublishService extends AbstractGuiService<Assis
 		Leg leg;
 		boolean externalRelation = true;
 
-		if (super.getRequest().getMethod().equals("POST")) {
+		if (super.getRequest().getMethod().equals("GET"))
+			externalRelation = true;
+		else {
 			legId = super.getRequest().getData("leg", int.class);
 			leg = this.repository.findLegById(legId);
 
-			boolean isLegIdZero = legId == 0;
 			boolean isLegValid = leg != null;
-			boolean isLegNotDraft = isLegValid && !leg.getDraftMode();
-			boolean isFlightNotDraft = isLegNotDraft && !leg.getFlight().getDraftMode();
 
-			externalRelation = isLegIdZero || isLegValid && isLegNotDraft && isFlightNotDraft;
+			if (isLegValid) {
+				boolean isLegNotDraft = !leg.getDraftMode();
+				if (isLegNotDraft) {
+					boolean isFlightNotDraft = !leg.getFlight().getDraftMode();
+					externalRelation = isFlightNotDraft;
+				} else
+					externalRelation = isLegNotDraft;
+			}
 		}
 
 		masterId = super.getRequest().getData("id", int.class);
@@ -68,8 +73,6 @@ public class AssistanceAgentClaimPublishService extends AbstractGuiService<Assis
 
 	@Override
 	public void bind(final Claim object) {
-		assert object != null;
-
 		int legId;
 		Leg leg;
 
@@ -82,22 +85,10 @@ public class AssistanceAgentClaimPublishService extends AbstractGuiService<Assis
 
 	@Override
 	public void validate(final Claim object) {
-		super.state(this.repository.allTrackingLogsPublishedByClaimId(object.getId()), "*", "assistanceAgent.claim.form.error.all-tracking-logs-published");
-		if (!super.getBuffer().getErrors().hasErrors("indicator")) {
-			boolean bool1;
-			boolean bool2;
-
-			bool1 = object.getIndicator() == IndicatorType.IN_PROGRESS && this.repository.findMaxResolutionPercentageByClaimId(object.getId()) < 100;
-			bool2 = object.getIndicator() != IndicatorType.IN_PROGRESS && this.repository.findMaxResolutionPercentageByClaimId(object.getId()) == 100;
-
-			super.state(bool1 || bool2, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
-		}
 	}
 
 	@Override
 	public void perform(final Claim object) {
-		assert object != null;
-
 		object.setDraftMode(false);
 
 		this.repository.save(object);
@@ -124,12 +115,6 @@ public class AssistanceAgentClaimPublishService extends AbstractGuiService<Assis
 		dataset.put("types", choicesType);
 
 		super.getResponse().addData(dataset);
-	}
-
-	@Override
-	public void onSuccess() {
-		if (super.getRequest().getMethod().equals("POST"))
-			PrincipalHelper.handleUpdate();
 	}
 
 }
