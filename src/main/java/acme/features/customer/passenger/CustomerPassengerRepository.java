@@ -14,24 +14,24 @@ import acme.entities.passengers.Passenger;
 import acme.realms.Customer;
 
 @Repository
-public interface PassengerCustomerRepository extends AbstractRepository {
+public interface CustomerPassengerRepository extends AbstractRepository {
 
 	@Query("SELECT c FROM Customer c WHERE c.id = :customerId")
 	Customer findCustomerById(Integer customerId);
 
 	@Query("SELECT p FROM Passenger p WHERE p.id=:passengerId")
-	Passenger getPassengerById(int passengerId);
+	Passenger findPassengerById(int passengerId);
 
 	@Query("SELECT b FROM Booking b WHERE b.id=:bookingId")
-	Booking getBookingById(int bookingId);
+	Booking findBookingById(int bookingId);
 
 	@Query("SELECT bp.passenger FROM BookingPassenger bp WHERE bp.booking.id = :bookingId")
-	List<Passenger> findPassengerByBookingId(Integer bookingId);
+	List<Passenger> findAllPassengerByBookingId(Integer bookingId);
 
 	@Query("SELECT p FROM Passenger p WHERE p.customer.id=:customerId")
-	Collection<Passenger> getPassengersByCustomer(int customerId);
+	Collection<Passenger> findPassengersByCustomer(Integer customerId);
 
-	@Query("SELECT br FROM BookingPassenger br WHERE br.passenger.id = :passengerId")
-	Collection<BookingPassenger> findAllBookingPassengerByPassengerId(int passengerId);
+	@Query("SELECT bp FROM BookingPassenger bp WHERE bp.passenger.id =:passengerId")
+	List<BookingPassenger> findAllBookingPassengersByPassengerId(Integer passengerId);
 
 }

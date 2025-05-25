@@ -12,28 +12,32 @@ import acme.entities.bookings.Booking;
 import acme.realms.Customer;
 
 @GuiService
-public class BookingCustomerListService extends AbstractGuiService<Customer, Booking> {
+public class CustomerBookingListService extends AbstractGuiService<Customer, Booking> {
+
+	// Internal state ---------------------------------------------------------
 
 	@Autowired
-	private BookingCustomerRepository bookingCustomerRepository;
+	private CustomerBookingRepository customerBookingRepository;
+
+	// AbstractGuiService interface -------------------------------------------
 
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+		boolean status = true;
 		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
 	public void load() {
 		Integer customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		Collection<Booking> bookings = this.bookingCustomerRepository.findBookingsByCustomer(customerId);
+		Collection<Booking> bookings = this.customerBookingRepository.findAllBookingsByCustomerId(customerId);
 		super.getBuffer().addData(bookings);
 	}
 
 	@Override
 	public void unbind(final Booking booking) {
-		Dataset dataset = super.unbindObject(booking, "locatorCode", "purchaseMoment", "travelClass", "price", "published", "id");
+		Dataset dataset = super.unbindObject(booking, "locatorCode", "purchaseMoment", "travelClass", "price", "isPublished", "id");
 		super.getResponse().addData(dataset);
 	}
 

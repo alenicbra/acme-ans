@@ -11,14 +11,13 @@ customer.booking.form.button.deletePassenger = Delete Passenger
 customer.booking.form.button.publish = Publish
 customer.booking.form.button.delete = Delete
 
-customer.booking.list.button.create = Book
+
+customer.booking.list.button.create = Create Booking
 customer.booking.list.label.locatorCode = Locator Code
 customer.booking.list.label.purchaseMoment = Purchase Date
 customer.booking.list.label.travelClass = Travel Class
 customer.booking.list.label.price = Price
-customer.booking.list.label.lastNibble = Last Nibble
-customer.booking.list.label.published = Published
-
+customer.booking.list.label.isPublished = Is this Booking Published?
 
 customer.booking.form.label.flight = Flight
 customer.booking.form.label.locatorCode = Locator Code
@@ -26,8 +25,5 @@ customer.booking.form.label.purchaseMoment = Purchase Moment
 customer.booking.form.label.travelClass = Travel Class
 customer.booking.form.label.price = Price
 customer.booking.form.label.lastNibble = Last Nibble Of Credit Card (Optional)
-customer.booking.form.label.passengers = Passengers
 
-customer.booking.form.error.lastNibble = To publish this booking you have to introduce the last nibble of your credit card
-customer.booking.form.error.passengers = To publish this booking you have to add Passengers
-customer.booking.form.error.passengers2 = Unpublished Passengers in the Booking
+customer.validation.booking.form.error.noPassengers = This booking requires at least one passenger to be published

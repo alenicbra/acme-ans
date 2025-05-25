@@ -19,19 +19,32 @@ import acme.entities.flights.Flight;
 import acme.realms.Customer;
 
 @GuiService
-public class BookingCustomerCreateService extends AbstractGuiService<Customer, Booking> {
+public class CustomerBookingCreateService extends AbstractGuiService<Customer, Booking> {
 
 	// Internal state ---------------------------------------------------------
 
 	@Autowired
-	private BookingCustomerRepository bookingCustomerRepository;
+	private CustomerBookingRepository customerBookingRepository;
 
 	// AbstractGuiService interface -------------------------------------------
 
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+		boolean status = true;
+
+		try {
+			if (super.getRequest().hasData("id")) {
+				Integer flightId = super.getRequest().getData("flight", Integer.class);
+				if (flightId == null || flightId != 0) {
+					Flight flight = this.customerBookingRepository.findFlightById(flightId);
+					status = flight != null && !flight.getDraftMode();
+				}
+			}
+		} catch (Throwable E) {
+			status = false;
+		}
+
 		super.getResponse().setAuthorised(status);
 	}
 
@@ -41,7 +54,7 @@ public class BookingCustomerCreateService extends AbstractGuiService<Customer, B
 
 		AbstractRealm principal = super.getRequest().getPrincipal().getActiveRealm();
 		int customerId = principal.getId();
-		Customer customer = this.bookingCustomerRepository.findCustomerById(customerId);
+		Customer customer = this.customerBookingRepository.findCustomerById(customerId);
 		Date date = MomentHelper.getCurrentMoment();
 
 		String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -55,7 +68,7 @@ public class BookingCustomerCreateService extends AbstractGuiService<Customer, B
 
 		booking.setCustomer(customer);
 		booking.setPurchaseMoment(date);
-		booking.setPublished(false);
+		booking.setIsPublished(false);
 		booking.setLocatorCode(sb.toString());
 
 		super.getBuffer().addData(booking);
@@ -68,24 +81,33 @@ public class BookingCustomerCreateService extends AbstractGuiService<Customer, B
 
 	@Override
 	public void validate(final Booking booking) {
+		boolean status = this.customerBookingRepository.findBookingByLocatorCode(booking.getLocatorCode()) == null;
+		super.state(status, "locatorCode", "acme.validation.identifier.repeated.message");
 
+		status = booking.getFlight() != null;
+		super.state(status, "flight", "acme.validation.noChoice");
 	}
 
 	@Override
 	public void perform(final Booking booking) {
-		this.bookingCustomerRepository.save(booking);
+		this.customerBookingRepository.save(booking);
 	}
 
 	@Override
 	public void unbind(final Booking booking) {
 		SelectChoices travelClasses = SelectChoices.from(TravelClass.class, booking.getTravelClass());
-		Collection<Flight> flights = this.bookingCustomerRepository.findAllPublishedFlights();
-		SelectChoices flightChoices = SelectChoices.from(flights, "flightSummary", booking.getFlight());
+		Collection<Flight> flights = this.customerBookingRepository.findAllFlight();
 
-		Dataset dataset = super.unbindObject(booking, "flight", "customer", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "published", "id");
+		Dataset dataset = super.unbindObject(booking, "flight", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "isPublished", "id");
 		dataset.put("travelClass", travelClasses);
+
+		SelectChoices flightChoices = null;
+
+		flightChoices = SelectChoices.from(flights, "flightSummary", booking.getFlight());
+
 		dataset.put("flights", flightChoices);
 
 		super.getResponse().addData(dataset);
 	}
+
 }

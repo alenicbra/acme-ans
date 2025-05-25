@@ -20,7 +20,7 @@ import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidString;
 import acme.client.helpers.SpringHelper;
 import acme.entities.flights.Flight;
-import acme.features.customer.passenger.PassengerCustomerRepository;
+import acme.features.customer.passenger.CustomerPassengerRepository;
 import acme.realms.Customer;
 import lombok.Getter;
 import lombok.Setter;
@@ -55,7 +55,7 @@ public class Booking extends AbstractEntity {
 	@Mandatory
 	@Valid
 	@Automapped
-	private Boolean				published;
+	private Boolean				isPublished;
 
 	// Relationships -------------------------------------------------------------
 
@@ -74,14 +74,14 @@ public class Booking extends AbstractEntity {
 	public Money getPrice() {
 		Money price = new Money();
 
-		PassengerCustomerRepository passengerCustomerRepository = SpringHelper.getBean(PassengerCustomerRepository.class);
+		CustomerPassengerRepository customerPassengerRepository = SpringHelper.getBean(CustomerPassengerRepository.class);
 
 		if (this.getFlight() == null) {
 			price.setAmount(0.0);
 			price.setCurrency("EUR");
 		} else {
 			Flight flight = this.getFlight();
-			Integer numberOfPassenger = passengerCustomerRepository.findPassengerByBookingId(this.getId()).size();
+			Integer numberOfPassenger = customerPassengerRepository.findAllPassengerByBookingId(this.getId()).size();
 			price.setAmount(flight.getCost().getAmount() * numberOfPassenger);
 			price.setCurrency(flight.getCost().getCurrency());
 		}
@@ -91,8 +91,8 @@ public class Booking extends AbstractEntity {
 
 	@Transient
 	public Integer getNumberOfPassengers() {
-		PassengerCustomerRepository customerPassengerRepository = SpringHelper.getBean(PassengerCustomerRepository.class);
-		return customerPassengerRepository.findPassengerByBookingId(this.getId()).size();
+		CustomerPassengerRepository customerPassengerRepository = SpringHelper.getBean(CustomerPassengerRepository.class);
+		return customerPassengerRepository.findAllPassengerByBookingId(this.getId()).size();
 	}
 
 }

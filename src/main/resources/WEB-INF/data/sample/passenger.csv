@@ -1,3 +1,3 @@
-key,full-name,email,passport-number,date-of-birth,special-needs,key:customer,published
+key,full-name,email,passport-number,birthDate,special-needs,key:customer,is-published
 passenger-01,"Ramon Vergara Garrido","ramonvg8@gmail.com","QWE1234",2003/01/01 00:00,null,customer-01,true
 passenger-02,"Manu Yisus","manueljesus@gmail.com","QFE1254",2002/02/01 00:00,"gluten",customer-02,true
