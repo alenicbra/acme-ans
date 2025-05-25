@@ -6,3 +6,4 @@ flight-04,The cheapest,false,USD 120.50,Budget-friendly option with no checked b
 flight-05,Luxury Experience,true,USD 599.99,"Premium seats, gourmet meals, and extra legroom",airline-manager-01,true
 flight-06,Red-eye special,false,USD 200.00,Overnight flight with discounted fares,airline-manager-01,true
 flight-07,Business Express,true,USD 450.25,Designed for professionals with fast check-in,airline-manager-01,true
+flight-08,Business Express,true,USD 450.25,Designed for professionals with fast check-in,airline-manager-02,true
