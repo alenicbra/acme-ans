@@ -30,8 +30,8 @@ public class AssistanceAgentClaimCreateService extends AbstractGuiService<Assist
 	@Override
 	public void authorise() {
 		AssistanceAgent assistanceAgent;
-		boolean status;
-		boolean bool;
+		boolean status = false;
+		boolean bool = true;
 		int legId;
 		Leg leg;
 
@@ -42,15 +42,21 @@ public class AssistanceAgentClaimCreateService extends AbstractGuiService<Assist
 			leg = this.repository.findLegById(legId);
 
 			boolean isLegValid = leg != null;
-			boolean isLegNotDraft = isLegValid && !leg.getDraftMode();
-			boolean isFlightNotDraft = isLegNotDraft && !leg.getFlight().getDraftMode();
-			boolean isLegIdZero = legId == 0;
 
-			bool = isLegIdZero || isLegValid && isLegNotDraft && isFlightNotDraft;
+			if (isLegValid) {
+				boolean isLegNotDraft = !leg.getDraftMode();
+				if (isLegNotDraft) {
+					boolean isFlightNotDraft = !leg.getFlight().getDraftMode();
+					bool = isFlightNotDraft;
+				} else
+					bool = isLegNotDraft;
+			}
 		}
 
 		assistanceAgent = (AssistanceAgent) super.getRequest().getPrincipal().getActiveRealm();
-		status = bool && super.getRequest().getPrincipal().hasRealm(assistanceAgent);
+		if (super.getRequest().getPrincipal().hasRealm(assistanceAgent))
+			if (bool)
+				status = true;
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -88,12 +94,6 @@ public class AssistanceAgentClaimCreateService extends AbstractGuiService<Assist
 		if (!super.getBuffer().getErrors().hasErrors("indicator"))
 			super.state(object.getIndicator() == IndicatorType.IN_PROGRESS, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
 
-		if (!super.getBuffer().getErrors().hasErrors("leg")) {
-			Collection<Leg> legs;
-			legs = this.repository.findAllLegs();
-
-			super.state(legs.contains(object.getLeg()), "leg", "assistanceAgent.claim.form.error.leg-wrong");
-		}
 	}
 
 	@Override

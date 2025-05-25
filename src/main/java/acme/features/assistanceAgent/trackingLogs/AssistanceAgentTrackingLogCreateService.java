@@ -73,9 +73,11 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 			boolean bool1;
 			boolean bool2;
 
-			bool1 = object.getIndicator() == IndicatorType.IN_PROGRESS && object.getResolutionPercentage() < 100;
-			bool2 = object.getIndicator() != IndicatorType.IN_PROGRESS && object.getResolutionPercentage() == 100;
-			super.state(bool1 || bool2, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
+			if (!super.getBuffer().getErrors().hasErrors("resolutionPercentage")) {
+				bool1 = object.getIndicator() == IndicatorType.IN_PROGRESS && object.getResolutionPercentage() < 100;
+				bool2 = object.getIndicator() != IndicatorType.IN_PROGRESS && object.getResolutionPercentage() == 100;
+				super.state(bool1 || bool2, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
+			}
 		}
 		if (!super.getBuffer().getErrors().hasErrors("resolutionReason")) {
 			boolean isInProgress = object.getIndicator() == IndicatorType.IN_PROGRESS;

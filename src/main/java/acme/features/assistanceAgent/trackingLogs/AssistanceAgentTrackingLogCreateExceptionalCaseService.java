@@ -87,15 +87,9 @@ public class AssistanceAgentTrackingLogCreateExceptionalCaseService extends Abst
 	public void unbind(final TrackingLog object) {
 		Dataset dataset;
 
-		Boolean exceptionalCase;
-		Claim claim;
-
-		claim = object.getClaim();
-		exceptionalCase = this.repository.countTrackingLogsForExceptionalCase(claim.getId()) == 1;
-
 		dataset = super.unbindObject(object, "lastUpdateMoment", "step", "resolutionPercentage", "resolutionReason", "indicator");
 		dataset.put("masterId", super.getRequest().getData("masterId", int.class));
-		dataset.put("exceptionalCase", exceptionalCase);
+		dataset.put("exceptionalCase", true);
 
 		super.getResponse().addData(dataset);
 	}

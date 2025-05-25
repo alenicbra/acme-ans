@@ -35,16 +35,22 @@ public class AssistanceAgentClaimUpdateService extends AbstractGuiService<Assist
 		Leg leg;
 		boolean externalRelation = true;
 
-		if (super.getRequest().getMethod().equals("POST")) {
+		if (super.getRequest().getMethod().equals("GET"))
+			externalRelation = true;
+		else {
 			legId = super.getRequest().getData("leg", int.class);
 			leg = this.repository.findLegById(legId);
 
-			boolean isLegIdZero = legId == 0;
 			boolean isLegValid = leg != null;
-			boolean isLegNotDraft = isLegValid && !leg.getDraftMode();
-			boolean isFlightNotDraft = isLegNotDraft && !leg.getFlight().getDraftMode();
 
-			externalRelation = isLegIdZero || isLegValid && isLegNotDraft && isFlightNotDraft;
+			if (isLegValid) {
+				boolean isLegNotDraft = !leg.getDraftMode();
+				if (isLegNotDraft) {
+					boolean isFlightNotDraft = !leg.getFlight().getDraftMode();
+					externalRelation = isFlightNotDraft;
+				} else
+					externalRelation = isLegNotDraft;
+			}
 		}
 
 		masterId = super.getRequest().getData("id", int.class);

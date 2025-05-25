@@ -64,9 +64,11 @@ public class AssistanceAgentTrackingLogPublishService extends AbstractGuiService
 		if (!super.getBuffer().getErrors().hasErrors("indicator")) {
 			boolean bool1;
 			boolean bool2;
-			bool1 = object.getIndicator() == IndicatorType.IN_PROGRESS && object.getResolutionPercentage() < 100;
-			bool2 = object.getIndicator() != IndicatorType.IN_PROGRESS && object.getResolutionPercentage() == 100;
-			super.state(bool1 || bool2, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
+			if (!super.getBuffer().getErrors().hasErrors("resolutionPercentage")) {
+				bool1 = object.getIndicator() == IndicatorType.IN_PROGRESS && object.getResolutionPercentage() < 100;
+				bool2 = object.getIndicator() != IndicatorType.IN_PROGRESS && object.getResolutionPercentage() == 100;
+				super.state(bool1 || bool2, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
+			}
 		}
 		if (!super.getBuffer().getErrors().hasErrors("resolutionPercentage")) {
 			Double maxResolutionPercentage;
