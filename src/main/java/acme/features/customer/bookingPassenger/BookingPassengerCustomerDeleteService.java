@@ -1,38 +1,45 @@
 
 package acme.features.customer.bookingPassenger;
 
-import java.util.Collection;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
-import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
-import acme.entities.bookings.Booking;
 import acme.entities.bookings.BookingPassenger;
-import acme.entities.passengers.Passenger;
 import acme.realms.Customer;
 
 @GuiService
-public class BookingPassengerCustomerCreateService extends AbstractGuiService<Customer, BookingPassenger> {
+public class BookingPassengerCustomerDeleteService extends AbstractGuiService<Customer, BookingPassenger> {
+
+	// Internal state ---------------------------------------------------------
 
 	@Autowired
 	private BookingPassengerCustomerRepository bookingPassengerCustomerRepository;
+
+	// AbstractGuiService interface -------------------------------------------
 
 
 	@Override
 	public void authorise() {
 		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+
+		Integer BookingPassengerId = super.getRequest().getData("id", int.class);
+		BookingPassenger BookingPassenger = this.bookingPassengerCustomerRepository.getBookingPassengerByBookingPassengerId(BookingPassengerId);
+
+		Integer customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+
+		status = status && BookingPassenger.getBooking().getCustomer().getId() == customerId;
+
 		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
 	public void load() {
-		BookingPassenger BookingPassenger = new BookingPassenger();
+		int BookingPassengerId = super.getRequest().getData("BookingPassengerId", int.class);
+		BookingPassenger BookingPassenger = this.bookingPassengerCustomerRepository.getBookingPassengerByBookingPassengerId(BookingPassengerId);
 
 		super.getBuffer().addData(BookingPassenger);
-
 	}
 
 	@Override
@@ -47,21 +54,12 @@ public class BookingPassengerCustomerCreateService extends AbstractGuiService<Cu
 
 	@Override
 	public void perform(final BookingPassenger BookingPassenger) {
-		this.bookingPassengerCustomerRepository.save(BookingPassenger);
+		this.bookingPassengerCustomerRepository.delete(BookingPassenger);
 	}
 
 	@Override
 	public void unbind(final BookingPassenger BookingPassenger) {
-
-		Integer customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-
-		Collection<Passenger> passengers = this.bookingPassengerCustomerRepository.getAllPassengersByCustomer(customerId);
-		Collection<Booking> bookings = this.bookingPassengerCustomerRepository.getBookingsByCustomerId(customerId);
-		SelectChoices passengerChoices = SelectChoices.from(passengers, "fullName", BookingPassenger.getPassenger());
-		SelectChoices bookingChoices = SelectChoices.from(bookings, "locatorCode", BookingPassenger.getBooking());
-		Dataset dataset = super.unbindObject(BookingPassenger, "passenger", "booking");
-		dataset.put("passengers", passengerChoices);
-		dataset.put("bookings", bookingChoices);
+		Dataset dataset = super.unbindObject(BookingPassenger, "booking", "passenger");
 
 		super.getResponse().addData(dataset);
 

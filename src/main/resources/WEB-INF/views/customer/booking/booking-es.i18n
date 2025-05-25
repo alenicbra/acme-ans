@@ -1,25 +1,32 @@
-# booking-es.i18n
+# messages-es.i18n
 
-customer.booking.list.title = Mis Reservas
+customer.booking.list.title = Lista de Reservas
 customer.booking.form.title = Detalles de la Reserva
 
 customer.booking.form.button.update = Actualizar
-customer.booking.form.button.create = Crear
+customer.booking.form.button.create = Crear Reserva
 customer.booking.form.button.listPassenger = Pasajeros de esta reserva
 customer.booking.form.button.addPassenger = Añadir Pasajero
+customer.booking.form.button.deletePassenger = Eliminar Pasajero
 customer.booking.form.button.publish = Publicar
+customer.booking.form.button.delete = Eliminar
 
-customer.booking.list.button.create = Crear
+customer.booking.list.button.create = Reservar
 customer.booking.list.label.locatorCode = Código Localizador
 customer.booking.list.label.purchaseMoment = Fecha de Compra
 customer.booking.list.label.travelClass = Clase de Viaje
 customer.booking.list.label.price = Precio
-customer.booking.list.label.lastNibble = Últimos dígitos de tarjeta bancaria
-customer.booking.list.label.isPublished = ¿Está publicada?
+customer.booking.list.label.lastNibble = Últimos dígitos
+customer.booking.list.label.published = Publicada
 
 customer.booking.form.label.flight = Vuelo
 customer.booking.form.label.locatorCode = Código Localizador
 customer.booking.form.label.purchaseMoment = Momento de Compra
 customer.booking.form.label.travelClass = Clase de Viaje
 customer.booking.form.label.price = Precio
-customer.booking.form.label.lastNibble = Últimos Dígitos de la Tarjeta de Crédito (Opcional)
+customer.booking.form.label.lastNibble = Últimos 4 Dígitos de la Tarjeta de Crédito (Opcional)
+customer.booking.form.label.passengers = Pasajeros
+
+customer.booking.form.error.lastNibble = Para publicar la reserva debe introducir los 4 ultimos digitos de la tarjeta
+customer.booking.form.error.passengers = Para publicar la reserva debe añadir Pasajeros primero
+customer.booking.form.error.passengers2 = Hay pasajeros sin publicar en esta Reserva

@@ -28,15 +28,18 @@ public class Passenger extends AbstractEntity {
 	private static final long	serialVersionUID	= 1L;
 
 	@Mandatory
-	@ValidString(max = 256)
+	@ValidString(min = 1, max = 255)
+	@Automapped
 	private String				fullName;
 
 	@Mandatory
 	@ValidEmail
+	@Automapped
 	private String				email;
 
 	@Mandatory
-	@ValidString(pattern = "^[A-Z0-9]{6,9}$")
+	@ValidString(pattern = "^[A-Z0-9]{6,9}$", message = "{acme.validation.passportNumber.notPattern.message}")
+	@Automapped
 	private String				passportNumber;
 
 	@Mandatory
@@ -45,17 +48,18 @@ public class Passenger extends AbstractEntity {
 	private Date				dateOfBirth;
 
 	@Optional
-	@ValidString(max = 51)
+	@ValidString(min = 1, max = 50)
+	@Automapped
 	private String				specialNeeds;
 
 	@Mandatory
 	@Valid
-	@ManyToOne(optional = true)
+	@ManyToOne(optional = false)
 	private Customer			customer;
 
 	@Mandatory
 	@Valid
 	@Automapped
-	private Boolean				isPublished;
+	private Boolean				published;
 
 }

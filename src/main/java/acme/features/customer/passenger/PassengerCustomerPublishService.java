@@ -49,7 +49,7 @@ public class PassengerCustomerPublishService extends AbstractGuiService<Customer
 
 	@Override
 	public void perform(final Passenger passenger) {
-		passenger.setIsPublished(true);
+		passenger.setPublished(true);
 		this.passengerCustomerRepository.save(passenger);
 	}
 
@@ -57,7 +57,7 @@ public class PassengerCustomerPublishService extends AbstractGuiService<Customer
 	public void unbind(final Passenger passenger) {
 		assert passenger != null;
 
-		Dataset dataset = super.unbindObject(passenger, "fullName", "email", "passportNumber", "dateOfBirth", "specialNeeds", "isPublished");
+		Dataset dataset = super.unbindObject(passenger, "fullName", "email", "passportNumber", "dateOfBirth", "specialNeeds", "published");
 
 		super.getResponse().addData(dataset);
 	}

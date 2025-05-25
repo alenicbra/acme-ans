@@ -4,6 +4,7 @@ package acme.entities.bookings;
 import java.beans.Transient;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -16,7 +17,6 @@ import acme.client.components.mappings.Automapped;
 import acme.client.components.validation.Mandatory;
 import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoment;
-import acme.client.components.validation.ValidMoney;
 import acme.client.components.validation.ValidString;
 import acme.client.helpers.SpringHelper;
 import acme.entities.flights.Flight;
@@ -34,6 +34,7 @@ public class Booking extends AbstractEntity {
 
 	@Mandatory
 	@ValidString(pattern = "^[A-Z0-9]{6,8}$")
+	@Column(unique = true)
 	private String				locatorCode;
 
 	@Mandatory
@@ -42,48 +43,56 @@ public class Booking extends AbstractEntity {
 	private Date				purchaseMoment;
 
 	@Mandatory
+	@Valid
+	@Automapped
 	private TravelClass			travelClass;
 
-	@ValidMoney
-	private Money				price;
-
 	@Optional
+	@ValidString(pattern = "\\d{4}$")
+	@Automapped
 	private String				lastNibble;
 
 	@Mandatory
 	@Valid
 	@Automapped
-	private Boolean				isPublished;
+	private Boolean				published;
 
 	// Relationships -------------------------------------------------------------
 
-	@Valid
 	@Mandatory
-	@ManyToOne
+	@Valid
+	@ManyToOne(optional = false)
 	private Customer			customer;
 
 	@Mandatory
 	@Valid
-	@ManyToOne
+	@ManyToOne(optional = false)
 	private Flight				flight;
 
 
 	@Transient
 	public Money getPrice() {
 		Money price = new Money();
-		PassengerCustomerRepository PassengerCustomerRepository = SpringHelper.getBean(PassengerCustomerRepository.class);
+
+		PassengerCustomerRepository passengerCustomerRepository = SpringHelper.getBean(PassengerCustomerRepository.class);
 
 		if (this.getFlight() == null) {
 			price.setAmount(0.0);
 			price.setCurrency("EUR");
 		} else {
 			Flight flight = this.getFlight();
-			Integer numberOfPassenger = PassengerCustomerRepository.findPassengerByBookingId(this.getId()).size();
+			Integer numberOfPassenger = passengerCustomerRepository.findPassengerByBookingId(this.getId()).size();
 			price.setAmount(flight.getCost().getAmount() * numberOfPassenger);
 			price.setCurrency(flight.getCost().getCurrency());
 		}
 
 		return price;
+	}
+
+	@Transient
+	public Integer getNumberOfPassengers() {
+		PassengerCustomerRepository customerPassengerRepository = SpringHelper.getBean(PassengerCustomerRepository.class);
+		return customerPassengerRepository.findPassengerByBookingId(this.getId()).size();
 	}
 
 }

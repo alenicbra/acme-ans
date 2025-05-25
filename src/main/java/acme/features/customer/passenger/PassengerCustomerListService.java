@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
-import acme.entities.bookings.Booking;
 import acme.entities.passengers.Passenger;
 import acme.realms.Customer;
 
@@ -22,13 +21,6 @@ public class PassengerCustomerListService extends AbstractGuiService<Customer, P
 	@Override
 	public void authorise() {
 		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
-
-		if (!super.getRequest().getData().isEmpty()) {
-			Integer bookingId = super.getRequest().getData("bookingId", int.class);
-			Booking booking = this.passengerCustomerRepository.getBookingById(bookingId);
-			Integer customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-			status = status && booking.getCustomer().getId() == customerId;
-		}
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -48,18 +40,15 @@ public class PassengerCustomerListService extends AbstractGuiService<Customer, P
 	}
 
 	@Override
-	public void validate(final Passenger passenger) {
-		;
-	}
-
-	@Override
 	public void unbind(final Passenger passenger) {
 		assert passenger != null;
+		Boolean containsBookingId;
 
-		Dataset dataset = super.unbindObject(passenger, "fullName", "email", "passportNumber", "dateOfBirth", "specialNeeds", "isPublished");
-
+		Dataset dataset = super.unbindObject(passenger, "fullName", "email", "passportNumber", "dateOfBirth", "specialNeeds", "published");
+		containsBookingId = super.getRequest().getData().containsKey("bookingId");
+		super.getResponse().addGlobal("containsBookingId", containsBookingId);
 		super.getResponse().addData(dataset);
-		super.addPayload(dataset, passenger, "specialNeeds");
+
 	}
 
 }

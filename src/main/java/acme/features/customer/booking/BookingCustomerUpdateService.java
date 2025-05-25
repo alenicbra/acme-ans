@@ -28,7 +28,7 @@ public class BookingCustomerUpdateService extends AbstractGuiService<Customer, B
 		Booking booking = this.BookingCustomerRepository.findBookingById(bookingId);
 		status = status && booking != null;
 		Integer customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		status = status && booking.getCustomer().getId() == customerId && !booking.getIsPublished();
+		status = status && booking.getCustomer().getId() == customerId && !booking.getPublished();
 		super.getResponse().setAuthorised(status);
 	}
 
@@ -65,9 +65,9 @@ public class BookingCustomerUpdateService extends AbstractGuiService<Customer, B
 	@Override
 	public void unbind(final Booking booking) {
 		SelectChoices travelClasses = SelectChoices.from(TravelClass.class, booking.getTravelClass());
-		Collection<Flight> flights = this.BookingCustomerRepository.findAllFlight();
+		Collection<Flight> flights = this.BookingCustomerRepository.findAllPublishedFlights();
 		SelectChoices flightChoices = SelectChoices.from(flights, "id", booking.getFlight());
-		Dataset dataset = super.unbindObject(booking, "flight", "customer", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "isPublished", "id");
+		Dataset dataset = super.unbindObject(booking, "flight", "customer", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "published", "id");
 		dataset.put("travelClass", travelClasses);
 		dataset.put("flights", flightChoices);
 

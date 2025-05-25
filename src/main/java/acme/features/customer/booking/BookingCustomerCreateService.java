@@ -21,8 +21,12 @@ import acme.realms.Customer;
 @GuiService
 public class BookingCustomerCreateService extends AbstractGuiService<Customer, Booking> {
 
+	// Internal state ---------------------------------------------------------
+
 	@Autowired
 	private BookingCustomerRepository bookingCustomerRepository;
+
+	// AbstractGuiService interface -------------------------------------------
 
 
 	@Override
@@ -34,51 +38,51 @@ public class BookingCustomerCreateService extends AbstractGuiService<Customer, B
 	@Override
 	public void load() {
 		Booking booking = new Booking();
+
 		AbstractRealm principal = super.getRequest().getPrincipal().getActiveRealm();
 		int customerId = principal.getId();
 		Customer customer = this.bookingCustomerRepository.findCustomerById(customerId);
 		Date date = MomentHelper.getCurrentMoment();
-		String chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+		String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 		Random random = new Random();
-		int length = 6 + random.nextInt(3);
-		StringBuilder sb = new StringBuilder(length);
-		for (int i = 0; i < length; i++) {
-			char ch = chars.charAt(random.nextInt(chars.length()));
-			sb.append(ch);
+		int longitud = 6 + random.nextInt(3);
+		StringBuilder sb = new StringBuilder(longitud);
+		for (int i = 0; i < longitud; i++) {
+			char c = chars.charAt(random.nextInt(chars.length()));
+			sb.append(c);
 		}
 
 		booking.setCustomer(customer);
 		booking.setPurchaseMoment(date);
+		booking.setPublished(false);
 		booking.setLocatorCode(sb.toString());
-		booking.setIsPublished(false);
 
 		super.getBuffer().addData(booking);
 	}
 
 	@Override
 	public void bind(final Booking booking) {
-		super.bindObject(booking, "flight", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble");
+		super.bindObject(booking, "flight", "locatorCode", "travelClass", "lastNibble");
 	}
 
 	@Override
 	public void validate(final Booking booking) {
-		boolean status = this.bookingCustomerRepository.findBookingByLocatorCode(booking.getLocatorCode()) == null;
-		super.state(status, "locatorCode", "acme.validation.identifier.repeated.message");
+
 	}
 
 	@Override
 	public void perform(final Booking booking) {
-		Date today = MomentHelper.getCurrentMoment();
-		booking.setPurchaseMoment(today);
 		this.bookingCustomerRepository.save(booking);
 	}
 
 	@Override
 	public void unbind(final Booking booking) {
 		SelectChoices travelClasses = SelectChoices.from(TravelClass.class, booking.getTravelClass());
-		Collection<Flight> flights = this.bookingCustomerRepository.findAllFlight();
-		SelectChoices flightChoices = SelectChoices.from(flights, "id", booking.getFlight());
-		Dataset dataset = super.unbindObject(booking, "flight", "customer", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "isPublished", "id");
+		Collection<Flight> flights = this.bookingCustomerRepository.findAllPublishedFlights();
+		SelectChoices flightChoices = SelectChoices.from(flights, "flightSummary", booking.getFlight());
+
+		Dataset dataset = super.unbindObject(booking, "flight", "customer", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "published", "id");
 		dataset.put("travelClass", travelClasses);
 		dataset.put("flights", flightChoices);
 
