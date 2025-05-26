@@ -43,6 +43,22 @@ public interface MemberFlightAssignmentRepository extends AbstractRepository {
 	@Query("SELECT al FROM ActivityLog al WHERE al.flightAssignment.id = ?1")
 	Collection<ActivityLog> findActivityLogsByAssignmentId(int id);
 
-	@Query("SELECT fa FROM FlightAssignment fa WHERE fa.leg.id = ?1")
+	@Query("SELECT fa FROM FlightAssignment fa WHERE fa.leg.id = ?1 AND fa.draftMode = false")
 	Collection<FlightAssignment> findAllFlightAssignmentByLegId(int id);
+
+	@Query("SELECT m.airline.id FROM Member m WHERE m.id = ?1")
+	Integer findAirlineIdByMemberId(int id);
+
+	@Query("SELECT l FROM Leg l WHERE l.aircraft.airline.id = ?1 AND l.flight.draftMode = false")
+	Collection<Leg> findLegsByAirlineId(int id);
+
+	@Query("select a from FlightAssignment a where a.leg.id =:legId and a.duty = acme.entities.flightAssignments.Duty.PILOT and a.draftMode = false")
+	FlightAssignment findPilotAssignmentsByLegId(int legId);
+
+	@Query("select a from FlightAssignment a where a.leg.id =:legId and a.duty = acme.entities.flightAssignments.Duty.COPILOT and a.draftMode = false")
+	FlightAssignment findCopilotAssignmentsByLegId(int legId);
+
+	@Query("select a from FlightAssignment a where a.member.id = :memberId")
+	Collection<FlightAssignment> findAssignmentsByMemberId(int memberId);
+
 }
