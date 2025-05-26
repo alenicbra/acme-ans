@@ -1,8 +1,8 @@
-key,tag,indication,cost,description,key:manager,draftMode
-flight-01,First flight; EEUU,true,"USD 30,000.00",,airline-manager-01,false
-flight-02,Second flight; Spain,true,"USD 10,000.00",,airline-manager-01,false
-flight-03,The fastest,true,USD 350.75,Non-stop flight with priority boarding,airline-manager-01,true
-flight-04,The cheapest,false,USD 120.50,Budget-friendly option with no checked baggage,airline-manager-01,true
-flight-05,Luxury Experience,true,USD 599.99,"Premium seats, gourmet meals, and extra legroom",airline-manager-01,true
-flight-06,Red-eye special,false,USD 200.00,Overnight flight with discounted fares,airline-manager-01,true
-flight-07,Business Express,true,USD 450.25,Designed for professionals with fast check-in,airline-manager-01,true
+key,tag,indication,cost,description,key:manager,key:airline,draftMode
+flight-01,First flight; EEUU,true,"USD 30,000.00",,airline-manager-01,airline-01,false
+flight-02,Second flight; Spain,true,"USD 10,000.00",,airline-manager-01,airline-01,false
+flight-03,The fastest,true,USD 350.75,Non-stop flight with priority boarding,airline-manager-01,airline-01,true
+flight-04,The cheapest,false,USD 120.50,Budget-friendly option with no checked baggage,airline-manager-01,airline-01,true
+flight-05,Luxury Experience,true,USD 599.99,"Premium seats, gourmet meals, and extra legroom",airline-manager-01,airline-01,true
+flight-06,Red-eye special,false,USD 200.00,Overnight flight with discounted fares,airline-manager-01,airline-01,true
+flight-07,Business Express,true,USD 450.25,Designed for professionals with fast check-in,airline-manager-01,airline-01,true

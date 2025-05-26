@@ -9,10 +9,9 @@
 	<acme:input-textbox code="member.activity-log.form.label.description" path="description"/>
 	<acme:input-integer code="member.activity-log.form.label.severityLevel" path="severityLevel"/>
 	<acme:input-textbox code="member.activity-log.form.label.flightAssignment" path="flightAssignment" readonly="true"/>
-	<acme:input-checkbox code="member.activity-log.form.label.draftMode" path="draftMode"/>
 
 	<jstl:choose>
-		<jstl:when test="${acme:anyOf(_command, 'show|update|delete') && draftMode == true}">
+		<jstl:when test="${acme:anyOf(_command, 'show|update|delete|publish') && draftMode == true}">
 			<acme:submit code="member.activity-log.form.button.update" action="/member/activity-log/update"/>
 			<acme:submit code="member.activity-log.form.button.publish" action="/member/activity-log/publish"/>
 			<acme:submit code="member.activity-log.form.button.delete" action="/member/activity-log/delete"/>

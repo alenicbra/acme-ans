@@ -13,6 +13,7 @@ member.flight-assignment.form.button.return = Volver
 member.flight-assignment.form.button.update = Actualizar
 member.flight-assignment.form.button.delete = Borrar
 member.flight-assignment.form.button.create = Crear
+member.flight-assignment.form.button.publish = Publicar
 member.flight-assignment.form.button.activity-log = Registros de actividad
 
 member.flight-assignment.list.label.duty = Responsabilidad

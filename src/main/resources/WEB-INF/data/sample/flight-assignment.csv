@@ -9,3 +9,6 @@ flight-assignment-07,"LEAD_ATTENDANT",2017/07/12 14:30,"CANCELLED","Lorem ipsum 
 flight-assignment-08,"COPILOT",2017/07/12 14:30,"PENDING","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true,member-01,leg-03
 flight-assignment-09,"LEAD_ATTENDANT",2017/08/12 14:30,"PENDING","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true,member-04,leg-04
 flight-assignment-10,"CABIN_ATTENDANT",2017/08/12 14:30,"PENDING","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true,member-01,leg-04
+flight-assignment-11,"PILOT",2017/08/12 14:30,"CONFIRMED","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",false,member-02,leg-01
+flight-assignment-12,"COPILOT",2017/08/12 14:30,"CONFIRMED","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",false,member-02,leg-01
+flight-assignment-13,"LEAD_ATTENDANT",2017/08/12 14:30,"CONFIRMED","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",false,member-02,leg-01
