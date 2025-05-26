@@ -27,11 +27,15 @@
 	<acme:input-checkbox code="administrator.aircraft.form.label.confirmation" path="confirmation"/>
 	
 	<jstl:choose>
-		<jstl:when test="${_command == 'show'}">
+		<jstl:when test="${_command == 'show|delete'}">
 			<acme:button code="administrator.aircraft.form.button.edit" action="/administrator/aircraft/update?id=${id}"/>
+			<acme:button code="administrator.aircraft.form.button.disable" action="/administrator/aircraft/delete"/>
 		</jstl:when>
 		<jstl:when test="${_command == 'update'}">
 			<acme:submit code="administrator.aircraft.form.button.update" action="/administrator/aircraft/update"/>
+		</jstl:when>
+			<jstl:when test="${_command == 'delete'}">
+			<acme:submit code="administrator.aircraft.form.button.delete" action="/administrator/aircraft/delete"/>
 		</jstl:when>
 		<jstl:when test="${_command == 'create'}">
 			<acme:submit code="administrator.aircraft.form.button.create" action="/administrator/aircraft/create"/>

@@ -2,6 +2,8 @@
 package acme.entities.services;
 
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 import acme.client.components.basis.AbstractEntity;
 import acme.client.components.datatypes.Money;
@@ -16,6 +18,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Table(name = "Service", indexes = {
+	@Index(columnList = "name"), @Index(columnList = "promoCode"), @Index(columnList = "avgDwellTime")
+})
 public class Service extends AbstractEntity {
 
 	private static final long	serialVersionUID	= 1L;
