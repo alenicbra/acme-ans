@@ -34,12 +34,14 @@ public class AssistanceAgentTrackingLogCreateService extends AbstractGuiService<
 		AssistanceAgent assistanceAgent;
 		Claim claim;
 		Collection<TrackingLog> tlogs;
+		Boolean bool;
 
 		masterId = super.getRequest().getData("masterId", int.class);
 		claim = this.repository.findOneClaimById(masterId);
 		assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
 		tlogs = this.repository.findManyTrackingLogsClaimId(masterId);
-		status = claim != null && (!tlogs.stream().allMatch(t -> !t.isDraftMode()) || tlogs.isEmpty()) && super.getRequest().getPrincipal().hasRealm(assistanceAgent);
+		bool = this.repository.countTrackingLogsForExceptionalCase(masterId) < 1;
+		status = claim != null && (tlogs.isEmpty() || bool) && super.getRequest().getPrincipal().hasRealm(assistanceAgent);
 
 		super.getResponse().setAuthorised(status);
 	}
