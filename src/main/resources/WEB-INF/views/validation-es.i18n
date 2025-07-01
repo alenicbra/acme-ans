@@ -19,3 +19,4 @@ acme.validation.text.long.fifty = Este campo debe tener una longitud menor de 50
 acme.validation.leg.negative-duration = La hora de salida a de ser anterior a la de llegada
 acme.validation.leg.sameAirports.message = Los aeropuertos de llegada y salida han de ser diferentes entre ellos
 acme.validation.leg.flightNumber.unique = Este número ya representa a otra escala
+acme.validation.leg.null = No puede ser nulo
