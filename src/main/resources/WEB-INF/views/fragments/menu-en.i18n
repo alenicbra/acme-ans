@@ -63,6 +63,7 @@ master.menu.user-account.become-assistance-agent = Become an assistance agent
 master.menu.user-account.assistance-agent-profile = Assistance agent profile
 master.menu.user-account.become-consumer = Become a consumer
 master.menu.user-account.consumer-profile = Consumer profile
+
 master.menu.user-account.become-member = Become a crew member
 master.menu.user-account.member-profile = Crew member profile
 
@@ -71,3 +72,8 @@ master.menu.user-account.member-profile = Crew member profile
 master.menu.airline-manager = Managers
 master.menu.airline-manager.my-flights = My Flights
 
+# master.menu.customer ##########################################################
+
+master.menu.customer = Customer
+master.menu.customer.booking.list = My Bookings
+master.menu.customer.passenger.list = My Passengers
