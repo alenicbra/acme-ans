@@ -2,6 +2,8 @@
 package acme.entities.airports;
 
 import javax.persistence.Entity;
+import javax.persistence.Index;
+import javax.persistence.Table;
 
 import acme.client.components.basis.AbstractEntity;
 import acme.client.components.validation.Mandatory;
@@ -15,7 +17,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-
+@Table(name = "Airport", indexes = {
+	@Index(columnList = "iataCode", unique = true), @Index(columnList = "name"), @Index(columnList = "city"), @Index(columnList = "country")
+})
 public class Airport extends AbstractEntity {
 
 	private static final long	serialVersionUID	= 1L;

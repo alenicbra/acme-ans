@@ -2,7 +2,9 @@
 package acme.entities.aircrafts;
 
 import javax.persistence.Entity;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.Valid;
 
 import org.checkerframework.common.aliasing.qual.Unique;
@@ -19,6 +21,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@Table(name = "Aircraft", indexes = {
+	@Index(columnList = "registrationNumber", unique = true), @Index(columnList = "airline_id"), @Index(columnList = "active"), @Index(columnList = "model")
+})
 public class Aircraft extends AbstractEntity {
 
 	private static final long	serialVersionUID	= 1L;

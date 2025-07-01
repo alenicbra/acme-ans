@@ -29,13 +29,19 @@ public class AssistanceAgentClaimDeleteService extends AbstractGuiService<Assist
 
 	@Override
 	public void authorise() {
-		boolean status;
 		int masterId;
 		Claim claim;
+		AssistanceAgent assistanceAgent;
 
 		masterId = super.getRequest().getData("id", int.class);
 		claim = this.repository.findOneClaimById(masterId);
-		status = claim != null && claim.isDraftMode() && super.getRequest().getPrincipal().hasRealm(claim.getAssistanceAgent());
+		assistanceAgent = claim == null ? null : claim.getAssistanceAgent();
+		boolean status = false;
+
+		if (claim != null)
+			if (claim.isDraftMode())
+				if (super.getRequest().getPrincipal().hasRealm(assistanceAgent))
+					status = true;
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -53,8 +59,6 @@ public class AssistanceAgentClaimDeleteService extends AbstractGuiService<Assist
 
 	@Override
 	public void bind(final Claim object) {
-		assert object != null;
-
 		int legId;
 		Leg leg;
 
@@ -67,13 +71,10 @@ public class AssistanceAgentClaimDeleteService extends AbstractGuiService<Assist
 
 	@Override
 	public void validate(final Claim object) {
-		assert object != null;
 	}
 
 	@Override
 	public void perform(final Claim object) {
-		assert object != null;
-
 		Collection<TrackingLog> trackingLogs;
 
 		trackingLogs = this.repository.findManyTrackingLogsByClaimId(object.getId());

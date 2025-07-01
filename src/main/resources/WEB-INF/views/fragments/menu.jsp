@@ -33,7 +33,10 @@
 			<acme:menu-separator/>
 			<acme:menu-suboption code="master.menu.administrator.shut-system-down" action="/administrator/system/shut-down"/>
 			<acme:menu-separator/>
-			<acme:menu-suboption code="master.menu.administrator.list.claim" action="/administrator/claim/list" access="isAuthenticated()"/>
+			<acme:menu-suboption code="master.menu.administrator.list.claim" action="/administrator/claim/list"/>
+			<acme:menu-suboption code="master.menu.administrator.list.airport" action="/administrator/airport/list"/>
+			<acme:menu-suboption code="master.menu.administrator.list.airline" action="/administrator/airline/list"/>
+			<acme:menu-suboption code="master.menu.administrator.list.aircraft" action="/administrator/aircraft/list"/>
 		</acme:menu-option>
 		
 		<acme:menu-option code="master.menu.assistance-agent" access="hasRealm('AssistanceAgent')">
