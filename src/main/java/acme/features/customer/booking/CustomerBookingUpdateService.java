@@ -23,13 +23,40 @@ public class CustomerBookingUpdateService extends AbstractGuiService<Customer, B
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
-		Integer bookingId = super.getRequest().getData("id", int.class);
-		Booking booking = this.customerBookingRepository.findBookingById(bookingId);
-		status = status && booking != null;
-		Integer customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		status = status && booking.getCustomer().getId() == customerId && !booking.getIsPublished();
-		super.getResponse().setAuthorised(status);
+		boolean isAuthorised = false;
+
+		if (super.getRequest().getPrincipal().hasRealmOfType(Customer.class)) {
+			int userId = super.getRequest().getPrincipal().getActiveRealm().getId();
+			int bookingId = super.getRequest().hasData("id") ? super.getRequest().getData("id", int.class) : 0;
+			Booking currentBooking = this.customerBookingRepository.findBookingById(bookingId);
+
+			if (currentBooking != null && !currentBooking.getIsPublished() && currentBooking.getCustomer().getId() == userId) {
+				isAuthorised = true;
+
+				if ("POST".equalsIgnoreCase(super.getRequest().getMethod())) {
+					boolean validFlight = true;
+					boolean validTravelClass = true;
+
+					if (super.getRequest().hasData("flight")) {
+						int flightId = super.getRequest().getData("flight", int.class);
+						if (flightId != 0) {
+							Flight selectedFlight = this.customerBookingRepository.findFlightById(flightId);
+							validFlight = selectedFlight != null && !selectedFlight.getDraftMode();
+						}
+					}
+
+					if (super.getRequest().hasData("travelClass")) {
+						TravelClass selectedClass = super.getRequest().getData("travelClass", TravelClass.class);
+						Collection<TravelClass> availableClasses = this.customerBookingRepository.findAllDistinctTravelClass();
+						validTravelClass = selectedClass == null || availableClasses.contains(selectedClass);
+					}
+
+					isAuthorised = isAuthorised && validFlight && validTravelClass;
+				}
+			}
+		}
+
+		super.getResponse().setAuthorised(isAuthorised);
 	}
 
 	@Override
@@ -67,7 +94,7 @@ public class CustomerBookingUpdateService extends AbstractGuiService<Customer, B
 		SelectChoices travelClasses = SelectChoices.from(TravelClass.class, booking.getTravelClass());
 		Collection<Flight> flights = this.customerBookingRepository.findAllFlight();
 		SelectChoices flightChoices = SelectChoices.from(flights, "id", booking.getFlight());
-		Dataset dataset = super.unbindObject(booking, "flight", "customer", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "published", "id");
+		Dataset dataset = super.unbindObject(booking, "flight", "customer", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "IsPublished", "id");
 		dataset.put("travelClass", travelClasses);
 		dataset.put("flights", flightChoices);
 
