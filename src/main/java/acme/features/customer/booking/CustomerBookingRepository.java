@@ -11,6 +11,7 @@ import acme.client.repositories.AbstractRepository;
 import acme.entities.airports.Airport;
 import acme.entities.bookings.Booking;
 import acme.entities.bookings.BookingPassenger;
+import acme.entities.bookings.TravelClass;
 import acme.entities.flights.Flight;
 import acme.realms.Customer;
 
@@ -25,6 +26,9 @@ public interface CustomerBookingRepository extends AbstractRepository {
 
 	@Query("SELECT b FROM Booking b")
 	List<Booking> findAllBooking();
+
+	@Query("select distinct(b.travelClass) from Booking b")
+	Collection<TravelClass> findAllDistinctTravelClass();
 
 	@Query("SELECT c FROM Customer c WHERE c.userAccount.id = :userAccountId")
 	Customer findCustomerByUserAccountId(Integer userAccountId);
