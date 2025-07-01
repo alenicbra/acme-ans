@@ -3,14 +3,14 @@ booking-01,ABC1233,2017/05/12 13:30,ECONOMY,null,true,customer-01,flight-01
 booking-02,DEF4567,2016/05/12 13:30,BUSINESS,null,false,customer-02,flight-02
 booking-03,GHI7890,2018/08/22 09:15,ECONOMY,1234,true,customer-01,flight-01
 booking-04,Z1X2C3,2015/01/01 00:00,ECONOMY,0000,false,customer-02,flight-02
-booking-05,QAZWSXED,2000/12/31 23:59,BUSINESS,9999,true,customer-01,flight-01
+booking-05,QAZWSXED,2000/01/01 00:00,BUSINESS,9999,true,customer-01,flight-01
 booking-06,ZXCVBNM8,2020/02/29 00:00,BUSINESS,null,true,customer-02,flight-02
 booking-07,LMN4567,2012/11/11 11:11,ECONOMY,0001,false,customer-01,flight-01
 booking-08,POIUYT7,2005/10/05 05:05,BUSINESS,5678,true,customer-02,flight-02
 booking-09,ASDFGH8,2010/03/03 03:03,BUSINESS,4321,true,customer-01,flight-02
 booking-10,BNM1234,2001/01/01 01:01,ECONOMY,8888,false,customer-02,flight-01
 booking-11,WER7890,2000/09/09 09:09,BUSINESS,null,true,customer-01,flight-01
-booking-12,TYU3456,2004/04/04 04:04,ECONOMY,1111,true,customer-02,flight-02
+booking-12,TYU3456,2024/12/31 23:59,ECONOMY,1111,true,customer-02,flight-02
 booking-13,IKL6789,2007/07/07 07:07,ECONOMY,null,true,customer-01,flight-01
 booking-14,OLP4321,2014/06/06 06:06,BUSINESS,7654,false,customer-02,flight-02
 booking-15,HJK0987,2019/12/12 12:12,BUSINESS,null,true,customer-01,flight-01
