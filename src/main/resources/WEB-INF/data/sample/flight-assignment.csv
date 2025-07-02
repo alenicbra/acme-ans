@@ -23,3 +23,12 @@ flight-assignament-13,member-00,leg-06,PILOT,2023/01/01 10:00, CONFIRMED,"Lorem 
 flight-assignament-14,member-00,leg-03,PILOT,2023/01/01 10:00, CONFIRMED,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor*",true
 flight-assignament-15,member-00,leg-02,PILOT,2023/01/01 10:00, CONFIRMED,null,true
 flight-assignament-16,member-00,leg-03,PILOT,2023/01/01 10:00, CONFIRMED,"",true
+
+# base entity
+flight-assignament-17,member-00,leg-12,PILOT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
+# duty - standard variations
+flight-assignament-18,member-01,leg-13,PILOT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",false
+flight-assignament-19,member-02,leg-14,COPILOT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
+flight-assignament-20,member-03,leg-15,LEAD_ATTENDANT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
+flight-assignament-21,member-03,leg-16,CABIN_ATTENDANT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
+flight-assignament-22,member-00,leg-17,CABIN_ATTENDANT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",false
