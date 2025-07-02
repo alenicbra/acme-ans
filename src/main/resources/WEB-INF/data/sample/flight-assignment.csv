@@ -1,11 +1,25 @@
-key,duty,last-updated-moment,current-status,remarks,draft-mode,key:member,key:leg
-flight-assignment-01,"LEAD_ATTENDANT",2017/05/12 14:30,"CONFIRMED","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true,member-01,leg-01
-flight-assignment-02,"PILOT",2017/05/12 14:30,"CONFIRMED","L",true,member-02,leg-01
-flight-assignment-03,"COPILOT",2017/05/12 14:30,"CONFIRMED","Lo",true,member-03,leg-01
-flight-assignment-04,"LEAD_ATTENDANT",2017/06/12 14:30,"CONFIRMED","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",true,member-02,leg-02
-flight-assignment-05,"PILOT",2017/06/12 14:30,"CONFIRMED","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor*",true,member-01,leg-02
-flight-assignment-06,"COPILOT",2017/06/12 14:30,"PENDING","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true,member-03,leg-02
-flight-assignment-07,"LEAD_ATTENDANT",2017/07/12 14:30,"CANCELLED","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true,member-03,leg-03
-flight-assignment-08,"COPILOT",2017/07/12 14:30,"PENDING","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true,member-01,leg-03
-flight-assignment-09,"LEAD_ATTENDANT",2017/08/12 14:30,"PENDING","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true,member-04,leg-04
-flight-assignment-10,"CABIN_ATTENDANT",2017/08/12 14:30,"PENDING","Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true,member-01,leg-04
+key,key:member,key:leg,duty,last-updated-moment,current-status,remarks,draft-mode
+# base entity
+flight-assignament-00,member-00,leg-00,PILOT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
+# duty - standard variations
+flight-assignament-01,member-01,leg-01,PILOT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
+flight-assignament-02,member-02,leg-02,COPILOT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
+flight-assignament-03,member-03,leg-03,LEAD_ATTENDANT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
+flight-assignament-04,member-02,leg-04,CABIN_ATTENDANT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
+flight-assignament-05,member-03,leg-05,PILOT,2023/01/01 10:00, CONFIRMED,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
+# moment - standard variations
+flight-assignament-06,member-00,leg-00,PILOT,2000/01/01 00:00, CONFIRMED,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
+flight-assignament-07,member-01,leg-01,PILOT,2000/01/01 00:01, CONFIRMED,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
+flight-assignament-08,member-02,leg-02,PILOT,2024/12/31 23:59, CONFIRMED,"Past assignment",true
+
+# currentStatus - standard variations
+flight-assignament-09,member-00,leg-04,PILOT,2023/01/01 10:00, PENDING,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
+flight-assignament-10,member-00,leg-05,PILOT,2023/01/01 10:00, CANCELLED,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
+
+# remarks - standard variations
+flight-assignament-11,member-00,leg-06,PILOT,2023/01/01 10:00, CONFIRMED,"L",false
+flight-assignament-12,member-00,leg-07,PILOT,2023/01/01 10:00, CONFIRMED,"Lo",true
+flight-assignament-13,member-00,leg-06,PILOT,2023/01/01 10:00, CONFIRMED,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",true
+flight-assignament-14,member-00,leg-03,PILOT,2023/01/01 10:00, CONFIRMED,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor*",true
+flight-assignament-15,member-00,leg-02,PILOT,2023/01/01 10:00, CONFIRMED,null,true
+flight-assignament-16,member-00,leg-03,PILOT,2023/01/01 10:00, CONFIRMED,"",true

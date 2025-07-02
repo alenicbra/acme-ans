@@ -1,4 +1,72 @@
 key,name,iata-code,website,airline-type,foundation-moment,email,phone-number
-airline-01,"American Airlines","AAL","https://www.aa.com",LUXURY,2000/04/15 00:00,airline.one@example.com,+12125551234
-airline-02,"Lufthansa","DLH","https://www.lufthansa.com",STANDARD,2000/01/06 05:00,airline.two@example.com,+491771234567
-airline-03,"Emirates","UAE","https://www.emirates.com",LOWCOST,2000/03/25 10:00,airline.three@example.com,
+# base entity
+airline-00,"Airline One","ALO","https://www.airlineone.com","STANDARD","2010/06/15 12:00","contact@airlineone.com","+123456789"
+
+# name - standard variations
+airline-01,"A","BOS","https://www.testair.com","LOWCOST","2005/03/10 08:30","test@air.com","+44123456"
+airline-02,"Airline with an exceptionally long name","ABC","https://www.longnameair.com","LUXURY","2000/11/30 16:45","long@air.com","+19876543210"
+airline-03,"<script>alert('Hacked');</script>","DEF","https://www.injectair.com","STANDARD","2000/01/01 00:00","inject@air.com","+551234567890"
+
+# iataCode - standard variations
+airline-04,"Test Air","XYZ","https://www.testair.com","STANDARD","2003/05/05 05:05","test@air.com","+1123456"
+airline-05,"Budget Air","LOW","https://www.budgetair.com","LOWCOST","2007/07/07 07:07","budget@air.com","+331234567"
+airline-06,"Alpha Air","AAA","https://www.alphaair.com","LUXURY","2012/12/12 12:12","alpha@air.com","+441234567890"
+
+# website - standard variations
+airline-07,"WebAir","WEB","http://www.webair.com","STANDARD","2000/01/01 00:00","web@air.com","+551234567"
+airline-08,"FTP Air","FTP","http://a.b","LOWCOST","2005/05/05 05:05","ftp@air.com","+661234567890"
+airline-09,"FTP No TLD","FNT","http://lorem.com/ipsum","STANDARD","2005/05/05 05:05","notld@air.com","+661234567890"
+airline-19,"Alpha Eir","AAZ","https://www.alphaair.esx","LUXURY","2012/12/12 12:12","alpha@eir.com","+441234567820"
+
+# type - standard variations
+airline-10,"Luxury Wings","LUX","https://www.luxurywings.com","LUXURY","2008/08/08 08:08","lux@air.com","+771234567890"
+airline-11,"Standard Flyer","STD","https://www.standardflyer.com","STANDARD","2010/10/10 10:10","std@air.com","+881234567"
+airline-12,"Low Cost Jet","LCJ","https://www.lowcostjet.com","LOWCOST","2014/04/04 04:04","low@air.com","+991234567"
+
+# foundationMoment - standard variations
+airline-13,"History Air","HIS","https://www.historyair.com","STANDARD","2000/01/01 00:00","history@air.com","+123456789"
+airline-14,"Recent Air","REC","https://www.recentair.com","LOWCOST","2024/12/31 23:59","recent@air.com","+987654321"
+
+# email - standard variations
+airline-15,"NoEmail Air","NOE","https://www.noemailair.com","LUXURY","2003/03/03 03:03","a@email.ftp","+123123123"
+airline-16,"Valid Email Air","EMA","https://www.validemailair.com","STANDARD","2004/04/04 04:04","contact@validemail.com","+456456456"
+
+# phoneNumber - standard variations
+airline-17,"Phone Air","PHN","https://www.phoneair.com","LOWCOST","2006/06/06 06:06","phone@air.com","+123456"
+airline-18,"NoPhone Air","NPH","https://www.nophoneair.com","STANDARD","2007/07/07 07:07","nophone@air.com","+123456"
+
+# non-latin name / email tests
+airline-20,"โลเร็ม อิปซัม Airlines","LRM","http://a.b","LOWCOST","2004/03/03 03:03","lorem@โลเร็ม.org","+999999999"
+airline-21,"لوريم إيبسوم Flight","LRE","http://example.org?a=1&b=2","LUXURY","2010/03/03 03:03","لوريم@إيبسوم.org","+888888888"
+airline-22,"洛伦·伊普森","CHI","https://www.lorem-ipsum.org/dolor/sit.html#dolor","STANDARD","2011/05/05 05:05","contact@洛伦.com","+777777777"
+airline-23,"ロレム・イプサム","JPN","http://example.org?a&b","LOWCOST","2012/06/06 06:06","lorem@ロレム.jp","+666666666"
+
+# additional email variations
+airline-24,"Test Email 1","TEE","http://example.org/email1","STANDARD","2010/01/01 01:01","acme@lorem-ipsum.org","+111111111"
+airline-25,"Test Email 2","TED","http://example.org/email2","LOWCOST","2011/02/02 02:02","acmepassword@lorem-ipsum.org","+222222222"
+airline-26,"Test Email 3","TEG","http://example.org/email3","LUXURY","2012/03/03 03:03","a@b.e","+333333333"
+airline-27,"Test Email 4","TEC","http://example.org/email4","STANDARD","2013/04/04 04:04","a@b.es","+444444444"
+airline-28,"Test Email 5","TEA","http://example.org/email5","LOWCOST","2014/05/05 05:05","a@b.esx","+555555555"
+airline-29,"Test Email 6","TEP","http://example.org/email6","LUXURY","2015/06/06 06:06","lorem-ipsum@dolor.sit.amet.consectetur.adipiscing.elit.sed.do.eiusmod.tempor.incididunt.ut.labore.et.dolore.magna.aliqua.Ut.enim.ad.minim.veniam.quis.nostrud.exercitation.ullamco.laboris.nisi.ut.aliquip.ex.ea.commodo.consequat.duis.aute.irure.doloris.edu","+666666666"
+airline-30,"Test Email 7","TEV","http://example.org/email7","STANDARD","2016/07/07 07:07","lorem-ipsum@dolor.sit.amet.consectetur.adipiscing.elit.sed.do.eiusmod.tempor.incididunt.ut.labore.et.dolore.magna.aliqua.Ut.enim.ad.minim.veniam.quis.nostrud.exercitation.ullamco.laboris.nisi.ut.aliquip.ex.ea.commodo.consequat.duis.aute.irure.dolor.es.org","+777777777"
+
+# additional website variations (19 new URLs requested)
+airline-31,"URL Test 1","APP","http://lorem.com/ipsum","STANDARD","2016/01/01 00:00","url1@air.com","+310000000"
+airline-32,"URL Test 2","AAB","http://a.b","LOWCOST","2016/01/02 00:00","url2@air.com","+320000000"
+airline-33,"URL Test 3","AAC","http://a.b","LUXURY","2016/01/03 00:00","url3@air.com","+330000000"
+airline-34,"URL Test 4","AAD","http://www.lorem-ipsum.org/dolor/sit/amet,/consectetur/adipiscing/elit,/sed/do/eiusmod/tempor/incididunt/ut/labore/et/dolore/magna/aliqua/Ut/enim/ad/minim/veniam/quis/nostrud/exercitation/ullamco/laboris/nisi/ut/aliquip/ex/ea/commodo/consequat/duis/aute/","STANDARD","2016/01/04 00:00","url4@air.com","+340000000"
+airline-35,"URL Test 5","AAE","http://www.lorem-ipsum.org/dolor/sit/amet,/consectetur/adipiscing/elit,/sed/do/eiusmod/tempor/incididunt/ut/labore/et/dolore/magna/aliqua/Ut/enim/ad/minim/veniam/quis/nostrud/exercitation/ullamco/laboris/nisi/ut/aliquip/ex/ea/commodo/consequat/duis/aute/X","LOWCOST","2016/01/05 00:00","url5@air.com","+350000000"
+airline-36,"URL Test 6","AAF","https://www.lorem-ipsum.org","LUXURY","2016/01/06 00:00","url6@air.com","+360000000"
+airline-37,"URL Test 7","AAG","http://www.lorem-ipsum.org","STANDARD","2016/01/07 00:00","url7@air.com","+370000000"
+airline-38,"URL Test 8","AAH","http://www.lorem-ipsum.org/dolor/sit.html","LOWCOST","2016/01/08 00:00","url8@air.com","+380000000"
+airline-39,"URL Test 9","AAI","http://www.lorem-ipsum.org/dolor/sit.html#dolor","LUXURY","2016/01/09 00:00","url9@air.com","+390000000"
+airline-40,"URL Test 10","AAJ","http://example.org?a=1&b=2","STANDARD","2016/01/10 00:00","url10@air.com","+400000000"
+airline-41,"URL Test 11","AAK","http://example.org?","LOWCOST","2016/01/11 00:00","url11@air.com","+410000000"
+airline-42,"URL Test 12","AAL","http://example.org?a","LUXURY","2016/01/12 00:00","url12@air.com","+420000000"
+airline-43,"URL Test 13","AAM","http://example.org?a&b","STANDARD","2016/01/13 00:00","url13@air.com","+430000000"
+airline-44,"URL Test 14","AAN","http://example.org/","LOWCOST","2016/01/14 00:00","url14@air.com","+440000000"
+airline-45,"URL Test 15","AAO","http://example.org/a","LUXURY","2016/01/15 00:00","url15@air.com","+450000000"
+airline-46,"URL Test 16","AAP","http://example.org/a/b","STANDARD","2016/01/16 00:00","url16@air.com","+460000000"
+airline-47,"URL Test 17","AAQ","http://example.org/a/b?","LOWCOST","2016/01/17 00:00","url17@air.com","+470000000"
+airline-48,"URL Test 18","AAR","http://example.org/a/b?a&b","LUXURY","2016/01/18 00:00","url18@air.com","+480000000"
+airline-49,"URL Test 19","AAS","http://example.org/a","STANDARD","2016/01/19 00:00","url19@air.com","+490000000"
