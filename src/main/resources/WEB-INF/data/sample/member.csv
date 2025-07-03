@@ -1,6 +1,6 @@
 key,key:userAccount,employee-code,phone-number,language-skills,availability-status,key:airline,salary,years-of-experience
 # base entity
-member-00,user-account-member-01,II000000,+11234567890,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*","AVAILABLE",airline-00,EUR 500000.00,20
+member-00,user-account-member-01,II000000,+11234567890,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*","AVAILABLE",airline-01,EUR 500000.00,20
 member-01,user-account-member-02,LX000000,+123456,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*","AVAILABLE",airline-00,EUR 500000.00,20
 member-02,user-account-member-03,AA000000,+123456763,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*","AVAILABLE",airline-00,EUR 500000.00,20
 member-03,user-account-member-04,TA000000,+11111111111111,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*","AVAILABLE",airline-00,EUR 500000.00,20

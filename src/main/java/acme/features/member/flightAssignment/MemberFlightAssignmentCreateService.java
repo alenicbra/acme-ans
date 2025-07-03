@@ -96,15 +96,10 @@ public class MemberFlightAssignmentCreateService extends AbstractGuiService<Memb
 		SelectChoices legChoice;
 		Collection<Leg> legs;
 
-		int memberId;
-		int airlineId;
-
 		dutyChoice = SelectChoices.from(Duty.class, fa.getDuty());
 		currentStatusChoice = SelectChoices.from(CurrentStatus.class, fa.getCurrentStatus());
 
-		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		airlineId = this.repository.findAirlineIdByMemberId(memberId);
-		legs = this.repository.findLegsByAirlineId(airlineId);
+		legs = this.repository.findAllLegs();
 		legChoice = SelectChoices.from(legs, "flightNumberNumber", fa.getLeg());
 
 		dataset = super.unbindObject(fa, "duty", "lastUpdatedMoment", "currentStatus", "remarks", "draftMode", "leg", "member");

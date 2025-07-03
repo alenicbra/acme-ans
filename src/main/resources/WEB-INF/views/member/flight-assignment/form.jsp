@@ -12,16 +12,27 @@
 	<acme:input-select code="member.flight-assignment.form.label.leg" path="leg" choices="${legChoice}"/>
 
 	<jstl:choose>
-		<jstl:when test="${_command == 'show' && draftMode == false}">
-			<acme:button code="member.flight-assignment.form.button.activity-log" action="/member/activity-log/list?masterId=${id}"/>
-			<acme:button code="member.flight-assignment.form.button.leg" action="/flight-crew-member/leg/show?id=${legId}"/>
-		</jstl:when>
-		<jstl:when test="${acme:anyOf(_command, 'show|update|delete|publish') && draftMode == true}">
+		<jstl:when test="${acme:anyOf(_command, 'show|update|publish') && draftMode == true && isCompleted == false}">
 			<acme:submit code="member.flight-assignment.form.button.update" action="/member/flight-assignment/update"/>
 			<acme:submit code="member.flight-assignment.form.button.delete" action="/member/flight-assignment/delete"/>
 			<acme:submit code="member.flight-assignment.form.button.publish" action="/member/flight-assignment/publish"/>
+		</jstl:when>
+		
+		<jstl:when test="${acme:anyOf(_command, 'show|update|publish')  && isCompleted==true && draftMode ==true}">
+			<acme:submit code="member.flight-assignment.form.button.update" action="/member/flight-assignment/update"/>
+			<acme:submit code="member.flight-assignment.form.button.delete" action="/member/flight-assignment/delete"/>
 			<acme:button code="member.flight-assignment.form.button.activity-log" action="/member/activity-log/list?masterId=${id}"/>
 		</jstl:when>
+		
+		<jstl:when test="${acme:anyOf(_command, 'show|update|publish')  && isCompleted==true && draftMode ==false}">
+			<acme:button code="member.flight-assignment.form.button.activity-log" action="/member/activity-log/list?masterId=${id}"/>
+		</jstl:when>
+		
+		<jstl:when test="${acme:anyOf(_command, 'show|update|publish') && draftMode == true && isCompleted==false}">
+			<acme:submit code="member.flight-assignment.form.button.update" action="/member/flight-assignment/update"/>
+			<acme:submit code="member.flight-assignment.form.button.delete" action="/member/flight-assignment/delete"/>
+		</jstl:when>
+		
 		<jstl:when test="${_command == 'create'}">
 			<acme:submit code="member.flight-assignment.form.button.create" action="/member/flight-assignment/create"/>
 		</jstl:when>		
