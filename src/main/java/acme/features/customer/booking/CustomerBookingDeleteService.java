@@ -25,28 +25,17 @@ public class CustomerBookingDeleteService extends AbstractGuiService<Customer, B
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getMethod().equals("POST");
+		boolean status;
+		Booking b;
+		int bId;
+		int customerId;
 
-		try {
+		bId = super.getRequest().getData("id", int.class);
+		b = this.customerBookingRepository.findBookingById(bId);
+		customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
-			Integer customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-			Integer bookingId = super.getRequest().getData("id", Integer.class);
-			Booking booking = this.customerBookingRepository.findBookingById(bookingId);
-			status = status && booking != null && customerId == booking.getCustomer().getId() && !booking.getIsPublished();
-
-		} catch (Throwable E) {
-			status = false;
-		}
-
+		status = b != null && b.getCustomer().getId() == customerId;
 		super.getResponse().setAuthorised(status);
-	}
-
-	@Override
-	public void load() {
-		int bookingId = super.getRequest().getData("bookingId", int.class);
-		Booking booking = this.customerBookingRepository.findBookingById(bookingId);
-
-		super.getBuffer().addData(booking);
 	}
 
 	@Override
@@ -59,6 +48,13 @@ public class CustomerBookingDeleteService extends AbstractGuiService<Customer, B
 		List<BookingPassenger> bookingPassengers = (List<BookingPassenger>) this.customerBookingRepository.findAllBookingPassengersByBookingId(booking.getId());
 		super.state(bookingPassengers.isEmpty(), "*", "customer.booking.form.error.existingPassengers");
 
+	}
+
+	@Override
+	public void load() {
+		int id = super.getRequest().getData("id", int.class);
+		Booking booking = this.customerBookingRepository.findBookingById(id);
+		super.getBuffer().addData(booking);
 	}
 
 	@Override
