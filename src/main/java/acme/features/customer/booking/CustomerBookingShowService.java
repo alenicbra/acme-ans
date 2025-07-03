@@ -74,9 +74,6 @@ public class CustomerBookingShowService extends AbstractGuiService<Customer, Boo
 
 		dataset.put("passengers", passengers);
 
-		dataset.put("city", booking.getFlight().destination());
-		dataset.put("country", this.customerBookingRepository.findDestinationAirportByFlightId(booking.getFlight().getId()).getCountry());
-
 		super.getResponse().addData(dataset);
 	}
 
