@@ -50,21 +50,16 @@ public class AssistanceAgentTrackingLogDeleteService extends AbstractGuiService<
 
 	@Override
 	public void bind(final TrackingLog object) {
-		assert object != null;
-
 		super.bindObject(object, "lastUpdateMoment", "step", "resolutionPercentage", "resolutionReason", "indicator");
 	}
 
 	@Override
 	public void validate(final TrackingLog object) {
-		assert object != null;
 
 	}
 
 	@Override
 	public void perform(final TrackingLog object) {
-		assert object != null;
-
 		this.repository.delete(object);
 	}
 

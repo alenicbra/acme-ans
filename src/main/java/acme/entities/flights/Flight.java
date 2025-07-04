@@ -69,6 +69,11 @@ public class Flight extends AbstractEntity {
 
 
 	@Transient
+	public String getFlightSummary() {
+		return this.getTag() + " == " + this.origin() + " -> " + this.destination() + " --- " + this.scheduledDeparture() + " // " + this.scheduledArrival();
+	}
+
+	@Transient
 	public Date scheduledDeparture() {
 		AirlineManagerLegRepository repository = SpringHelper.getBean(AirlineManagerLegRepository.class);
 		Leg first = repository.findFirstLegByFlightIdOrderByScheduledDeparture(this.getId());

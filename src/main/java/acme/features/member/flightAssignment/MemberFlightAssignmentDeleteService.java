@@ -53,7 +53,7 @@ public class MemberFlightAssignmentDeleteService extends AbstractGuiService<Memb
 
 	@Override
 	public void bind(final FlightAssignment fa) {
-		super.bindObject(fa, "duty", "lastUpdatedMoment", "currentStatus", "remarks", "leg", "member");
+		;
 	}
 
 	@Override
@@ -79,23 +79,23 @@ public class MemberFlightAssignmentDeleteService extends AbstractGuiService<Memb
 		SelectChoices legChoice;
 		Collection<Leg> legs;
 
-		SelectChoices memberChoice;
-		Collection<Member> members;
+		int memberId;
+		int airlineId;
 
 		dutyChoice = SelectChoices.from(Duty.class, fa.getDuty());
 		currentStatusChoice = SelectChoices.from(CurrentStatus.class, fa.getCurrentStatus());
-
-		legs = this.repository.findAllLegs();
+		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		airlineId = this.repository.findAirlineIdByMemberId(memberId);
+		legs = this.repository.findLegsByAirlineId(airlineId);
 		legChoice = SelectChoices.from(legs, "flightNumberNumber", fa.getLeg());
 
-		members = this.repository.findAllMembers();
-		memberChoice = SelectChoices.from(members, "employeeCode", fa.getMember());
-
-		dataset = super.unbindObject(fa, "duty", "lastUpdatedMoment", "currentStatus", "remarks", "draftMode", "leg", "member");
+		dataset = super.unbindObject(fa, "duty", "lastUpdatedMoment", "currentStatus", "remarks", "draftMode");
 		dataset.put("dutyChoice", dutyChoice);
 		dataset.put("currentStatusChoice", currentStatusChoice);
 		dataset.put("legChoice", legChoice);
-		dataset.put("memberChoice", memberChoice);
+		dataset.put("member", fa.getMember().getEmployeeCode());
+		dataset.put("legId", legChoice.getSelected().getKey());
+		dataset.put("memberId", fa.getMember().getId());
 
 		super.getResponse().addData(dataset);
 	}

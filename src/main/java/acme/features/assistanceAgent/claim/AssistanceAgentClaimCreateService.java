@@ -30,10 +30,34 @@ public class AssistanceAgentClaimCreateService extends AbstractGuiService<Assist
 	@Override
 	public void authorise() {
 		AssistanceAgent assistanceAgent;
-		boolean status;
+		boolean status = false;
+		boolean bool = true;
+		int legId;
+		Leg leg;
+
+		if (super.getRequest().getMethod().equals("GET"))
+			bool = true;
+		else {
+			legId = super.getRequest().getData("leg", int.class);
+			leg = this.repository.findLegById(legId);
+
+			boolean isLegValid = leg != null;
+
+			if (isLegValid) {
+				boolean isLegNotDraft = !leg.getDraftMode();
+				if (isLegNotDraft) {
+					boolean isFlightNotDraft = !leg.getFlight().getDraftMode();
+					bool = isFlightNotDraft;
+				} else
+					bool = isLegNotDraft;
+			}
+		}
 
 		assistanceAgent = (AssistanceAgent) super.getRequest().getPrincipal().getActiveRealm();
-		status = super.getRequest().getPrincipal().hasRealm(assistanceAgent);
+		if (super.getRequest().getPrincipal().hasRealm(assistanceAgent))
+			if (bool)
+				status = true;
+
 		super.getResponse().setAuthorised(status);
 	}
 
@@ -69,6 +93,7 @@ public class AssistanceAgentClaimCreateService extends AbstractGuiService<Assist
 	public void validate(final Claim object) {
 		if (!super.getBuffer().getErrors().hasErrors("indicator"))
 			super.state(object.getIndicator() == IndicatorType.IN_PROGRESS, "indicator", "assistanceAgent.claim.form.error.indicator-in-progress");
+
 	}
 
 	@Override

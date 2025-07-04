@@ -32,6 +32,11 @@
 			<acme:menu-suboption code="master.menu.administrator.populate-db-sample" action="/administrator/system/populate-sample"/>			
 			<acme:menu-separator/>
 			<acme:menu-suboption code="master.menu.administrator.shut-system-down" action="/administrator/system/shut-down"/>
+			<acme:menu-separator/>
+			<acme:menu-suboption code="master.menu.administrator.list.claim" action="/administrator/claim/list"/>
+			<acme:menu-suboption code="master.menu.administrator.list.airport" action="/administrator/airport/list"/>
+			<acme:menu-suboption code="master.menu.administrator.list.airline" action="/administrator/airline/list"/>
+			<acme:menu-suboption code="master.menu.administrator.list.aircraft" action="/administrator/aircraft/list"/>
 		</acme:menu-option>
 		
 		<acme:menu-option code="master.menu.assistance-agent" access="hasRealm('AssistanceAgent')">
@@ -56,11 +61,19 @@
 			<acme:menu-suboption code="master.menu.member.list-flight-assignments-completed" action="/member/flight-assignment/list"/>
 			<acme:menu-suboption code="master.menu.member.list-flight-assignments-planned" action="/member/flight-assignment/list-planned"/>
 		</acme:menu-option>
+		
+		<acme:menu-option code="master.menu.customer" access="hasRealm('Customer')">
+			<acme:menu-suboption code="master.menu.customer.booking.list" action="/customer/booking/list"/>
+			<acme:menu-suboption code="master.menu.customer.passenger.list" action="/customer/passenger/list"/>
+		</acme:menu-option>
+		
 	</acme:menu-left>
 
 	<acme:menu-right>		
 		<acme:menu-option code="master.menu.user-account" access="isAuthenticated()">
 			<acme:menu-suboption code="master.menu.user-account.general-profile" action="/authenticated/user-account/update"/>
+			<acme:menu-suboption code="master.menu.user-account.become-assistance-agent" action="/authenticated/assistance-agent/create" access="!hasRealm('AssistanceAgent')"/>
+			<acme:menu-suboption code="master.menu.user-account.assistance-agent-profile" action="/authenticated/assistance-agent/update" access="hasRealm('AssistanceAgent')"/>
 			<acme:menu-suboption code="master.menu.user-account.become-provider" action="/authenticated/provider/create" access="!hasRealm('Provider')"/>
 			<acme:menu-suboption code="master.menu.user-account.provider-profile" action="/authenticated/provider/update" access="hasRealm('Provider')"/>
 			<acme:menu-suboption code="master.menu.user-account.become-consumer" action="/authenticated/consumer/create" access="!hasRealm('Consumer')"/>

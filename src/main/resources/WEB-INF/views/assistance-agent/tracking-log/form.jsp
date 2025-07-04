@@ -16,11 +16,22 @@
 <%@taglib prefix="acme" uri="http://acme-framework.org/"%>
 
 <acme:form> 
-	<acme:input-moment code="assistanceAgent.trackingLog.form.label.lastUpdateMoment" path="lastUpdateMoment" readonly="true"/>
-	<acme:input-textbox code="assistanceAgent.trackingLog.form.label.step" path="step"/>
-	<acme:input-double code="assistanceAgent.trackingLog.form.label.resolutionPercentage" path="resolutionPercentage"/>
-	<acme:input-textbox code="assistanceAgent.trackingLog.form.label.resolutionReason" path="resolutionReason"/>
-	<acme:input-select code="assistanceAgent.trackingLog.form.label.indicator" path="indicator" choices="${indicators}"/>
+	<jstl:choose>
+		<jstl:when test="${!exceptionalCase}">
+			<acme:input-moment code="assistanceAgent.trackingLog.form.label.lastUpdateMoment" path="lastUpdateMoment" readonly="true"/>
+			<acme:input-textbox code="assistanceAgent.trackingLog.form.label.step" path="step"/>
+			<acme:input-double code="assistanceAgent.trackingLog.form.label.resolutionPercentage" path="resolutionPercentage"/>
+			<acme:input-textbox code="assistanceAgent.trackingLog.form.label.resolutionReason" path="resolutionReason"/>
+			<acme:input-select code="assistanceAgent.trackingLog.form.label.indicator" path="indicator" choices="${indicators}"/>
+		</jstl:when>
+		<jstl:when test="${exceptionalCase}">
+			<acme:input-moment code="assistanceAgent.trackingLog.form.label.lastUpdateMoment" path="lastUpdateMoment" readonly="true"/>
+			<acme:input-textbox code="assistanceAgent.trackingLog.form.label.step" path="step"/>
+			<acme:input-double code="assistanceAgent.trackingLog.form.label.resolutionPercentage" path="resolutionPercentage" readonly="true"/>
+			<acme:input-textbox code="assistanceAgent.trackingLog.form.label.resolutionReason" path="resolutionReason"/>
+			<acme:input-textbox code="assistanceAgent.trackingLog.form.label.indicator" path="indicator" readonly="true"/>
+		</jstl:when>
+	</jstl:choose>	
 
 	<jstl:choose>
 		<jstl:when test="${acme:anyOf(_command, 'show|update|delete|publish') && draftMode}">

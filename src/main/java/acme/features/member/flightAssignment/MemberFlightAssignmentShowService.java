@@ -2,11 +2,13 @@
 package acme.features.member.flightAssignment;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
+import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.flightAssignments.CurrentStatus;
@@ -30,11 +32,11 @@ public class MemberFlightAssignmentShowService extends AbstractGuiService<Member
 	public void authorise() {
 		boolean status;
 		FlightAssignment fa;
-		Member member;
+		int memberId;
 
 		fa = this.repository.findFlightAssignmentById(super.getRequest().getData("id", int.class));
-		member = fa == null ? null : fa.getMember();
-		status = super.getRequest().getPrincipal().hasRealm(member) || fa != null && fa.isDraftMode();
+		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		status = fa != null && fa.getMember().getId() == memberId;
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -59,25 +61,24 @@ public class MemberFlightAssignmentShowService extends AbstractGuiService<Member
 		SelectChoices legChoice;
 		Collection<Leg> legs;
 
-		SelectChoices memberChoice;
-		Collection<Member> members;
-
 		dutyChoice = SelectChoices.from(Duty.class, fa.getDuty());
 		currentStatusChoice = SelectChoices.from(CurrentStatus.class, fa.getCurrentStatus());
-
 		legs = this.repository.findAllLegs();
 		legChoice = SelectChoices.from(legs, "flightNumberNumber", fa.getLeg());
 
-		members = this.repository.findAllMembers();
-		memberChoice = SelectChoices.from(members, "employeeCode", fa.getMember());
+		Date currentMoment;
+		boolean isCompleted;
+		currentMoment = MomentHelper.getCurrentMoment();
+		isCompleted = this.repository.areLegsCompletedByFlightAssignament(fa.getId(), currentMoment);
 
 		dataset = super.unbindObject(fa, "duty", "lastUpdatedMoment", "currentStatus", "remarks", "draftMode", "leg", "member");
 		dataset.put("dutyChoice", dutyChoice);
 		dataset.put("currentStatusChoice", currentStatusChoice);
-		dataset.put("leadDuty", Duty.LEAD_ATTENDANT);
 		dataset.put("legChoice", legChoice);
-		dataset.put("memberChoice", memberChoice);
-
+		dataset.put("member", fa.getMember().getEmployeeCode());
+		dataset.put("legId", legChoice.getSelected().getKey());
+		dataset.put("memberId", fa.getMember().getId());
+		dataset.put("isCompleted", isCompleted);
 		super.getResponse().addData(dataset);
 	}
 

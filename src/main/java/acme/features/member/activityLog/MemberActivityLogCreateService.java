@@ -25,15 +25,15 @@ public class MemberActivityLogCreateService extends AbstractGuiService<Member, A
 	@Override
 	public void authorise() {
 		boolean status;
-		ActivityLog al;
-		int alId;
+		int masterId;
+		FlightAssignment assignment;
 		int memberId;
 
-		alId = super.getRequest().getData("id", int.class);
-		al = this.repository.findActivityLogById(alId);
+		masterId = super.getRequest().getData("masterId", int.class);
+		assignment = this.repository.findFlightAssignmentById(masterId);
 		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		status = assignment != null && assignment.getMember().getId() == memberId;
 
-		status = al != null && al.getFlightAssignment().getMember().getId() == memberId;
 		super.getResponse().setAuthorised(status);
 	}
 
@@ -48,7 +48,6 @@ public class MemberActivityLogCreateService extends AbstractGuiService<Member, A
 
 		al = new ActivityLog();
 		al.setFlightAssignment(fa);
-		al.setRegistrationMoment(MomentHelper.getCurrentMoment());
 		al.setDraftMode(true);
 
 		super.getBuffer().addData(al);
@@ -56,7 +55,15 @@ public class MemberActivityLogCreateService extends AbstractGuiService<Member, A
 
 	@Override
 	public void bind(final ActivityLog al) {
-		super.bindObject(al, "registrationMoment", "typeOfIncident", "description", "severityLevel");
+		int masterId;
+		FlightAssignment assignment;
+
+		masterId = super.getRequest().getData("masterId", int.class);
+		assignment = this.repository.findFlightAssignmentById(masterId);
+		super.bindObject(al, "typeOfIncident", "description", "severityLevel");
+		al.setDraftMode(true);
+		al.setFlightAssignment(assignment);
+		al.setRegistrationMoment(MomentHelper.getCurrentMoment());
 	}
 
 	@Override
@@ -73,8 +80,8 @@ public class MemberActivityLogCreateService extends AbstractGuiService<Member, A
 	public void unbind(final ActivityLog al) {
 		Dataset dataset;
 
-		dataset = super.unbindObject(al, "registrationMoment", "typeOfIncident", "description", "severityLevel", "flightAssignment", "draftMode");
-		dataset.put("masterId", super.getRequest().getData("masterId", int.class));
+		dataset = super.unbindObject(al, "registrationMoment", "typeOfIncident", "description", "severityLevel", "flightAssignment");
+		dataset.put("draftMode", true);
 
 		super.getResponse().addData(dataset);
 	}

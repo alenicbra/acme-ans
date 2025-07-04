@@ -6,7 +6,9 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.Index;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -24,6 +26,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
+@Table(name = "TrackingLog", indexes = {
+	@Index(columnList = "claim_id"), 
+	@Index(columnList = "lastUpdateMoment"), 
+	@Index(columnList = "indicator"), 
+	@Index(columnList = "resolutionPercentage")
+})
 @Getter
 @Setter
 public class TrackingLog extends AbstractEntity {
