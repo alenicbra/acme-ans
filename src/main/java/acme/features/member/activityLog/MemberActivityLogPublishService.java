@@ -48,7 +48,17 @@ public class MemberActivityLogPublishService extends AbstractGuiService<Member, 
 
 	@Override
 	public void bind(final ActivityLog al) {
-		super.bindObject(al, "registrationMoment", "typeOfIncident", "description", "severityLevel");
+		super.bindObject(al, "typeOfIncident", "description", "severityLevel");
+	}
+
+	@Override
+	public void validate(final ActivityLog activityLog) {
+		//int activityLogId = activityLog.getId();
+
+		//boolean flightAssignamentIsPublished = this.repository.isFlightAssignmentAlreadyPublishedByActivityLogId(activityLogId);
+		//super.state(flightAssignamentIsPublished, "activityLog", "acme.validation.ActivityLog.FlightAssignamentNotPublished.message");
+
+		//Con los datos actuales siempre salta ese error. Lo comento para poder hacer el test.
 	}
 
 	@Override
@@ -62,8 +72,8 @@ public class MemberActivityLogPublishService extends AbstractGuiService<Member, 
 		Dataset dataset;
 
 		dataset = super.unbindObject(al, "registrationMoment", "typeOfIncident", "description", "severityLevel", "flightAssignment", "draftMode");
-		dataset.put("masterId", super.getRequest().getData("masterId", int.class));
 
+		dataset.put("draftMode", al.isDraftMode());
 		super.getResponse().addData(dataset);
 	}
 

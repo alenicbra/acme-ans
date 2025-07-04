@@ -66,10 +66,21 @@ public class AirlineManagerLegCreateService extends AbstractGuiService<AirlineMa
 	@Override
 	public void validate(final Leg leg) {
 
+		if (leg.getDepartureAirport() == null) {
+			boolean stateDeparture = leg.getDepartureAirport() == null;
+			super.state(!stateDeparture, "departure", "acme.validation.leg.null");
+		}
+
+		if (leg.getArrivalAirport() == null) {
+			boolean stateArrival = leg.getArrivalAirport() == null;
+			super.state(!stateArrival, "arrival", "acme.validation.leg.null");
+		}
+
 		if (leg.getDepartureAirport() != null && leg.getArrivalAirport() != null) {
 			boolean areAirportsEquals = leg.getDepartureAirport().equals(leg.getArrivalAirport());
 			super.state(!areAirportsEquals, "*", "acme.validation.leg.sameAirports.message");
 		}
+
 	}
 
 	@Override

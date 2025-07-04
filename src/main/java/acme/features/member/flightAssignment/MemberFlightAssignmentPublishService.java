@@ -16,7 +16,6 @@ import acme.entities.flightAssignments.Duty;
 import acme.entities.flightAssignments.FlightAssignment;
 import acme.entities.legs.Leg;
 import acme.realms.Member;
-import acme.realms.Member.AvailabilityStatus;
 
 @GuiService
 public class MemberFlightAssignmentPublishService extends AbstractGuiService<Member, FlightAssignment> {
@@ -74,25 +73,20 @@ public class MemberFlightAssignmentPublishService extends AbstractGuiService<Mem
 	@Override
 	public void bind(final FlightAssignment fa) {
 		int legId;
+		int memberId;
 
 		legId = super.getRequest().getData("leg", int.class);
 		Leg leg = this.repository.findLegById(legId);
-		super.bindObject(fa, "duty", "lastUpdatedMoment", "currentStatus", "remarks");
+		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		super.bindObject(fa, "duty", "currentStatus", "remarks");
 		fa.setLeg(leg);
-		fa.setLastUpdatedMoment(MomentHelper.getCurrentMoment());
+		fa.setMember(this.repository.findMemberById(memberId));
 	}
 
 	@Override
 	public void validate(final FlightAssignment assignment) {
 
 		if (assignment.getLeg() != null) {
-			boolean notCompletedLeg;
-			Date currentMoment = MomentHelper.getCurrentMoment();
-
-			notCompletedLeg = MomentHelper.isAfter(assignment.getLeg().getScheduledArrival(), currentMoment);
-
-			super.state(notCompletedLeg, "leg", "acme.validation.flight-assignment.completed-leg.message");
-
 			boolean notSimultaneousAssignment;
 			Collection<FlightAssignment> assignments = this.repository.findAssignmentsByMemberId(assignment.getMember().getId());
 
@@ -122,17 +116,12 @@ public class MemberFlightAssignmentPublishService extends AbstractGuiService<Mem
 
 		}
 
-		boolean availableMember;
-
-		availableMember = assignment.getMember().getAvailabilityStatus().equals(AvailabilityStatus.AVAILABLE);
-
-		super.state(availableMember, "*", "acme.validation.flight-assignment.not-available-crew-member.message");
-
 	}
 
 	@Override
 	public void perform(final FlightAssignment assignment) {
 		assignment.setDraftMode(false);
+		assignment.setLastUpdatedMoment(MomentHelper.getCurrentMoment());
 		this.repository.save(assignment);
 	}
 
@@ -155,6 +144,11 @@ public class MemberFlightAssignmentPublishService extends AbstractGuiService<Mem
 		legs = this.repository.findLegsByAirlineId(airlineId);
 		legChoice = SelectChoices.from(legs, "flightNumberNumber", fa.getLeg());
 
+		Date currentMoment;
+		currentMoment = MomentHelper.getCurrentMoment();
+		boolean isCompleted;
+		isCompleted = this.repository.areLegsCompletedByFlightAssignament(fa.getId(), currentMoment);
+
 		dataset = super.unbindObject(fa, "duty", "lastUpdatedMoment", "currentStatus", "remarks", "draftMode", "leg", "member");
 		dataset.put("dutyChoice", dutyChoice);
 		dataset.put("currentStatusChoice", currentStatusChoice);
@@ -167,6 +161,7 @@ public class MemberFlightAssignmentPublishService extends AbstractGuiService<Mem
 		dataset.put("notCompletedLeg", false);
 		dataset.put("legId", legChoice.getSelected().getKey());
 		dataset.put("memberId", fa.getMember().getId());
+		dataset.put("isCompleted", isCompleted);
 
 		super.getResponse().addData(dataset);
 	}

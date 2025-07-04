@@ -28,4 +28,7 @@ public interface MemberActivityLogRepository extends AbstractRepository {
 	@Query("SELECT fa FROM FlightAssignment fa")
 	Collection<FlightAssignment> findAllFlightAssignments();
 
+	@Query("select case when count(al) > 0 then true else false end from ActivityLog al where al.id = :id and al.flightAssignment.draftMode = false")
+	boolean isFlightAssignmentAlreadyPublishedByActivityLogId(int id);
+
 }

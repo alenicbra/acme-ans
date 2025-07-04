@@ -2,11 +2,13 @@
 package acme.features.member.flightAssignment;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
+import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.flightAssignments.CurrentStatus;
@@ -59,15 +61,15 @@ public class MemberFlightAssignmentShowService extends AbstractGuiService<Member
 		SelectChoices legChoice;
 		Collection<Leg> legs;
 
-		int memberId;
-		int airlineId;
-
 		dutyChoice = SelectChoices.from(Duty.class, fa.getDuty());
 		currentStatusChoice = SelectChoices.from(CurrentStatus.class, fa.getCurrentStatus());
-		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		airlineId = this.repository.findAirlineIdByMemberId(memberId);
 		legs = this.repository.findAllLegs();
 		legChoice = SelectChoices.from(legs, "flightNumberNumber", fa.getLeg());
+
+		Date currentMoment;
+		boolean isCompleted;
+		currentMoment = MomentHelper.getCurrentMoment();
+		isCompleted = this.repository.areLegsCompletedByFlightAssignament(fa.getId(), currentMoment);
 
 		dataset = super.unbindObject(fa, "duty", "lastUpdatedMoment", "currentStatus", "remarks", "draftMode", "leg", "member");
 		dataset.put("dutyChoice", dutyChoice);
@@ -76,6 +78,7 @@ public class MemberFlightAssignmentShowService extends AbstractGuiService<Member
 		dataset.put("member", fa.getMember().getEmployeeCode());
 		dataset.put("legId", legChoice.getSelected().getKey());
 		dataset.put("memberId", fa.getMember().getId());
+		dataset.put("isCompleted", isCompleted);
 		super.getResponse().addData(dataset);
 	}
 
