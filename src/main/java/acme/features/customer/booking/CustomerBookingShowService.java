@@ -33,22 +33,14 @@ public class CustomerBookingShowService extends AbstractGuiService<Customer, Boo
 
 	@Override
 	public void authorise() {
-		boolean status = true;
+		boolean isCustomer = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+		super.getResponse().setAuthorised(isCustomer);
 
-		try {
+		int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		int bookingId = super.getRequest().getData("id", int.class);
+		Booking booking = this.customerPassengerRepository.findBookingById(bookingId);
 
-			Integer bookingId = super.getRequest().getData("id", Integer.class);
-			Booking booking = this.customerBookingRepository.findBookingById(bookingId);
-
-			Integer customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-
-			status = booking.getCustomer().getId() == customerId;
-
-		} catch (Throwable E) {
-			status = false;
-		}
-
-		super.getResponse().setAuthorised(status);
+		super.getResponse().setAuthorised(customerId == booking.getCustomer().getId());
 	}
 
 	@Override
@@ -68,14 +60,11 @@ public class CustomerBookingShowService extends AbstractGuiService<Customer, Boo
 		dataset.put("travelClass", travelClasses);
 
 		if (!flights.isEmpty()) {
-			SelectChoices flightChoices = SelectChoices.from(flights, "flightSummary", booking.getFlight());
+			SelectChoices flightChoices = SelectChoices.from(flights, "id", booking.getFlight());
 			dataset.put("flights", flightChoices);
 		}
 
 		dataset.put("passengers", passengers);
-
-		dataset.put("city", booking.getFlight().destination());
-		dataset.put("country", this.customerBookingRepository.findDestinationAirportByFlightId(booking.getFlight().getId()).getCountry());
 
 		super.getResponse().addData(dataset);
 	}

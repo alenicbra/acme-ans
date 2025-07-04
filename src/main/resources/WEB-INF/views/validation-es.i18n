@@ -23,6 +23,11 @@ acme.validation.leg.negative-duration = La hora de salida a de ser anterior a la
 acme.validation.leg.sameAirports.message = Los aeropuertos de llegada y salida han de ser diferentes entre ellos
 acme.validation.leg.flightNumber.unique = Este número ya representa a otra escala
 
+acme.validation.identifier.repeated.message = El localizador no se puede repetir
+acme.validation.lastNibble.blank.message = Este campo no puede ser blank
+acme.validation.passportNumber.notPattern.message = Patron invalido, debe tener entre 6 y 9 combinaciones de letras y numeros
+
+
 acme.validation.leg.null = No puede ser nulo
 
 
