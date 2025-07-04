@@ -1,5 +1,5 @@
 manager.flight.list.label.id = Id
-mastter.flight.list.label.tag = Etiqueta
+manager.flight.list.label.tag = Etiqueta
 
 manager.flight.form.label.origin = Ciudad Origen
 manager.flight.form.label.destiny = Ciudad Destino

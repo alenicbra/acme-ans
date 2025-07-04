@@ -23,6 +23,9 @@ acme.validation.leg.negative-duration = La hora de salida a de ser anterior a la
 acme.validation.leg.sameAirports.message = Los aeropuertos de llegada y salida han de ser diferentes entre ellos
 acme.validation.leg.flightNumber.unique = Este número ya representa a otra escala
 
+acme.validation.leg.null = No puede ser nulo
+
+
 ## activity logs ###############################
 acme.validation.ActivityLog.FlightAssignamentNotPublished.message = Por favor publique primero la asignación de vuelo asociada.
 
@@ -30,3 +33,4 @@ acme.validation.ActivityLog.FlightAssignamentNotPublished.message = Por favor pu
 acme.validation.flight-assignment.simultaneous-leg.message = No puede asignarse este vuelo dado que existe uno simultaneo no completado.
 acme.validation.flight-assignment.pilot-already-assigned.message = Ya hay un piloto asociado a este vuelo.
 acme.validation.flight-assignment.copilot-already-assigned.message = Ya hay un copiloto asociado a este vuelo.
+

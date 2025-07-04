@@ -37,19 +37,19 @@ public class AirlineManagerLegListService extends AbstractGuiService<AirlineMana
 
 		Collection<Leg> legs = this.repo.findAllLegByFlight(flight);
 
+		super.getResponse().addGlobal("flightId", flightId);
+		super.getResponse().addGlobal("flightDraftMode", flight.getDraftMode());
+
 		super.getBuffer().addData(legs);
 	}
 
 	@Override
 	public void unbind(final Leg object) {
-
 		Dataset dataset = super.unbindObject(object, "id", "flightNumberNumber", "scheduledDeparture");
 		dataset.put("flightDraftMode", object.getFlight().getDraftMode());
 
+		dataset.put("flightId", object.getFlight().getId());
 		super.getResponse().addData(dataset);
-		super.getResponse().addGlobal("flightDraftMode", object.getFlight().getDraftMode());
-		super.getResponse().addGlobal("flightId", object.getFlight().getId());
-
 	}
 
 }
