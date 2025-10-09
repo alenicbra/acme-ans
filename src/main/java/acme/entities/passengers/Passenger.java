@@ -4,9 +4,7 @@ package acme.entities.passengers;
 import java.util.Date;
 
 import javax.persistence.Entity;
-import javax.persistence.Index;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -25,12 +23,13 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(indexes = {
-	@Index(columnList = "customer_id")
-})
 public class Passenger extends AbstractEntity {
 
+	// Serialisation version --------------------------------------------------
+
 	private static final long	serialVersionUID	= 1L;
+
+	// Attributes -------------------------------------------------------------
 
 	@Mandatory
 	@ValidString(min = 1, max = 255)
@@ -43,14 +42,14 @@ public class Passenger extends AbstractEntity {
 	private String				email;
 
 	@Mandatory
-	@ValidString(pattern = "^[A-Z0-9]{6,9}$", message = "{acme.validation.passportNumber.notPattern.message}")
+	@ValidString(pattern = "^[A-Z0-9]{6,9}$")
 	@Automapped
 	private String				passportNumber;
 
 	@Mandatory
 	@ValidMoment(past = true)
 	@Temporal(TemporalType.TIMESTAMP)
-	private Date				birthDate;
+	private Date				dateOfBirth;
 
 	@Optional
 	@ValidString(min = 1, max = 50)
@@ -59,12 +58,16 @@ public class Passenger extends AbstractEntity {
 
 	@Mandatory
 	@Valid
-	@ManyToOne(optional = false)
-	private Customer			customer;
+	@Automapped
+	private Boolean				published;
+
+	// Derived attributes -----------------------------------------------------
+
+	// Relationships ----------------------------------------------------------
 
 	@Mandatory
 	@Valid
-	@Automapped
-	private Boolean				isPublished;
+	@ManyToOne(optional = false)
+	private Customer			customer;
 
 }

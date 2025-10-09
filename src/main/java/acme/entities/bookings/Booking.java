@@ -31,11 +31,15 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(indexes = {
-	@Index(columnList = "customer_id"), @Index(columnList = "locatorCode")
+	@Index(columnList = "locatorCode"), @Index(columnList = "published")
 })
 public class Booking extends AbstractEntity {
 
+	// Serialisation version --------------------------------------------------
+
 	private static final long	serialVersionUID	= 1L;
+
+	// Attributes -------------------------------------------------------------
 
 	@Mandatory
 	@ValidString(pattern = "^[A-Z0-9]{6,8}$")
@@ -60,19 +64,9 @@ public class Booking extends AbstractEntity {
 	@Mandatory
 	@Valid
 	@Automapped
-	private Boolean				isPublished;
+	private Boolean				published;
 
-	// Relationships -------------------------------------------------------------
-
-	@Mandatory
-	@Valid
-	@ManyToOne(optional = false)
-	private Customer			customer;
-
-	@Mandatory
-	@Valid
-	@ManyToOne(optional = false)
-	private Flight				flight;
+	// Derived attributes -----------------------------------------------------
 
 
 	@Transient
@@ -86,7 +80,7 @@ public class Booking extends AbstractEntity {
 			price.setCurrency("EUR");
 		} else {
 			Flight flight = this.getFlight();
-			Integer numberOfPassenger = customerPassengerRepository.findAllPassengerByBookingId(this.getId()).size();
+			Integer numberOfPassenger = customerPassengerRepository.findPassengerByBookingId(this.getId()).size();
 			price.setAmount(flight.getCost().getAmount() * numberOfPassenger);
 			price.setCurrency(flight.getCost().getCurrency());
 		}
@@ -97,7 +91,20 @@ public class Booking extends AbstractEntity {
 	@Transient
 	public Integer getNumberOfPassengers() {
 		CustomerPassengerRepository customerPassengerRepository = SpringHelper.getBean(CustomerPassengerRepository.class);
-		return customerPassengerRepository.findAllPassengerByBookingId(this.getId()).size();
+		return customerPassengerRepository.findPassengerByBookingId(this.getId()).size();
 	}
+
+	// Relationships ----------------------------------------------------------
+
+
+	@Mandatory
+	@Valid
+	@ManyToOne(optional = false)
+	private Customer	customer;
+
+	@Mandatory
+	@Valid
+	@ManyToOne(optional = false)
+	private Flight		flight;
 
 }
