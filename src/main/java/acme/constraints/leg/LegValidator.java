@@ -38,8 +38,8 @@ public class LegValidator extends AbstractValidator<ValidLeg, Leg> {
 			super.state(context, !areAirportsEquals, "arrivalAirport", "acme.validation.leg.sameAirports.message");
 		}
 
-		if (leg.getFlightNumberNumber() != null) {
-			boolean repeatedFlightNumber = legRepository.findByFlightNumber(leg.getFlightNumberNumber(), leg.getId()).isPresent();
+		if (leg.getFlightNumber() != null) {
+			boolean repeatedFlightNumber = legRepository.findByFlightNumber(leg.getFlightNumber(), leg.getId()).isPresent();
 
 			super.state(context, !repeatedFlightNumber, "flightNumberNumber", "acme.validation.leg.flightNumber.unique");
 		}

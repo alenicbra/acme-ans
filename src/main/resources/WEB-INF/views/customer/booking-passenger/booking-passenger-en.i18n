@@ -1,28 +1,16 @@
-# General Indicators
-client.dashboard.form.title.general-indicators=General Indicators
-customer.customer-dashboard.form.title=Customer Dashboard
+customer.booking-passenger.list.label.passenger.fullName = Full Name
+customer.booking-passenger.list.label.passenger.email = Email
+customer.booking-passenger.list.label.passenger.passportNumber = Passport Number
+customer.booking-passenger.list.label.passenger.birthDate = Birth Date
+customer.booking-passenger.list.label.passenger.draftModePassenger = Draft Mode
 
-# Labels for destinations and spending
-client.dashboard.form.label.last-five-destinations-last-year=Last Five Destinations (Last Year)
-client.dashboard.form.label.spent-money-last-year=Spent Money (Last Year)
+customer.booking-passenger.list.button.create = Assign Passenger to Booking
 
-# Labels for bookings
-client.dashboard.form.label.economy-bookings=Economy Bookings
-client.dashboard.form.label.business-bookings=Business Bookings
+customer.booking-passenger.form.label.passenger = Passengers associated to booking
 
-# Labels for booking cost indicators
-client.dashboard.form.label.booking-count-cost=Booking Count Cost
-client.dashboard.form.label.booking-average-cost=Booking Average Cost
-client.dashboard.form.label.booking-minimum-cost=Booking Minimum Cost
-client.dashboard.form.label.booking-maximum-cost=Booking Maximum Cost
-client.dashboard.form.label.booking-deviation-cost=Booking Deviation Cost
-client.dashboard.form.label.booking-count-passengers=Booking Count Passengers
-client.dashboard.form.label.booking-average-passengers=Booking Average Passengers
-client.dashboard.form.label.booking-minimum-passengers=Booking Minimum Passengers
-client.dashboard.form.label.booking-maximum-passengers=Booking Maximum Passengers
-client.dashboard.form.label.booking-deviation-passengers=Booking Deviation Passengers
+customer.booking-passenger.form.button.create = Assign Passenger
 
+customer.booking-passenger.list.title = Assigned Passengers
+customer.booking-passenger.form.title = Assigned passenger form
 
-# Labels for charts
-client.dashboard.form.label.bookings.distribution=Bookings Distribution
-client.dashboard.form.label.contract.cost=Contract Cost
+customer.booking-passenger.form.button.delete = Delete associated passenger

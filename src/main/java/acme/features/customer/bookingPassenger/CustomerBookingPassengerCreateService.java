@@ -45,7 +45,7 @@ public class CustomerBookingPassengerCreateService extends AbstractGuiService<Cu
 					if (passengerId != 0) {
 						Passenger passenger = this.repository.findPassengerById(passengerId);
 
-						if (passenger == null || passenger.getCustomer().getId() != customerId || passenger.getDraftModePassenger() == true)
+						if (passenger == null || passenger.getCustomer().getId() != customerId || passenger.getDraftMode() == true)
 							status = false;
 
 						if (status) {

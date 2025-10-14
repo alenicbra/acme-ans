@@ -1,28 +1,16 @@
-# Indicadores Generales
-client.dashboard.form.title.general-indicators=Indicadores Generales
-customer.customer-dashboard.form.title=Cliente Dashboard
+customer.booking-passenger.list.label.passenger.fullName = Nombre completo
+customer.booking-passenger.list.label.passenger.email = Email
+customer.booking-passenger.list.label.passenger.passportNumber = Número de pasaporte
+customer.booking-passenger.list.label.passenger.birthDate = Fecha de nacimiento
+customer.booking-passenger.list.label.passenger.draftModePassenger = Modo borrador
 
-# Etiquetas para destinos y gasto
-client.dashboard.form.label.last-five-destinations-last-year=Últimos Cinco Destinos (Último Año)
-client.dashboard.form.label.spent-money-last-year=Dinero Gastado (Último Año)
+customer.booking-passenger.list.button.create = Asignar pasajero a reserva
 
-# Etiquetas para reservas
-client.dashboard.form.label.economy-bookings=Reservas Económicas
-client.dashboard.form.label.business-bookings=Reservas de Negocios
+customer.booking-passenger.form.label.passenger = Pasajeros asociados a reserva 
 
-# Etiquetas para indicadores de coste de reserva
-client.dashboard.form.label.booking-count-cost=Coste de Cantidad de Reservas
-client.dashboard.form.label.booking-average-cost=Coste Medio de Reservas
-client.dashboard.form.label.booking-minimum-cost=Coste Mínimo de Reservas
-client.dashboard.form.label.booking-maximum-cost=Coste Máximo de Reservas
-client.dashboard.form.label.booking-deviation-cost=Desviación del Coste de Reservas
-client.dashboard.form.label.booking-count-passengers=Número de Pasajeros
-client.dashboard.form.label.booking-average-passengers=Media de Pasajeros por vuelo
-client.dashboard.form.label.booking-minimum-passengers=Mínimo de Pasajeros
-client.dashboard.form.label.booking-maximum-passengers=Máximo de Pasajeros
-client.dashboard.form.label.booking-deviation-passengers=Desviación
+customer.booking-passenger.form.button.create = Pasajeros asociados a reserva
 
+customer.booking-passenger.list.title = Pasajeros asignados
+customer.booking-passenger.form.title = Formulario de pasajeros asignados
 
-# Etiquetas para gráficos
-client.dashboard.form.label.bookings.distribution=Distribución de Reservas
-client.dashboard.form.label.contract.cost=Coste del Contrato
+customer.booking-passenger.form.button.delete = Borrar pasajero asociado

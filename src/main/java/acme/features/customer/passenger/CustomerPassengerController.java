@@ -13,37 +13,32 @@ import acme.realms.Customer;
 @GuiController
 public class CustomerPassengerController extends AbstractGuiController<Customer, Passenger> {
 
-	// Internal state ---------------------------------------------------------
+	@Autowired
+	private CustomerPassengerListService	listService;
 
 	@Autowired
-	private CustomerPassengerListService	customerPassengerListService;
+	private CustomerPassengerShowService	showService;
 
 	@Autowired
-	private CustomerPassengerShowService	customerPassengerShowService;
+	private CustomerPassengerCreateService	createService;
 
 	@Autowired
-	private CustomerPassengerCreateService	customerPassengerCreateService;
+	private CustomerPassengerUpdateService	updateService;
 
 	@Autowired
-	private CustomerPassengerUpdateService	customerPassengerUpdateService;
+	private CustomerPassengerPublishService	publishService;
 
 	@Autowired
-	private CustomerPassengerPublishService	customerPassengerpublishService;
-
-	@Autowired
-	private CustomerPassengerDeleteService	customerPassengerDeleteService;
-
-	// Constructors -----------------------------------------------------------
+	private CustomerPassengerDeleteService	deleteService;
 
 
 	@PostConstruct
 	protected void initialise() {
-		super.addBasicCommand("list", this.customerPassengerListService);
-		super.addBasicCommand("show", this.customerPassengerShowService);
-		super.addBasicCommand("create", this.customerPassengerCreateService);
-		super.addBasicCommand("update", this.customerPassengerUpdateService);
-		super.addCustomCommand("publish", "update", this.customerPassengerpublishService);
-		super.addBasicCommand("delete", this.customerPassengerDeleteService);
+		super.addBasicCommand("list", this.listService);
+		super.addBasicCommand("show", this.showService);
+		super.addBasicCommand("create", this.createService);
+		super.addBasicCommand("update", this.updateService);
+		super.addBasicCommand("delete", this.deleteService);
+		super.addCustomCommand("publish", "update", this.publishService);
 	}
-
 }
