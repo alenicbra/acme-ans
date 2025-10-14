@@ -38,8 +38,9 @@
 		<link>
 			<name>classes</name>
 			<type>2</type>
-			<location>C:/Users/RamonVergara/Documents/Workspace-25/Frameworks/Acme-Framework-25.7.0/target/classes</location>
+			<locationURI>WORKSPACE_LOC/Frameworks/Acme-Framework-25.7.0/target/classes</locationURI>
 		</link>
+		
 	</linkedResources>
 	<filteredResources>
 		<filter>
