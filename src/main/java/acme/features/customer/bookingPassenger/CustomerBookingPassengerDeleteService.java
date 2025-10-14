@@ -5,65 +5,68 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
+import acme.entities.bookings.Booking;
 import acme.entities.bookings.BookingPassenger;
+import acme.entities.passengers.Passenger;
 import acme.realms.Customer;
 
 @GuiService
 public class CustomerBookingPassengerDeleteService extends AbstractGuiService<Customer, BookingPassenger> {
 
-	// Internal state ---------------------------------------------------------
-
 	@Autowired
-	private CustomerBookingPassengerRepository customerBookingPassengerRepository;
-
-	// AbstractGuiService interface -------------------------------------------
+	private CustomerBookingPassengerRepository repository;
 
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+		boolean status;
+		int BookingPassengerId;
+		BookingPassenger BookingPassenger;
+		Booking booking;
+		Passenger passenger;
+		Customer customer;
 
-		Integer BookingPassengerId = super.getRequest().getData("id", int.class);
-		BookingPassenger BookingPassenger = this.customerBookingPassengerRepository.getBookingPassengerByBookingPassengerId(BookingPassengerId);
+		status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
 
-		Integer customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		if (status && super.getRequest().hasData("id")) {
+			BookingPassengerId = super.getRequest().getData("id", int.class);
+			BookingPassenger = this.repository.findBookingPassengerById(BookingPassengerId);
+			booking = BookingPassenger == null ? null : BookingPassenger.getBooking();
+			passenger = BookingPassenger == null ? null : BookingPassenger.getPassenger();
+			customer = booking == null ? null : booking.getCustomer();
 
-		status = status && BookingPassenger.getBooking().getCustomer().getId() == customerId;
+			status = BookingPassenger != null && super.getRequest().getPrincipal().hasRealm(customer) && booking.getDraftMode() && passenger != null && passenger.getCustomer().equals(customer);
+
+		} else
+			status = false;
 
 		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
 	public void load() {
-		int BookingPassengerId = super.getRequest().getData("BookingPassengerId", int.class);
-		BookingPassenger BookingPassenger = this.customerBookingPassengerRepository.getBookingPassengerByBookingPassengerId(BookingPassengerId);
+		BookingPassenger BookingPassenger;
+		int id;
+
+		id = super.getRequest().getData("id", int.class);
+		BookingPassenger = this.repository.findBookingPassengerById(id);
 
 		super.getBuffer().addData(BookingPassenger);
 	}
 
 	@Override
 	public void bind(final BookingPassenger BookingPassenger) {
-
+		;
 	}
 
 	@Override
 	public void validate(final BookingPassenger BookingPassenger) {
-
+		;
 	}
 
 	@Override
 	public void perform(final BookingPassenger BookingPassenger) {
-		this.customerBookingPassengerRepository.delete(BookingPassenger);
-	}
-
-	@Override
-	public void unbind(final BookingPassenger BookingPassenger) {
-		//		Boolean publishedBooking = BookingPassenger.getBooking().getPublished();
-		//		Dataset dataset = super.unbindObject(BookingPassenger, "booking", "passenger");
-		//		dataset.put("bookingLocator", BookingPassenger.getBooking().getLocatorCode());
-		//		dataset.put("passengerFullName", BookingPassenger.getPassenger().getFullName());
-		//		dataset.put("publishedBooking", publishedBooking);
-		//		super.getResponse().addData(dataset);
+		this.repository.delete(BookingPassenger);
 	}
 
 }

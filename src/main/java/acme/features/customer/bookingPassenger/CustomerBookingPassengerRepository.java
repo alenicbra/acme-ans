@@ -10,35 +10,45 @@ import acme.client.repositories.AbstractRepository;
 import acme.entities.bookings.Booking;
 import acme.entities.bookings.BookingPassenger;
 import acme.entities.passengers.Passenger;
+import acme.realms.Customer;
 
 @Repository
 public interface CustomerBookingPassengerRepository extends AbstractRepository {
 
-	@Query("SELECT b FROM Booking b WHERE b.id=:bookingId")
-	Booking getBookingById(int bookingId);
+	@Query("select b from Booking  b where b.id = :id")
+	Booking findBookingById(int id);
 
-	@Query("SELECT p FROM Passenger p WHERE p.customer.id=:customerId")
-	Collection<Passenger> getAllPassengersByCustomer(int customerId);
+	@Query("select p from Passenger p where p.customer.id = :id")
+	Collection<Passenger> findPassengersByCustomerId(int id);
 
-	@Query("SELECT br.passenger FROM BookingPassenger br WHERE br.booking.id=:bookingId")
-	Collection<Passenger> getPassengersInBooking(int bookingId);
+	@Query("select br from BookingPassenger br where br.booking.id = :bookingId")
+	Collection<BookingPassenger> findBookingPassengersByBookingId(int bookingId);
 
-	@Query("SELECT b FROM Booking b WHERE b.customer.id=:customerId and b.published=false")
-	Collection<Booking> getBookingsByCustomerId(int customerId);
+	@Query("select br.passenger from BookingPassenger br where br.booking.id = :bookingId")
+	Collection<Passenger> findAssignedPassengersByBookingId(int bookingId);
 
-	@Query("SELECT br FROM BookingPassenger br WHERE br.booking.customer.id=:customerId")
-	Collection<BookingPassenger> getBookingPassengersByCustomerId(int customerId);
+	@Query("select br.passenger from BookingPassenger br where br.booking.id = :bookingId")
+	Passenger findAssignedPassengerByBookingId(int bookingId);
 
-	@Query("SELECT br FROM BookingPassenger br WHERE br.id=:BookingPassengerId")
-	BookingPassenger getBookingPassengerByBookingPassengerId(int BookingPassengerId);
+	@Query("select p from Passenger p where p.id = :id")
+	Passenger findPassengerById(int id);
 
-	@Query("SELECT br.booking FROM BookingPassenger br WHERE br.booking.id=:bookingId")
-	Booking getBookingFromBookingPassenger(int bookingId);
+	@Query("select br.booking from BookingPassenger br where br.passenger.id = :id")
+	Booking findBookingByPassengerId(int id);
 
-	@Query("SELECT br.passenger FROM BookingPassenger br WHERE br.passenger.id=:passengerId")
-	Passenger getPassengerFromBookingPassenger(int passengerId);
+	@Query("select c from Customer c")
+	Collection<Customer> findAllCustomers();
 
-	@Query("SELECT br FROM BookingPassenger br WHERE br.passenger.id = :passengerId and br.booking.id = :bookingId")
-	BookingPassenger getBookingPassengerByPassengerIdAndBookingId(int passengerId, int bookingId);
+	@Query("select br from BookingPassenger br where br.id = :id")
+	BookingPassenger findBookingPassengerById(int id);
+
+	@Query("select p from Passenger p")
+	Collection<Passenger> findAllPassengers();
+
+	@Query("select br.booking from BookingPassenger br where br.id = :id")
+	Booking findBookingByBookingPassengerId(int id);
+
+	@Query("select p from Passenger p where p.customer.id = :customerId and p.draftModePassenger = false and p not in (select br.passenger from BookingPassenger br where br.booking.id = :bookingId)")
+	Collection<Passenger> findNotAssignedPassengersByCustomerAndBookingId(int customerId, int bookingId);
 
 }
