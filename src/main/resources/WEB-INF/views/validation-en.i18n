@@ -23,6 +23,11 @@ acme.validation.leg.negative-duration = The departure time must be after the arr
 acme.validation.leg.sameAirports.message = The arrival and departure airports must be different
 acme.validation.leg.flightNumber.unique = This number already represent another leg
 
+acme.validation.identifier.repeated.message = Locator can not be repeated
+acme.validation.lastNibble.blank.message = Last nibble can not be blank
+acme.validation.passportNumber.notPattern.message = Invalid pattern must be a combination of 6 to 9 numbers and letters
+
+
 acme.validation.leg.null = May not be null
 
 
@@ -33,4 +38,5 @@ acme.validation.ActivityLog.FlightAssignamentNotPublished.message = Please publi
 acme.validation.flight-assignment.simultaneous-leg.message = Cannot be assigned to this flight leg since there is a simultaneous one not finished. 
 acme.validation.flight-assignment.pilot-already-assigned.message = Duty "pilot" already satisfied for this leg
 acme.validation.flight-assignment.copilot-already-assigned.message = Duty "copilot" already satisfied for this leg.
+
 

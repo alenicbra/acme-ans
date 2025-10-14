@@ -21,16 +21,16 @@ public class CustomerPassengerDeleteService extends AbstractGuiService<Customer,
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getMethod().equals("POST");
+		boolean status;
+		Passenger p;
+		int pId;
+		int customerId;
 
-		try {
-			Integer customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-			Integer passengerId = super.getRequest().getData("id", Integer.class);
-			Passenger passenger = this.repository.findPassengerById(passengerId);
-			status = status && customerId == passenger.getCustomer().getId() && !passenger.getIsPublished();
-		} catch (Throwable E) {
-			status = false;
-		}
+		pId = super.getRequest().getData("id", int.class);
+		p = this.repository.findPassengerById(pId);
+		customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+
+		status = p != null && p.getCustomer().getId() == customerId;
 		super.getResponse().setAuthorised(status);
 	}
 
