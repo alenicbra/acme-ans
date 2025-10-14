@@ -53,7 +53,7 @@ public class AirlineManagerLegShowService extends AbstractGuiService<AirlineMana
 		SelectChoices departureChoices = SelectChoices.from(airports, "iataCode", object.getDepartureAirport());
 		SelectChoices typeChoices = SelectChoices.from(LegStatus.class, object.getStatus());
 
-		Dataset dataset = super.unbindObject(object, "flightNumberNumber", "scheduledDeparture", "scheduledArrival", "draftMode");
+		Dataset dataset = super.unbindObject(object, "flightNumber", "scheduledDeparture", "scheduledArrival", "draftMode");
 
 		dataset.put("status", typeChoices.getSelected().getKey());
 		dataset.put("statuses", typeChoices);

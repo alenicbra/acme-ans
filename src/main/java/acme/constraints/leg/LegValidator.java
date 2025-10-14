@@ -30,7 +30,7 @@ public class LegValidator extends AbstractValidator<ValidLeg, Leg> {
 
 		if (leg.getScheduledDeparture() != null && leg.getScheduledArrival() != null) {
 			boolean isDepartureAfterArrival = leg.getScheduledDeparture().after(leg.getScheduledArrival());
-			super.state(context, !isDepartureAfterArrival, "scheduledDeparture", "acme.validation.leg.negative-duration");
+			super.state(context, isDepartureAfterArrival, "scheduledDeparture", "acme.validation.leg.negative-duration");
 		}
 
 		if (leg.getDepartureAirport() != null && leg.getArrivalAirport() != null) {
@@ -41,7 +41,14 @@ public class LegValidator extends AbstractValidator<ValidLeg, Leg> {
 		if (leg.getFlightNumber() != null) {
 			boolean repeatedFlightNumber = legRepository.findByFlightNumber(leg.getFlightNumber(), leg.getId()).isPresent();
 
-			super.state(context, !repeatedFlightNumber, "flightNumberNumber", "acme.validation.leg.flightNumber.unique");
+			super.state(context, !repeatedFlightNumber, "flightNumber", "acme.validation.leg.flightNumber.unique");
+		}
+
+		if (leg.getFlightNumber() != null && leg.getAircraft() != null) {
+			String iata = leg.getAircraft().getAirline().getIataCode();
+			boolean correctIata = leg.getFlightNumber().contains(iata);
+
+			super.state(context, correctIata, "flightNumber", "acme.validation.leg.flightNumber.iata");
 		}
 
 		result = !super.hasErrors(context);

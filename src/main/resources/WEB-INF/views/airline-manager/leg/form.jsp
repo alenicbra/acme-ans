@@ -7,7 +7,7 @@
 	<acme:input-moment code = "manager.leg.form.label.departureDate" path= "scheduledDeparture"/>
 	<acme:input-moment code = "manager.leg.form.label.arrivalDate" path= "scheduledArrival" />
 	<acme:input-select code = "manager.leg.form.label.status" path= "status"  choices="${statuses}"/>
-	<acme:input-textbox code = "manager.leg.form.label.flightNumberDigits" path="flightNumberNumber"/>
+	<acme:input-textbox code = "manager.leg.form.label.flightNumberDigits" path="flightNumber"/>
 	<acme:input-select code = "manager.leg.form.label.departureAirport" path= "departure"  choices="${departures}"/>
 	<acme:input-select code = "manager.leg.form.label.arrivalAirport" path= "arrival"  choices="${arrivals}"/>
 	<acme:input-select code = "manager.leg.form.label.aircraft" path= "aircraft"  choices="${aircrafts}"/>

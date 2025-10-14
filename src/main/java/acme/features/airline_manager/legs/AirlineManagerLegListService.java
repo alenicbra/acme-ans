@@ -6,10 +6,14 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
+import acme.entities.aircrafts.Aircraft;
+import acme.entities.airports.Airport;
 import acme.entities.flights.Flight;
 import acme.entities.legs.Leg;
+import acme.entities.legs.LegStatus;
 import acme.realms.AirlineManager;
 
 @GuiService
@@ -45,11 +49,30 @@ public class AirlineManagerLegListService extends AbstractGuiService<AirlineMana
 
 	@Override
 	public void unbind(final Leg object) {
-		Dataset dataset = super.unbindObject(object, "id", "flightNumberNumber", "scheduledDeparture");
-		dataset.put("flightDraftMode", object.getFlight().getDraftMode());
+		Collection<Aircraft> aircrafts = this.repo.findAllAircraft();
+		Collection<Airport> airports = this.repo.findAllAirport();
 
-		dataset.put("flightId", object.getFlight().getId());
+		SelectChoices aircraftChoices = SelectChoices.from(aircrafts, "registrationNumber", object.getAircraft());
+		SelectChoices arrivalChoices = SelectChoices.from(airports, "iataCode", object.getArrivalAirport());
+		SelectChoices departureChoices = SelectChoices.from(airports, "iataCode", object.getDepartureAirport());
+		SelectChoices typeChoices = SelectChoices.from(LegStatus.class, object.getStatus());
+
+		Dataset dataset = super.unbindObject(object, "scheduledDeparture", "scheduledArrival", "draftMode");
+
+		dataset.put("status", typeChoices.getSelected().getKey());
+		dataset.put("statuses", typeChoices);
+
+		dataset.put("departure", departureChoices.getSelected().getLabel());
+		dataset.put("departures", departureChoices);
+
+		dataset.put("arrival", arrivalChoices.getSelected().getLabel());
+		dataset.put("arrivals", arrivalChoices);
+
+		dataset.put("aircraft", aircraftChoices.getSelected().getKey());
+		dataset.put("aircrafts", aircraftChoices);
+
 		super.getResponse().addData(dataset);
+		super.getRequest().addGlobal("draftMode", object.getDraftMode());
 	}
 
 }

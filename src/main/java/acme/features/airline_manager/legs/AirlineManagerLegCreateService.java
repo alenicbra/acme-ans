@@ -57,7 +57,7 @@ public class AirlineManagerLegCreateService extends AbstractGuiService<AirlineMa
 		Airport arrival = this.repo.findAirportById(arrivalId);
 		Aircraft aircraft = this.repo.findAircraftById(aircraftId);
 
-		super.bindObject(object, "flightNumberNumber", "scheduledDeparture", "scheduledArrival", "status");
+		super.bindObject(object, "flightNumber", "scheduledDeparture", "scheduledArrival", "status");
 		object.setAircraft(aircraft);
 		object.setArrivalAirport(arrival);
 		object.setDepartureAirport(departure);
@@ -81,6 +81,23 @@ public class AirlineManagerLegCreateService extends AbstractGuiService<AirlineMa
 			super.state(!areAirportsEquals, "*", "acme.validation.leg.sameAirports.message");
 		}
 
+		if (leg.getFlightNumber() != null && leg.getAircraft() != null) {
+			String iata = leg.getAircraft().getAirline().getIataCode();
+			boolean correctIata = leg.getFlightNumber().contains(iata);
+
+			super.state(correctIata, "flightNumber", "acme.validation.leg.flightNumber.iata");
+		}
+
+		if (leg.getFlightNumber() != null) {
+			boolean repeatedFlightNumber = this.repo.findByFlightNumber(leg.getFlightNumber(), leg.getId()).isPresent();
+
+			super.state(!repeatedFlightNumber, "flightNumber", "acme.validation.leg.flightNumber.unique");
+		}
+
+		if (leg.getScheduledDeparture() != null && leg.getScheduledArrival() != null) {
+			boolean isDepartureAfterArrival = leg.getScheduledDeparture().after(leg.getScheduledArrival());
+			super.state(!isDepartureAfterArrival, "scheduledDeparture", "acme.validation.leg.negative-duration");
+		}
 	}
 
 	@Override
@@ -98,7 +115,7 @@ public class AirlineManagerLegCreateService extends AbstractGuiService<AirlineMa
 		SelectChoices departureChoices = SelectChoices.from(airports, "iataCode", object.getDepartureAirport());
 		SelectChoices typeChoices = SelectChoices.from(LegStatus.class, object.getStatus());
 
-		Dataset dataset = super.unbindObject(object, "flightNumberNumber", "scheduledDeparture", "scheduledArrival");
+		Dataset dataset = super.unbindObject(object, "flightNumber", "scheduledDeparture", "scheduledArrival");
 
 		dataset.put("status", typeChoices.getSelected().getKey());
 		dataset.put("statuses", typeChoices);
