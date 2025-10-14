@@ -12,78 +12,112 @@ import acme.client.services.GuiService;
 import acme.entities.bookings.Booking;
 import acme.entities.bookings.TravelClass;
 import acme.entities.flights.Flight;
-import acme.features.customer.passenger.CustomerPassengerRepository;
 import acme.realms.Customer;
 
 @GuiService
 public class CustomerBookingUpdateService extends AbstractGuiService<Customer, Booking> {
 
-	// Internal state ---------------------------------------------------------
-
 	@Autowired
-	private CustomerBookingRepository	customerBookingRepository;
-
-	@Autowired
-	private CustomerPassengerRepository	customerPassengerRepository;
-
-	// AbstractGuiService interface -------------------------------------------
+	private CustomerBookingRepository repository;
 
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+		boolean status = false;
+		int customerId = 0;
+		int bookingId = 0;
+		Booking booking = null;
+		Flight flight;
+		int flightId;
+		TravelClass travelClass;
+		Collection<TravelClass> travelClasses;
 
-		Integer bookingId = super.getRequest().getData("id", int.class);
-		Booking booking = this.customerBookingRepository.findBookingById(bookingId);
+		status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
 
-		Integer customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		if (status) {
+			customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
-		status = status && booking.getCustomer().getId() == customerId && !booking.getPublished();
+			if (super.getRequest().hasData("id"))
+				bookingId = super.getRequest().getData("id", int.class);
+
+			booking = this.repository.findBookingById(bookingId);
+
+			if (booking != null) {
+				status = booking.getDraftMode() && booking.getCustomer().getId() == customerId;
+
+				if (super.getRequest().getMethod().equals("POST")) {
+
+					boolean flightStatus = true;
+					boolean travelClassStatus = true;
+
+					if (super.getRequest().hasData("flight")) {
+						flightId = super.getRequest().getData("flight", int.class);
+						if (flightId != 0) {
+							flight = this.repository.findFlightById(flightId);
+							flightStatus = flight != null && !flight.getDraftMode();
+						}
+					}
+
+					if (super.getRequest().hasData("travelClass")) {
+						travelClass = super.getRequest().getData("travelClass", TravelClass.class);
+						travelClasses = this.repository.findAllTravelClasses();
+						travelClassStatus = travelClass == null ? true : travelClasses.contains(travelClass);
+					}
+
+					status = status && flightStatus && travelClassStatus;
+				}
+			} else
+				status = false;
+		}
 
 		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
 	public void load() {
-		Integer id = super.getRequest().getData("id", int.class);
-		Booking booking = this.customerBookingRepository.findBookingById(id);
+		Booking booking;
+		int id;
+
+		id = super.getRequest().getData("id", int.class);
+		booking = this.repository.findBookingById(id);
+
 		super.getBuffer().addData(booking);
 	}
 
 	@Override
 	public void bind(final Booking booking) {
-		super.bindObject(booking, "flight", "locatorCode", "travelClass", "lastNibble");
+		super.bindObject(booking, "locatorCode", "travelClass", "lastCardNibble", "flight");
 	}
 
 	@Override
 	public void validate(final Booking booking) {
-		Collection<Booking> bookings = this.customerBookingRepository.findBookingsByLocatorCode(booking.getLocatorCode());
-		boolean isUnique;
-
-		isUnique = bookings.isEmpty() || bookings.stream().allMatch(b -> b.getId() == booking.getId());
-		super.state(isUnique, "locatorCode", "customer.booking.form.error.locatorCode");
+		boolean publishedFlight = booking.getFlight() != null && !booking.getFlight().getDraftMode();
+		super.state(publishedFlight, "flight", "acme.validation.customer.publishedFlight.message");
 	}
 
 	@Override
 	public void perform(final Booking booking) {
-		this.customerBookingRepository.save(booking);
+		this.repository.save(booking);
 	}
 
 	@Override
 	public void unbind(final Booking booking) {
-		SelectChoices travelClasses = SelectChoices.from(TravelClass.class, booking.getTravelClass());
-		Collection<Flight> flights = this.customerBookingRepository.findAllPublishedFlights();
-		SelectChoices flightChoices = SelectChoices.from(flights, "flightSummary", booking.getFlight());
+		Dataset dataset;
+		SelectChoices travelClass;
+		Collection<Flight> publishedFlights;
+		SelectChoices flightChoices;
 
-		Boolean hasPassengers;
-		hasPassengers = !this.customerPassengerRepository.findPassengerByBookingId(booking.getId()).isEmpty();
-		super.getResponse().addGlobal("hasPassengers", hasPassengers);
+		travelClass = SelectChoices.from(TravelClass.class, booking.getTravelClass());
 
-		Dataset dataset = super.unbindObject(booking, "flight", "customer", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "published", "id");
-		dataset.put("travelClass", travelClasses);
+		publishedFlights = this.repository.findAllPublishedFlights();
+
+		flightChoices = SelectChoices.from(publishedFlights, "bookingFlight", booking.getFlight());
+
+		dataset = super.unbindObject(booking, "flight", "locatorCode", "travelClass", "purchaseMoment", "price", "lastCardNibble", "id", "draftMode");
+
+		dataset.put("travelClass", travelClass);
 		dataset.put("flights", flightChoices);
 
 		super.getResponse().addData(dataset);
 	}
-
 }

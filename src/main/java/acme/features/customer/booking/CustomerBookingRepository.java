@@ -2,7 +2,6 @@
 package acme.features.customer.booking;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -10,40 +9,48 @@ import org.springframework.stereotype.Repository;
 import acme.client.repositories.AbstractRepository;
 import acme.entities.bookings.Booking;
 import acme.entities.bookings.BookingPassenger;
+import acme.entities.bookings.TravelClass;
 import acme.entities.flights.Flight;
+import acme.entities.passengers.Passenger;
 import acme.realms.Customer;
 
 @Repository
 public interface CustomerBookingRepository extends AbstractRepository {
 
-	@Query("SELECT c FROM Customer c WHERE c.id = :customerId")
-	Customer findCustomerById(Integer customerId);
+	@Query("select b from Booking b")
+	Collection<Booking> findAllBookings();
 
-	@Query("SELECT b FROM Booking b WHERE b.id = :bookingId")
-	Booking findBookingById(int bookingId);
+	@Query("select b from Booking b where b.id = :id")
+	Booking findBookingById(int id);
 
-	@Query("SELECT b FROM Booking b")
-	List<Booking> findAllBooking();
+	@Query("select c from Customer c")
+	Collection<Customer> findAllCustomers();
 
-	@Query("SELECT c FROM Customer c WHERE c.userAccount.id = :userAccountId")
-	Customer findCustomerByUserAccountId(Integer userAccountId);
+	@Query("select c from Customer c where c.id =:id")
+	Customer findCustomerById(int id);
 
-	@Query("SELECT b FROM Booking b WHERE b.locatorCode = :locatorCode")
-	Booking findBookingByLocatorCode(String locatorCode);
+	@Query("select b from Booking b where b.customer.id = :customerId")
+	Collection<Booking> findBookingsByCustomerId(int customerId);
 
-	@Query("SELECT b FROM Booking b WHERE b.customer.id = :customerId")
-	Collection<Booking> findBookingsByCustomer(Integer customerId);
+	@Query("select b from Booking b where b.customer.id = :customerId")
+	Booking findBookingByCustomerId(int customerId);
 
-	@Query("SELECT f FROM Flight f WHERE f.id = :flightId")
-	Flight findFlightById(Integer flightId);
+	@Query("select br.passenger from BookingPassenger br where br.booking.id = :bookingId")
+	Collection<Passenger> findPassengersByBookingId(int bookingId);
 
-	@Query("SELECT f FROM Flight f WHERE f.draftMode=false")
+	@Query("select f from Flight f")
+	Collection<Flight> findAllFlights();
+
+	@Query("select f from Flight f where f.id = :id")
+	Flight findFlightById(int id);
+
+	@Query("select f from Flight f where f.draftMode = false")
 	Collection<Flight> findAllPublishedFlights();
 
-	@Query("SELECT br FROM BookingPassenger br WHERE br.booking.id = :bookingId")
-	Collection<BookingPassenger> findAllBookingPassengersByBookingId(int bookingId);
+	@Query("select distinct(b.travelClass) from Booking b")
+	Collection<TravelClass> findAllTravelClasses();
 
-	@Query("SELECT b FROM Booking b WHERE b.locatorCode = :locatorCode")
-	Collection<Booking> findBookingsByLocatorCode(String locatorCode);
+	@Query("select br from BookingPassenger br where br.booking.id = :bookingId")
+	Collection<BookingPassenger> findBookingPassengersByBookingId(int bookingId);
 
 }

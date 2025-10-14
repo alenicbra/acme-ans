@@ -6,7 +6,6 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import acme.client.components.basis.AbstractRealm;
 import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
 import acme.client.helpers.MomentHelper;
@@ -20,61 +19,92 @@ import acme.realms.Customer;
 @GuiService
 public class CustomerBookingCreateService extends AbstractGuiService<Customer, Booking> {
 
-	// Internal state ---------------------------------------------------------
-
 	@Autowired
-	private CustomerBookingRepository customerBookingRepository;
-
-	// AbstractGuiService interface -------------------------------------------
+	private CustomerBookingRepository repository;
 
 
 	@Override
 	public void authorise() {
-		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+		boolean status;
+		Flight flight;
+		int flightId;
+		TravelClass travelClass;
+		Collection<TravelClass> travelClasses;
+
+		status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
+
+		if (super.getRequest().getMethod().equals("POST")) {
+			boolean flightStatus = true;
+			boolean travelClassStatus = true;
+
+			if (super.getRequest().hasData("flight")) {
+				flightId = super.getRequest().getData("flight", int.class);
+				if (flightId != 0) {
+					flight = this.repository.findFlightById(flightId);
+					flightStatus = flight != null && !flight.getDraftMode();
+				}
+			}
+
+			if (super.getRequest().hasData("travelClass")) {
+				travelClass = super.getRequest().getData("travelClass", TravelClass.class);
+				travelClasses = this.repository.findAllTravelClasses();
+				travelClassStatus = travelClass == null ? true : travelClasses.contains(travelClass);
+			}
+
+			status = status && flightStatus && travelClassStatus;
+		}
+
 		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
 	public void load() {
-		Booking booking = new Booking();
+		Customer customer;
+		Booking booking;
+		Date purchaseMoment;
 
-		AbstractRealm principal = super.getRequest().getPrincipal().getActiveRealm();
-		int customerId = principal.getId();
-		Customer customer = this.customerBookingRepository.findCustomerById(customerId);
-		Date date = MomentHelper.getCurrentMoment();
+		purchaseMoment = MomentHelper.getCurrentMoment();
 
+		customer = (Customer) super.getRequest().getPrincipal().getActiveRealm();
+
+		booking = new Booking();
+		booking.setPurchaseMoment(purchaseMoment);
+		booking.setDraftMode(true);
 		booking.setCustomer(customer);
-		booking.setPurchaseMoment(date);
-		booking.setPublished(false);
 
 		super.getBuffer().addData(booking);
 	}
 
 	@Override
 	public void bind(final Booking booking) {
-		super.bindObject(booking, "flight", "locatorCode", "travelClass", "lastNibble");
+		super.bindObject(booking, "locatorCode", "travelClass", "lastCardNibble", "flight");
 	}
 
 	@Override
 	public void validate(final Booking booking) {
-		Collection<Booking> bookings = this.customerBookingRepository.findBookingsByLocatorCode(booking.getLocatorCode());
-		boolean status1 = bookings.isEmpty();
-		super.state(status1, "locatorCode", "customer.booking.form.error.locatorCode");
+		;
 	}
 
 	@Override
 	public void perform(final Booking booking) {
-		this.customerBookingRepository.save(booking);
+		this.repository.save(booking);
 	}
 
 	@Override
 	public void unbind(final Booking booking) {
-		SelectChoices travelClasses = SelectChoices.from(TravelClass.class, booking.getTravelClass());
-		Collection<Flight> flights = this.customerBookingRepository.findAllPublishedFlights();
-		SelectChoices flightChoices = SelectChoices.from(flights, "flightSummary", booking.getFlight());
+		Dataset dataset;
+		Collection<Flight> publishedFlights;
+		SelectChoices travelClass;
+		SelectChoices flightChoices;
 
-		Dataset dataset = super.unbindObject(booking, "flight", "customer", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "published", "id");
-		dataset.put("travelClass", travelClasses);
+		publishedFlights = this.repository.findAllPublishedFlights();
+
+		travelClass = SelectChoices.from(TravelClass.class, booking.getTravelClass());
+
+		dataset = super.unbindObject(booking, "locatorCode", "purchaseMoment", "travelClass", "price", "lastCardNibble", "flight", "draftMode", "id");
+		dataset.put("travelClass", travelClass);
+
+		flightChoices = SelectChoices.from(publishedFlights, "bookingFlight", booking.getFlight());
 		dataset.put("flights", flightChoices);
 
 		super.getResponse().addData(dataset);
