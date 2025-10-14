@@ -62,7 +62,7 @@ public class AirlineManagerFlightUpdateService extends AbstractGuiService<Airlin
 
 		Dataset dataset;
 
-		dataset = super.unbindObject(object, "tag", "indication", "cost", "description");
+		dataset = super.unbindObject(object, "tag", "indication", "cost", "description", "draftMode");
 		super.getResponse().addData(dataset);
 	}
 

@@ -53,7 +53,7 @@ public class AirlineManagerLegUpdateService extends AbstractGuiService<AirlineMa
 		Airport arrival = this.repo.findAirportById(arrivalId);
 		Aircraft aircraft = this.repo.findAircraftById(aircraftId);
 
-		super.bindObject(object, "flightNumber", "scheduledDeparture", "scheduledArrival", "status");
+		super.bindObject(object, "flightNumber", "scheduledDeparture", "scheduledArrival");
 		object.setAircraft(aircraft);
 		object.setArrivalAirport(arrival);
 		object.setDepartureAirport(departure);
@@ -110,7 +110,7 @@ public class AirlineManagerLegUpdateService extends AbstractGuiService<AirlineMa
 		SelectChoices departureChoices = SelectChoices.from(airports, "iataCode", object.getDepartureAirport());
 		SelectChoices typeChoices = SelectChoices.from(LegStatus.class, object.getStatus());
 
-		Dataset dataset = super.unbindObject(object, "flightNumber", "scheduledDeparture", "scheduledArrival");
+		Dataset dataset = super.unbindObject(object, "flightNumber", "scheduledDeparture", "scheduledArrival", "draftMode");
 
 		dataset.put("status", typeChoices.getSelected().getKey());
 		dataset.put("statuses", typeChoices);

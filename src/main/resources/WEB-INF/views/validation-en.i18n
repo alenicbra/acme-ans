@@ -23,6 +23,7 @@ acme.validation.leg.negative-duration = The departure time must be before the ar
 acme.validation.leg.sameAirports.message = The arrival and departure airports must be different
 acme.validation.leg.flightNumber.unique = This number already represent another leg
 acme.validation.leg.flightNumber.iata = The flight number must contains the aircraft's airline's iata code
+acme.validation.flight.delete = To delete a flight, all its legs must be in draft mode
 
 acme.validation.identifier.repeated.message = Locator can not be repeated
 acme.validation.lastNibble.blank.message = Last nibble can not be blank
