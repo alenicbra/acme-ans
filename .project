@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Acme-ANS-C2-25-6.0</name>
+	<name>Acme-ANS-C3-25-7.0</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -36,9 +36,9 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>acme-framework</name>
+			<name>classes</name>
 			<type>2</type>
-			<locationURI>WORKSPACE_LOC/Frameworks/Acme-Framework-25.6.0/target/classes</locationURI>
+			<location>C:/Users/RamonVergara/Documents/Workspace-25/Frameworks/Acme-Framework-25.7.0/target/classes</location>
 		</link>
 	</linkedResources>
 	<filteredResources>
