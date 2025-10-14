@@ -27,11 +27,11 @@ public interface LegRep extends AbstractRepository {
 	@Query("select l from Leg l where l.flight.id = :flightId order by l.scheduledDeparture")
 	List<Leg> findLegsByFlight(Integer flightId);
 
-	@Query("select l from Leg l where l.flight.id = :flightId order by l.sequenceOrder ASC")
-	List<Leg> findLegsOrderByAscendentUsingSequenceOrder(Integer flightId);
+	//	@Query("select l from Leg l where l.flight.id = :flightId order by l.sequenceOrder ASC")
+	//	List<Leg> findLegsOrderByAscendentUsingSequenceOrder(Integer flightId);
 
-	@Query("select max(l.sequenceOrder) from Leg l where l.flight.id = :flightId")
-	Integer findLastSequenceOrderByFlightId(int flightId);
+	//	@Query("select max(l.sequenceOrder) from Leg l where l.flight.id = :flightId")
+	//	Integer findLastSequenceOrderByFlightId(int flightId);
 
 	@Query("select l from Leg l where l.aircraft.id = :aircraftId and l.id != :legId and l.draftMode = false")
 	Collection<Leg> findLegsByAircraftId(int aircraftId, int legId);
