@@ -14,28 +14,37 @@ import acme.entities.bookings.Booking;
 import acme.entities.bookings.BookingPassenger;
 import acme.entities.bookings.TravelClass;
 import acme.entities.flights.Flight;
+import acme.features.customer.passenger.CustomerPassengerRepository;
 import acme.realms.Customer;
 
 @GuiService
 public class CustomerBookingDeleteService extends AbstractGuiService<Customer, Booking> {
 
 	@Autowired
-	private CustomerBookingRepository customerBookingRepository;
+	private CustomerBookingRepository	customerBookingRepository;
+
+	@Autowired
+	private CustomerPassengerRepository	customerPassengerRepository;
 
 
 	@Override
 	public void authorise() {
-		boolean status;
-		Booking b;
-		int bId;
-		int customerId;
+		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
 
-		bId = super.getRequest().getData("id", int.class);
-		b = this.customerBookingRepository.findBookingById(bId);
-		customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		int bookingId = super.getRequest().getData("id", int.class);
+		Booking booking = this.customerBookingRepository.findBookingById(bookingId);
+		status = status && !(booking == null) && customerId == booking.getCustomer().getId() && !booking.getPublished();
 
-		status = b != null && b.getCustomer().getId() == customerId;
 		super.getResponse().setAuthorised(status);
+	}
+
+	@Override
+	public void load() {
+		int bookingId = super.getRequest().getData("bookingId", int.class);
+		Booking booking = this.customerBookingRepository.findBookingById(bookingId);
+
+		super.getBuffer().addData(booking);
 	}
 
 	@Override
@@ -46,15 +55,8 @@ public class CustomerBookingDeleteService extends AbstractGuiService<Customer, B
 	@Override
 	public void validate(final Booking booking) {
 		List<BookingPassenger> bookingPassengers = (List<BookingPassenger>) this.customerBookingRepository.findAllBookingPassengersByBookingId(booking.getId());
-		super.state(bookingPassengers.isEmpty(), "*", "customer.booking.form.error.existingPassengers");
+		super.state(bookingPassengers.isEmpty(), "*", "customer.booking.form.error.existingRecord");
 
-	}
-
-	@Override
-	public void load() {
-		int id = super.getRequest().getData("id", int.class);
-		Booking booking = this.customerBookingRepository.findBookingById(id);
-		super.getBuffer().addData(booking);
 	}
 
 	@Override
@@ -65,17 +67,17 @@ public class CustomerBookingDeleteService extends AbstractGuiService<Customer, B
 	@Override
 	public void unbind(final Booking booking) {
 		SelectChoices travelClasses = SelectChoices.from(TravelClass.class, booking.getTravelClass());
-		Collection<Flight> flights = this.customerBookingRepository.findAllFlight();
+		Collection<Flight> flights = this.customerBookingRepository.findAllPublishedFlights();
 
-		Dataset dataset = super.unbindObject(booking, "flight", "customer", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "isPublished", "id");
+		Dataset dataset = super.unbindObject(booking, "flight", "customer", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "published", "id");
 		dataset.put("travelClass", travelClasses);
 
-		Flight flight = this.customerBookingRepository.findBookingById(booking.getId()).getFlight();
+		Boolean hasPassengers;
+		hasPassengers = !this.customerPassengerRepository.findPassengerByBookingId(booking.getId()).isEmpty();
+		super.getResponse().addGlobal("hasPassengers", hasPassengers);
 
-		if (!flights.isEmpty()) {
-			SelectChoices flightChoices = SelectChoices.from(flights, "flightSummary", flight);
-			dataset.put("flights", flightChoices);
-		}
+		SelectChoices flightChoices = SelectChoices.from(flights, "flightSummary", booking.getFlight());
+		dataset.put("flights", flightChoices);
 
 		super.getResponse().addData(dataset);
 

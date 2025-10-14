@@ -16,18 +16,26 @@ public class CustomerBookingPassengerController extends AbstractGuiController<Cu
 	// Internal state ---------------------------------------------------------
 
 	@Autowired
-	private CustomerBookingPassengerCreateService	customerBookingPassengerCreateService;
+	private CustomerBookingPassengerCreateService	CustomerBookingPassengerCreateService;
 
 	@Autowired
-	private CustomerBookingPassengerDeleteService	customerBookingPassengerDeleteService;
+	private CustomerBookingPassengerListService		CustomerBookingPassengerListService;
+
+	@Autowired
+	private CustomerBookingPassengerShowService		CustomerBookingPassengerShowService;
+
+	@Autowired
+	private CustomerBookingPassengerDeleteService	CustomerBookingPassengerDeleteService;
 
 	// Constructors -----------------------------------------------------------
 
 
 	@PostConstruct
 	protected void initialise() {
-		super.addBasicCommand("create", this.customerBookingPassengerCreateService);
-		super.addBasicCommand("delete", this.customerBookingPassengerDeleteService);
+		super.addBasicCommand("list", this.CustomerBookingPassengerListService);
+		super.addBasicCommand("create", this.CustomerBookingPassengerCreateService);
+		super.addBasicCommand("show", this.CustomerBookingPassengerShowService);
+		super.addBasicCommand("delete", this.CustomerBookingPassengerDeleteService);
 
 	}
 }

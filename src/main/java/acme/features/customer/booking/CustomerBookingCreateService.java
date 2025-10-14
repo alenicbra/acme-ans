@@ -3,7 +3,6 @@ package acme.features.customer.booking;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -31,20 +30,7 @@ public class CustomerBookingCreateService extends AbstractGuiService<Customer, B
 
 	@Override
 	public void authorise() {
-		boolean status = true;
-
-		try {
-			if (super.getRequest().hasData("id")) {
-				Integer flightId = super.getRequest().getData("flight", Integer.class);
-				if (flightId == null || flightId != 0) {
-					Flight flight = this.customerBookingRepository.findFlightById(flightId);
-					status = flight != null && !flight.getDraftMode();
-				}
-			}
-		} catch (Throwable E) {
-			status = false;
-		}
-
+		boolean status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
 		super.getResponse().setAuthorised(status);
 	}
 
@@ -57,19 +43,9 @@ public class CustomerBookingCreateService extends AbstractGuiService<Customer, B
 		Customer customer = this.customerBookingRepository.findCustomerById(customerId);
 		Date date = MomentHelper.getCurrentMoment();
 
-		String chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-		Random random = new Random();
-		int longitud = 6 + random.nextInt(3);
-		StringBuilder sb = new StringBuilder(longitud);
-		for (int i = 0; i < longitud; i++) {
-			char c = chars.charAt(random.nextInt(chars.length()));
-			sb.append(c);
-		}
-
 		booking.setCustomer(customer);
 		booking.setPurchaseMoment(date);
-		booking.setIsPublished(false);
-		booking.setLocatorCode(sb.toString());
+		booking.setPublished(false);
 
 		super.getBuffer().addData(booking);
 	}
@@ -81,11 +57,9 @@ public class CustomerBookingCreateService extends AbstractGuiService<Customer, B
 
 	@Override
 	public void validate(final Booking booking) {
-		boolean status = this.customerBookingRepository.findBookingByLocatorCode(booking.getLocatorCode()) == null;
-		super.state(status, "locatorCode", "acme.validation.identifier.repeated.message");
-
-		status = booking.getFlight() != null;
-		super.state(status, "flight", "acme.validation.noChoice");
+		Collection<Booking> bookings = this.customerBookingRepository.findBookingsByLocatorCode(booking.getLocatorCode());
+		boolean status1 = bookings.isEmpty();
+		super.state(status1, "locatorCode", "customer.booking.form.error.locatorCode");
 	}
 
 	@Override
@@ -96,15 +70,11 @@ public class CustomerBookingCreateService extends AbstractGuiService<Customer, B
 	@Override
 	public void unbind(final Booking booking) {
 		SelectChoices travelClasses = SelectChoices.from(TravelClass.class, booking.getTravelClass());
-		Collection<Flight> flights = this.customerBookingRepository.findAllFlight();
+		Collection<Flight> flights = this.customerBookingRepository.findAllPublishedFlights();
+		SelectChoices flightChoices = SelectChoices.from(flights, "flightSummary", booking.getFlight());
 
-		Dataset dataset = super.unbindObject(booking, "flight", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "isPublished", "id");
+		Dataset dataset = super.unbindObject(booking, "flight", "customer", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "published", "id");
 		dataset.put("travelClass", travelClasses);
-
-		SelectChoices flightChoices = null;
-
-		flightChoices = SelectChoices.from(flights, "flightSummary", booking.getFlight());
-
 		dataset.put("flights", flightChoices);
 
 		super.getResponse().addData(dataset);

@@ -3,13 +3,14 @@ package acme.features.customer.bookingPassenger;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.bookings.BookingPassenger;
 import acme.realms.Customer;
 
 @GuiService
-public class CustomerBookingPassengerDeleteService extends AbstractGuiService<Customer, BookingPassenger> {
+public class CustomerBookingPassengerShowService extends AbstractGuiService<Customer, BookingPassenger> {
 
 	// Internal state ---------------------------------------------------------
 
@@ -35,35 +36,19 @@ public class CustomerBookingPassengerDeleteService extends AbstractGuiService<Cu
 
 	@Override
 	public void load() {
-		int BookingPassengerId = super.getRequest().getData("BookingPassengerId", int.class);
-		BookingPassenger BookingPassenger = this.customerBookingPassengerRepository.getBookingPassengerByBookingPassengerId(BookingPassengerId);
-
-		super.getBuffer().addData(BookingPassenger);
-	}
-
-	@Override
-	public void bind(final BookingPassenger BookingPassenger) {
-
-	}
-
-	@Override
-	public void validate(final BookingPassenger BookingPassenger) {
-
-	}
-
-	@Override
-	public void perform(final BookingPassenger BookingPassenger) {
-		this.customerBookingPassengerRepository.delete(BookingPassenger);
+		Integer id = super.getRequest().getData("id", int.class);
+		BookingPassenger BookingPassengers = this.customerBookingPassengerRepository.getBookingPassengerByBookingPassengerId(id);
+		super.getBuffer().addData(BookingPassengers);
 	}
 
 	@Override
 	public void unbind(final BookingPassenger BookingPassenger) {
-		//		Boolean publishedBooking = BookingPassenger.getBooking().getPublished();
-		//		Dataset dataset = super.unbindObject(BookingPassenger, "booking", "passenger");
-		//		dataset.put("bookingLocator", BookingPassenger.getBooking().getLocatorCode());
-		//		dataset.put("passengerFullName", BookingPassenger.getPassenger().getFullName());
-		//		dataset.put("publishedBooking", publishedBooking);
-		//		super.getResponse().addData(dataset);
+		Boolean publishedBooking = BookingPassenger.getBooking().getPublished();
+		Dataset dataset = super.unbindObject(BookingPassenger, "booking", "passenger");
+		dataset.put("bookingLocator", BookingPassenger.getBooking().getLocatorCode());
+		dataset.put("passengerFullName", BookingPassenger.getPassenger().getFullName());
+		dataset.put("publishedBooking", publishedBooking);
+		super.getResponse().addData(dataset);
 	}
 
 }

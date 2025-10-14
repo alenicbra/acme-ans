@@ -15,27 +15,30 @@ import acme.entities.passengers.Passenger;
 public interface CustomerBookingPassengerRepository extends AbstractRepository {
 
 	@Query("SELECT b FROM Booking b WHERE b.id=:bookingId")
-	Booking findBookingById(Integer bookingId);
-
-	@Query("SELECT p FROM Passenger p WHERE p.id=:passengerId")
-	Passenger findPassengerById(Integer passengerId);
-
-	@Query("SELECT bp FROM BookingPassenger bp where bp.id = :id")
-	BookingPassenger findBookingPassengerById(int id);
-
-	@Query("SELECT bp FROM BookingPassenger bp where bp.booking.id = :bookingId")
-	Collection<BookingPassenger> findBookingPassengerByBookingId(int bookingId);
+	Booking getBookingById(int bookingId);
 
 	@Query("SELECT p FROM Passenger p WHERE p.customer.id=:customerId")
-	Collection<Passenger> findAllPassengersByCustomerId(Integer customerId);
+	Collection<Passenger> getAllPassengersByCustomer(int customerId);
 
-	@Query("SELECT bp.passenger FROM BookingPassenger bp WHERE bp.booking.id=:bookingId")
-	Collection<Passenger> findAllPassengersByBookingId(Integer bookingId);
+	@Query("SELECT br.passenger FROM BookingPassenger br WHERE br.booking.id=:bookingId")
+	Collection<Passenger> getPassengersInBooking(int bookingId);
 
-	@Query("select p from Passenger p where p.customer.id = :customerId and p.isPublished = true and p not in (select br.passenger from BookingPassenger br where br.booking.id = :bookingId)")
-	Collection<Passenger> findNOTAssignedPassengersByCustomerIdAndBookingId(int customerId, int bookingId);
+	@Query("SELECT b FROM Booking b WHERE b.customer.id=:customerId and b.published=false")
+	Collection<Booking> getBookingsByCustomerId(int customerId);
 
-	@Query("SELECT bp FROM BookingPassenger bp WHERE bp.booking.id =:bookingId AND bp.passenger.id =:passengerId")
-	BookingPassenger findBookingPassengerByBothIds(Integer bookingId, Integer passengerId);
+	@Query("SELECT br FROM BookingPassenger br WHERE br.booking.customer.id=:customerId")
+	Collection<BookingPassenger> getBookingPassengersByCustomerId(int customerId);
+
+	@Query("SELECT br FROM BookingPassenger br WHERE br.id=:BookingPassengerId")
+	BookingPassenger getBookingPassengerByBookingPassengerId(int BookingPassengerId);
+
+	@Query("SELECT br.booking FROM BookingPassenger br WHERE br.booking.id=:bookingId")
+	Booking getBookingFromBookingPassenger(int bookingId);
+
+	@Query("SELECT br.passenger FROM BookingPassenger br WHERE br.passenger.id=:passengerId")
+	Passenger getPassengerFromBookingPassenger(int passengerId);
+
+	@Query("SELECT br FROM BookingPassenger br WHERE br.passenger.id = :passengerId and br.booking.id = :bookingId")
+	BookingPassenger getBookingPassengerByPassengerIdAndBookingId(int passengerId, int bookingId);
 
 }
