@@ -39,4 +39,18 @@ acme.validation.flight-assignment.simultaneous-leg.message = Cannot be assigned 
 acme.validation.flight-assignment.pilot-already-assigned.message = Duty "pilot" already satisfied for this leg
 acme.validation.flight-assignment.copilot-already-assigned.message = Duty "copilot" already satisfied for this leg.
 
-
+## customer ##########################
+acme.validation.customer.passengersForBookingNotNull.message = The booking must have at least one associated passenger
+acme.validation.customer.lastCardNibble.message = Invalid last four digits of the credit card number
+acme.validation.booking.locatorCode.message = The booking locator code is invalid
+acme.validation.booking.duplicate-locatorCode.message = The booking locator code is duplicated
+acme.validation.passenger.passportNumber.message = Invalid passport number
+acme.validation.passenger.duplicate-passportNumber.message = The passenger's passport number is duplicated
+acme.validation.customer.duplicate-identifier.message = The customer identifier is duplicated
+acme.validation.customer.identifier.message = The customer identifier is incorrect
+acme.validation.customer.phone-number.message = The customer's phone number is incorrect
+acme.validation.customer.lastCardNibble.message = The last four digits of the credit card number must be saved in order to publish a booking
+acme.validation.customer.passengersForBookingNotNull.message = The booking must have associated passengers in order to be published
+acme.validation.customer.publishedFlight.message = The assigned flight must be published
+acme.validation.customer.identifier-incorrect-initials.message = Incorrect initials in the customer identifier
+acme.validation.booking.locatorCode.message = The booking locator code is invalid
