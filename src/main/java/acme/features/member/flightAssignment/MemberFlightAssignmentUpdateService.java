@@ -62,7 +62,7 @@ public class MemberFlightAssignmentUpdateService extends AbstractGuiService<Memb
 				}
 			}
 			if (metodo.equals("POST")) {
-				Integer legId = super.getRequest().getData("legRelated", Integer.class);
+				Integer legId = super.getRequest().getData("leg", Integer.class);
 
 				if (legId == null)
 					validLeg = false;
@@ -106,10 +106,10 @@ public class MemberFlightAssignmentUpdateService extends AbstractGuiService<Memb
 		int fcmIdLogged = super.getRequest().getPrincipal().getActiveRealm().getId();
 		flightCrewMember = this.repository.findFlighCrewMemberById(fcmIdLogged);
 
-		legId = super.getRequest().getData("legRelated", int.class);
+		legId = super.getRequest().getData("leg", int.class);
 		leg = this.repository.findLegById(legId);
 
-		super.bindObject(flightAssignment, "flightCrewsDuty", "currentStatus", "remarks");
+		super.bindObject(flightAssignment, "duty", "currentStatus", "remarks");
 		flightAssignment.setLastUpdatedMoment(MomentHelper.getCurrentMoment());
 		flightAssignment.setMember(flightCrewMember);
 		flightAssignment.setLeg(leg);
@@ -139,19 +139,19 @@ public class MemberFlightAssignmentUpdateService extends AbstractGuiService<Memb
 			// Comprobación de leg no publicada
 			boolean legNotPublished;
 			legNotPublished = !flightAssignment.getLeg().isDraftMode();
-			super.state(legNotPublished, "legRelated", "acme.validation.legNotPublished.message");
+			super.state(legNotPublished, "leg", "acme.validation.legNotPublished.message");
 
 			// Comprobación de leg operada con la aerolínea del FCM
 			boolean legFromRightAirline;
 			legFromRightAirline = flightAssignment.getLeg().getAircraft().getAirline().equals(fcmLogged.getAirline());
-			super.state(legFromRightAirline, "legRelated", "acme.validation.legFromRightAirline.message");
+			super.state(legFromRightAirline, "leg", "acme.validation.legFromRightAirline.message");
 			// Comprobación de leg asignadas simultáneamente
 			boolean legCompatible = true;
 			List<Leg> legByFCM = this.repository.findLegsByFlightCrewMemberId(flightAssignment.getMember().getId(), flightAssignment.getId()).stream().toList();
 			for (Leg l : legByFCM)
 				if (this.legIsCompatible(flightAssignment.getLeg(), l)) {
 					legCompatible = false;
-					super.state(legCompatible, "legRelated", "acme.validation.legCompatible.message");
+					super.state(legCompatible, "leg", "acme.validation.legCompatible.message");
 					break;
 				}
 		}

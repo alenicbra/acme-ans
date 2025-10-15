@@ -37,10 +37,15 @@ acme.validation.leg.null = No puede ser nulo
 acme.validation.ActivityLog.FlightAssignamentNotPublished.message = Por favor publique primero la asignación de vuelo asociada.
 
 ## flight assignments ##########################
-acme.validation.flight-assignment.simultaneous-leg.message = No puede asignarse este vuelo dado que existe uno simultaneo no completado.
-acme.validation.flight-assignment.pilot-already-assigned.message = Ya hay un piloto asociado a este vuelo.
-acme.validation.flight-assignment.copilot-already-assigned.message = Ya hay un copiloto asociado a este vuelo.
-
+acme.validation.legNotPast.message = Leg no pasada
+acme.validation.legNotCompleted.message = Leg no completada
+acme.validation.legNotPublished.message = Leg no publicada
+acme.validation.legFromRightAirline.message = Leg de airline incorrecta
+acme.validation.fcmAvailable-create.message = Miembro no disponible
+acme.validation.legCompatible.message = Leg no compatible
+acme.validation.confirmation.message = Por favor confirme
+acme.validation.isConfirmedOrCancelled.message = No debe estar pendiente
+acme.validation.activityLog-faNotCompleted.message = Asignacion de vuelo no completada
 ## customer ##########################
 acme.validation.customer.passengersForBookingNotNull.message = La reserva debe de tener al menos un pasajero asociado
 acme.validation.customer.lastCardNibble.message = Últimos cuatro dígitos de la tarjeta de crédito inválidos

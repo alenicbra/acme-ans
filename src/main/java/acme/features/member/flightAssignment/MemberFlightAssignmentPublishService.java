@@ -58,7 +58,7 @@ public class MemberFlightAssignmentPublishService extends AbstractGuiService<Mem
 				}
 			}
 			if (metodo.equals("POST")) {
-				Integer legId = super.getRequest().getData("legRelated", Integer.class);
+				Integer legId = super.getRequest().getData("leg", Integer.class);
 
 				if (legId == null)
 					validLeg = false;
@@ -104,10 +104,10 @@ public class MemberFlightAssignmentPublishService extends AbstractGuiService<Mem
 		int fcmIdLogged = super.getRequest().getPrincipal().getActiveRealm().getId();
 		flightCrewMember = this.repository.findFlighCrewMemberById(fcmIdLogged);
 
-		legId = super.getRequest().getData("legRelated", int.class);
+		legId = super.getRequest().getData("leg", int.class);
 		leg = this.repository.findLegById(legId);
 
-		super.bindObject(flightAssignment, "flightCrewsDuty", "currentStatus", "remarks");
+		super.bindObject(flightAssignment, "duty", "currentStatus", "remarks");
 		flightAssignment.setLastUpdatedMoment(MomentHelper.getCurrentMoment());
 		flightAssignment.setMember(flightCrewMember);
 		flightAssignment.setLeg(leg);
@@ -128,22 +128,22 @@ public class MemberFlightAssignmentPublishService extends AbstractGuiService<Mem
 			// Comprobación de leg no pasada
 			boolean legNotPast;
 			legNotPast = flightAssignment.getLeg().getScheduledArrival().before(MomentHelper.getCurrentMoment());
-			super.state(!legNotPast, "legRelated", "acme.validation.legNotPast.message");
+			super.state(!legNotPast, "leg", "acme.validation.legNotPast.message");
 
 			// Comprobación de leg no completada
 			boolean legNotCompleted;
 			legNotCompleted = flightAssignment.getLeg().getStatus().equals(LegStatus.ON_TIME) || flightAssignment.getLeg().getStatus().equals(LegStatus.DELAYED);
-			super.state(legNotCompleted, "legRelated", "acme.validation.legNotCompleted.message");
+			super.state(legNotCompleted, "leg", "acme.validation.legNotCompleted.message");
 
 			// Comprobación de leg no publicada
 			boolean legNotPublished;
 			legNotPublished = !flightAssignment.getLeg().isDraftMode();
-			super.state(legNotPublished, "legRelated", "acme.validation.legNotPublished.message");
+			super.state(legNotPublished, "leg", "acme.validation.legNotPublished.message");
 
 			// Comprobación de leg operada con la aerolínea del FCM
 			boolean legFromRightAirline;
 			legFromRightAirline = flightAssignment.getLeg().getAircraft().getAirline().equals(fcmLogged.getAirline());
-			super.state(legFromRightAirline, "legRelated", "acme.validation.legFromRightAirline.message");
+			super.state(legFromRightAirline, "leg", "acme.validation.legFromRightAirline.message");
 
 			// Comprobación de que el FCM esté AVAILABLE
 			boolean fcmAvailable;

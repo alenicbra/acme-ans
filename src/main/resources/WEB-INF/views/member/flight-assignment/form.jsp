@@ -19,7 +19,7 @@
 		<acme:input-select code="flight-crew-member.flight-assignment.list.label.flightCrewsDuty" path="duty" choices="${duties}"/>
 		<acme:input-moment code="flight-crew-member.flight-assignment.list.label.lastUpdate" path="lastUpdatedMoment" readonly ="true"/>
 		<acme:input-textbox code="flight-crew-member.flight-assignment.list.label.currentStatus" path="currentStatus"  readonly ="true"/>
-		<acme:input-textbox code="flight-crew-member.flight-assignment.list.label.remarks" path="remarks" placeholder="acme.flightAssignment.placeholder.remarks"/>
+		<acme:input-textbox code="flight-crew-member.flight-assignment.list.label.remarks" path="remarks" placeholder="flight-crew-member.flightAssignment.placeholder.remarks"/>
 		<acme:input-select code="flight-crew-member.flight-assignment.list.label.legs" path="leg" choices="${legs}"/>
 		<acme:input-textbox code="flight-crew-member.flight-assignment.list.label.availableFlightCrewMembers" path="FCMname" readonly ="true"/>
 	</jstl:if>	
