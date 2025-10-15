@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Acme-ANS-C3-25-7.0</name>
+	<name>Acme-ANS-C3-25.7.0</name>
 	<comment></comment>
 	<projects>
 	</projects>
@@ -40,7 +40,11 @@
 			<type>2</type>
 			<locationURI>WORKSPACE_LOC/Frameworks/Acme-Framework-25.7.0/target/classes</locationURI>
 		</link>
-
+		<link>
+			<name>target/classes</name>
+			<type>2</type>
+			<location>WORKSPACE_LOC/Projects/Acme-ANS-C3-25.7.0/target/classes/</location>
+		</link>
 	</linkedResources>
 	<filteredResources>
 		<filter>

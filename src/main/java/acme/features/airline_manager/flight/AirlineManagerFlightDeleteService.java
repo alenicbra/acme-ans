@@ -6,6 +6,7 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.components.principals.Principal;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.flights.Flight;
@@ -22,8 +23,16 @@ public class AirlineManagerFlightDeleteService extends AbstractGuiService<Airlin
 	@Override
 	public void authorise() {
 		Boolean status;
+		int managerId;
+		int masterId;
 
-		status = super.getRequest().getPrincipal().hasRealmOfType(AirlineManager.class);
+		final Principal principal = super.getRequest().getPrincipal();
+		managerId = principal.getActiveRealm().getId();
+		masterId = super.getRequest().getData("id", int.class);
+		Flight flight = this.repo.findOneById(masterId);
+
+		status = flight != null && principal.hasRealmOfType(AirlineManager.class) && flight.getManager().getId() == managerId && flight.getDraftMode();
+
 		super.getResponse().setAuthorised(status);
 	}
 
