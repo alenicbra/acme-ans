@@ -25,40 +25,46 @@ public class MemberActivityLogListService extends AbstractGuiService<Member, Act
 
 	@Override
 	public void authorise() {
-		int masterId;
-		int memberId;
-		FlightAssignment fa;
-		boolean status;
+		boolean isFlightAssignmentOwner = false;
 
-		masterId = super.getRequest().getData("masterId", int.class);
-		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		fa = this.repository.findFlightAssignmentById(masterId);
+		Member fcmLogged;
+		FlightAssignment faSelected;
 
-		status = fa.getMember().getId() == memberId;
-		super.getResponse().setAuthorised(status);
+		if (!super.getRequest().getData().isEmpty()) {
+			Integer faId = super.getRequest().getData("faId", Integer.class);
+			if (faId != null) {
+				// Comprobación de que la flight assignments relacionadas al activityLog sean asiganadas al fcm
+				int fcmIdLogged = super.getRequest().getPrincipal().getActiveRealm().getId();
+				fcmLogged = this.repository.findFlighCrewMemberById(fcmIdLogged);
+				faSelected = this.repository.findFlightAssignmentById(faId);
+				if (faSelected != null)
+					isFlightAssignmentOwner = faSelected.getMember() == fcmLogged;
+			}
+		}
+
+		super.getResponse().setAuthorised(isFlightAssignmentOwner);
 
 	}
 
 	@Override
 	public void load() {
-		Collection<ActivityLog> als;
-		int masterId;
+		Collection<ActivityLog> activityLogs;
+		int faId = super.getRequest().getData("faId", int.class);
+		int fcmIdLogged = super.getRequest().getPrincipal().getActiveRealm().getId();
+		activityLogs = this.repository.findOwnedActivityLogsByFAId(faId, fcmIdLogged);
 
-		masterId = super.getRequest().getData("masterId", int.class);
-		als = this.repository.findActivityLogsByAssignmentId(masterId);
-		super.getBuffer().addData(als);
+		super.getResponse().addGlobal("faId", faId);
+
+		super.getBuffer().addData(activityLogs);
 	}
 
 	@Override
-	public void unbind(final ActivityLog al) {
+	public void unbind(final ActivityLog activityLog) {
 		Dataset dataset;
-		int masterId;
 
-		dataset = super.unbindObject(al, "registrationMoment", "typeOfIncident", "severityLevel");
-		masterId = super.getRequest().getData("masterId", int.class);
+		dataset = super.unbindObject(activityLog, "typeOfIncident", "description", "severityLevel");
+		dataset.put("faId", activityLog.getFlightAssignment().getId());
 
-		super.addPayload(dataset, al, "draftMode");
-		super.getResponse().addGlobal("masterId", masterId);
 		super.getResponse().addData(dataset);
 	}
 

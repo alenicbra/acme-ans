@@ -2,6 +2,7 @@
 package acme.entities.legs;
 
 import java.beans.Transient;
+import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Date;
@@ -61,7 +62,9 @@ public class Leg extends AbstractEntity {
 	@Valid
 	private LegStatus			status;
 
-	Boolean						draftMode;
+	@Mandatory
+	@Automapped
+	private boolean				draftMode;
 	// Relationships -----------------------------------------------------------
 
 	@ManyToOne(optional = false)
@@ -102,6 +105,21 @@ public class Leg extends AbstractEntity {
 		String iata = this.aircraft.getAirline().getIataCode();
 
 		return iata + this.flightNumberNumber;
+	}
+
+	@Transient
+	public String getLabel() {
+		SimpleDateFormat timeFormat = new SimpleDateFormat("dd/MM/YYYY HH:mm");
+
+		String departureCity = this.departureAirport.getCity();
+		String departureCountry = this.departureAirport.getCountry();
+		String arrivalCity = this.arrivalAirport.getCity();
+		String arrivalCountry = this.arrivalAirport.getCountry();
+		String departureTime = timeFormat.format(this.getScheduledDeparture());
+		String arrivalTime = timeFormat.format(this.getScheduledArrival());
+
+		return String.format("%s: %s - %s: %s %s - %s", departureCountry, departureCity, arrivalCountry, arrivalCity, departureTime, arrivalTime);
+
 	}
 
 }

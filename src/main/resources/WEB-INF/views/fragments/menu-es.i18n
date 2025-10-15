@@ -49,9 +49,9 @@ master.menu.consumer.favourite-link = Enlace favorito
 
 # master.menu.member ##########################################################
 
-master.menu.member = Miembro de cabina
-master.menu.member.list-flight-assignments-completed = Listar asignaciones de vuelo completadas
-master.menu.member.list-flight-assignments-planned = Listar asignaciones de vuelo planeadas
+master.menu.member = Asistente de vuelo
+master.menu.member.flight-assignment.plannedList = Lista de asignaciones de vuelo planeadas
+master.menu.member.flight-assignment.completedList = Lista de asignaciones de vuelo completadas
 
 # master.menu.user-account ####################################################
 
