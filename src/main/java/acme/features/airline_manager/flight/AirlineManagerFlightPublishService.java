@@ -58,7 +58,7 @@ public class AirlineManagerFlightPublishService extends AbstractGuiService<Airli
 		super.state(!legs.isEmpty(), "*", "acme.validation.flight.no-legs.message");
 
 		for (Leg leg : legs) {
-			boolean isLegPublished = !leg.getDraftMode();
+			boolean isLegPublished = !leg.isDraftMode();
 			super.state(isLegPublished, "*", "acme.validation.flight.leg-not-published.message");
 			break;
 		}

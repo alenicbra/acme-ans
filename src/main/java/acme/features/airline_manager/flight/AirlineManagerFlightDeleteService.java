@@ -53,7 +53,7 @@ public class AirlineManagerFlightDeleteService extends AbstractGuiService<Airlin
 	@Override
 	public void validate(final Flight object) {
 		Collection<Leg> legs = this.repo.getLegsByFlightId(object.getId());
-		legs = legs.stream().filter(e -> !e.getDraftMode()).toList();
+		legs = legs.stream().filter(e -> !e.isDraftMode()).toList();
 		super.state(legs.isEmpty(), "*", "acme.validation.flight.delete");
 	}
 
