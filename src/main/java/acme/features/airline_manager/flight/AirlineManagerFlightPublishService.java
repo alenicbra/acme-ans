@@ -59,7 +59,7 @@ public class AirlineManagerFlightPublishService extends AbstractGuiService<Airli
 		Collection<Leg> legs = this.repo.getLegsByFlightId(object.getId());
 
 		for (Leg leg : legs) {
-			boolean isLegPublished = !leg.getDraftMode();
+			boolean isLegPublished = !leg.isDraftMode();
 			super.state(isLegPublished, "*", "acme.validation.flight.leg-not-published.message");
 			break;
 		}

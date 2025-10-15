@@ -1,6 +1,8 @@
 
 package acme.features.member.activityLog;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
@@ -22,58 +24,73 @@ public class MemberActivityLogPublishService extends AbstractGuiService<Member, 
 
 	@Override
 	public void authorise() {
-		boolean status;
-		ActivityLog al;
-		int alId;
-		int memberId;
+		Member fcmLogged;
+		ActivityLog alSelected;
 
-		alId = super.getRequest().getData("id", int.class);
-		al = this.repository.findActivityLogById(alId);
-		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		boolean existingAL = false;
+		boolean isFlightAssignmentOwner = false;
+		boolean hasRegistrationMoment = true;
+		boolean isPublished = true;
 
-		status = al != null && al.getFlightAssignment().getMember().getId() == memberId;
-		super.getResponse().setAuthorised(status);
+		String metodo = super.getRequest().getMethod();
+
+		int fcmIdLogged = super.getRequest().getPrincipal().getActiveRealm().getId();
+		if (!super.getRequest().getData().isEmpty() && super.getRequest().getData() != null) {
+			Integer alId = super.getRequest().getData("id", Integer.class);
+			if (alId != null) {
+				fcmLogged = this.repository.findFlighCrewMemberById(fcmIdLogged);
+				List<ActivityLog> allFA = this.repository.findAllActivityLog();
+				alSelected = this.repository.findActivityLogById(alId);
+				existingAL = alSelected != null || allFA.contains(alSelected) && alSelected != null;
+				hasRegistrationMoment = super.getRequest().hasData("registrationMoment");
+				if (existingAL) {
+					isFlightAssignmentOwner = alSelected.getFlightAssignment().getMember() == fcmLogged;
+					if (metodo.equals("GET"))
+						isPublished = !alSelected.isDraftMode();
+				}
+			}
+		}
+
+		super.getResponse().setAuthorised(isFlightAssignmentOwner && hasRegistrationMoment && isPublished);
 	}
 
 	@Override
 	public void load() {
-		ActivityLog al;
+		ActivityLog activityLog;
 		int id;
 
 		id = super.getRequest().getData("id", int.class);
-		al = this.repository.findActivityLogById(id);
+		activityLog = this.repository.findActivityLogById(id);
 
-		super.getBuffer().addData(al);
+		super.getBuffer().addData(activityLog);
 	}
 
 	@Override
-	public void bind(final ActivityLog al) {
-		super.bindObject(al, "typeOfIncident", "description", "severityLevel");
+	public void bind(final ActivityLog activityLog) {
+		super.bindObject(activityLog, "typeOfIncident", "description", "severityLevel");
 	}
 
 	@Override
 	public void validate(final ActivityLog activityLog) {
-		//int activityLogId = activityLog.getId();
 
-		//boolean flightAssignamentIsPublished = this.repository.isFlightAssignmentAlreadyPublishedByActivityLogId(activityLogId);
-		//super.state(flightAssignamentIsPublished, "activityLog", "acme.validation.ActivityLog.FlightAssignamentNotPublished.message");
-
-		//Con los datos actuales siempre salta ese error. Lo comento para poder hacer el test.
+		boolean confirmation;
+		confirmation = super.getRequest().getData("confirmation", boolean.class);
+		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
 	}
 
 	@Override
-	public void perform(final ActivityLog al) {
-		al.setDraftMode(false);
-		this.repository.save(al);
+	public void perform(final ActivityLog activityLog) {
+		activityLog.setDraftMode(false);
+		this.repository.save(activityLog);
 	}
 
 	@Override
-	public void unbind(final ActivityLog al) {
+	public void unbind(final ActivityLog activityLog) {
 		Dataset dataset;
 
-		dataset = super.unbindObject(al, "registrationMoment", "typeOfIncident", "description", "severityLevel", "flightAssignment", "draftMode");
+		dataset = super.unbindObject(activityLog, "registrationMoment", "typeOfIncident", "description", "severityLevel", "draftMode");
+		dataset.put("faId", activityLog.getFlightAssignment().getId());
 
-		dataset.put("draftMode", al.isDraftMode());
 		super.getResponse().addData(dataset);
 	}
 

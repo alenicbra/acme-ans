@@ -27,3 +27,14 @@ flight-11,airline-manager-01,"Non-latin 255 desc",true,"EUR 123.45","LLLLLLLLLLL
 
 # short tag with non-latin
 flight-12,airline-manager-01,"โลเร็ม Flights",false,"EUR 800000.00","A flight with non-latin tag.",false
+
+flight-13,airline-manager-01,"Desu",true,"EUR 200.00","Vuelo de prueba D",true
+#Examples for flight assignments
+flight-14,airline-manager-01,"omg",false,"GBP 100.00","Vuelo de prueba fa",false
+flight-15,airline-manager-01,"omg",true,"USD 100.00","Vuelo de prueba fa",false
+flight-16,airline-manager-02,"Alto",true,"EUR 100.00","Vuelo sin tramos",true
+flight-17,airline-manager-01,"lol",true,"EUR 100.00","Vuelo sin tramos",false
+flight-18,airline-manager-01,"lol11",true,"EUR 100.00","Vuelo sin tramos",false
+flight-19,airline-manager-01,"lol22",true,"EUR 100.00","Vuelo sin tramos",false
+flight-20,airline-manager-01,"lol33",true,"EUR 100.00","Vuelo sin tramos",false
+flight-21,airline-manager-01,"lol44",true,"EUR 100.00","Vuelo sin tramos",false

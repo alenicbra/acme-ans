@@ -1,8 +1,8 @@
 
 package acme.features.member.flightAssignment;
 
-import java.util.Collection;
-import java.util.Date;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -15,7 +15,9 @@ import acme.entities.flightAssignments.CurrentStatus;
 import acme.entities.flightAssignments.Duty;
 import acme.entities.flightAssignments.FlightAssignment;
 import acme.entities.legs.Leg;
+import acme.entities.legs.LegStatus;
 import acme.realms.Member;
+import acme.realms.Member.AvailabilityStatus;
 
 @GuiService
 public class MemberFlightAssignmentPublishService extends AbstractGuiService<Member, FlightAssignment> {
@@ -26,143 +28,214 @@ public class MemberFlightAssignmentPublishService extends AbstractGuiService<Mem
 
 	@Override
 	public void authorise() {
-		boolean status;
-		boolean legStatus;
-		int assignmentId;
-		FlightAssignment assignment;
-		int legId;
-		Leg leg;
-		Collection<Leg> validLegs;
-		int memberId;
-		int airlineId;
+		boolean authorization;
 
-		assignmentId = super.getRequest().getData("id", int.class);
-		assignment = this.repository.findFlightAssignmentById(assignmentId);
-		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		airlineId = this.repository.findAirlineIdByMemberId(memberId);
+		Member fcmLogged;
+		FlightAssignment faSelected;
 
-		if (assignment == null)
-			status = false;
-		else if (!assignment.isDraftMode() || assignment.getMember().getId() != memberId)
-			status = false;
-		else if (super.getRequest().getMethod().equals("GET"))
-			status = true;
-		else {
-			validLegs = this.repository.findLegsByAirlineId(airlineId);
-			legId = super.getRequest().getData("leg", int.class);
-			leg = this.repository.findLegById(legId);
-			legStatus = legId == 0 || leg != null && validLegs.contains(leg);
+		boolean existingFA = false;
+		boolean isFlightAssignmentOwner = false;
+		boolean isPublished = false;
+		String metodo = super.getRequest().getMethod();
+		boolean falsePublish = false;
+		Integer faId;
+		boolean validLeg = true;
+		boolean validDuty = true;
+		boolean validStatus = true;
 
-			status = legStatus;
+		int fcmIdLogged = super.getRequest().getPrincipal().getActiveRealm().getId();
+		if (!super.getRequest().getData().isEmpty() && super.getRequest().getData() != null) {
+			falsePublish = true;
+			faId = super.getRequest().getData("id", Integer.class);
+			if (faId != null) {
+				fcmLogged = this.repository.findFlighCrewMemberById(fcmIdLogged);
+				faSelected = this.repository.findFlightAssignmentById(faId);
+				existingFA = faSelected != null;
+				if (existingFA) {
+					isFlightAssignmentOwner = faSelected.getMember() == fcmLogged;
+					if (metodo.equals("GET"))
+						isPublished = !faSelected.isDraftMode();
+				}
+			}
+			if (metodo.equals("POST")) {
+				Integer legId = super.getRequest().getData("legRelated", Integer.class);
+
+				if (legId == null)
+					validLeg = false;
+				else {
+					Leg leg = this.repository.findLegById(legId);
+					if (leg == null && legId != 0)
+						validLeg = false;
+				}
+
+				String duty = super.getRequest().getData("duty", String.class);
+				if (duty == null || Arrays.stream(Duty.values()).noneMatch(tc -> tc.name().equals(duty)) && !duty.equals("0"))
+					validDuty = false;
+
+				String currentStatus = super.getRequest().getData("currentStatus", String.class);
+				if (currentStatus == null || Arrays.stream(CurrentStatus.values()).noneMatch(cs -> cs.name().equals(currentStatus)) && !currentStatus.equals("0"))
+					validStatus = false;
+
+			}
 		}
 
-		super.getResponse().setAuthorised(status);
+		authorization = isFlightAssignmentOwner && validLeg && validDuty && validStatus && !isPublished && falsePublish;
+		super.getResponse().setAuthorised(authorization);
 	}
 
 	@Override
 	public void load() {
-		FlightAssignment assignment;
-		int id;
+		FlightAssignment flightAssignment;
+		int faIdSolicitud;
 
-		id = super.getRequest().getData("id", int.class);
-		assignment = this.repository.findFlightAssignmentById(id);
+		faIdSolicitud = super.getRequest().getData("id", int.class);
+		flightAssignment = this.repository.findFlightAssignmentById(faIdSolicitud);
 
-		super.getBuffer().addData(assignment);
+		super.getBuffer().addData(flightAssignment);
 	}
 
 	@Override
-	public void bind(final FlightAssignment fa) {
+	public void bind(final FlightAssignment flightAssignment) {
+		Member flightCrewMember;
+
 		int legId;
-		int memberId;
+		Leg leg;
 
-		legId = super.getRequest().getData("leg", int.class);
-		Leg leg = this.repository.findLegById(legId);
-		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		super.bindObject(fa, "duty", "currentStatus", "remarks");
-		fa.setLeg(leg);
-		fa.setMember(this.repository.findMemberById(memberId));
+		int fcmIdLogged = super.getRequest().getPrincipal().getActiveRealm().getId();
+		flightCrewMember = this.repository.findFlighCrewMemberById(fcmIdLogged);
+
+		legId = super.getRequest().getData("legRelated", int.class);
+		leg = this.repository.findLegById(legId);
+
+		super.bindObject(flightAssignment, "flightCrewsDuty", "currentStatus", "remarks");
+		flightAssignment.setLastUpdatedMoment(MomentHelper.getCurrentMoment());
+		flightAssignment.setMember(flightCrewMember);
+		flightAssignment.setLeg(leg);
 	}
 
 	@Override
-	public void validate(final FlightAssignment assignment) {
+	public void validate(final FlightAssignment flightAssignment) {
 
-		if (assignment.getLeg() != null) {
-			boolean notSimultaneousAssignment;
-			Collection<FlightAssignment> assignments = this.repository.findAssignmentsByMemberId(assignment.getMember().getId());
+		Member fcmLogged;
+		int fcmIdLogged = super.getRequest().getPrincipal().getActiveRealm().getId();
+		fcmLogged = this.repository.findFlighCrewMemberById(fcmIdLogged);
 
-			notSimultaneousAssignment = true;
+		// Comprobación de leg no null
+		boolean isLegNull;
+		isLegNull = flightAssignment.getLeg() != null;
+		if (isLegNull) {
 
-			for (FlightAssignment a : assignments)
-				if (!(MomentHelper.isBefore(assignment.getLeg().getScheduledArrival(), a.getLeg().getScheduledDeparture()) || MomentHelper.isBefore(a.getLeg().getScheduledArrival(), assignment.getLeg().getScheduledDeparture())))
-					notSimultaneousAssignment = false;
+			// Comprobación de leg no pasada
+			boolean legNotPast;
+			legNotPast = flightAssignment.getLeg().getScheduledArrival().before(MomentHelper.getCurrentMoment());
+			super.state(!legNotPast, "legRelated", "acme.validation.legNotPast.message");
 
-			super.state(notSimultaneousAssignment, "leg", "acme.validation.flight-assignment.simultaneous-leg.message");
+			// Comprobación de leg no completada
+			boolean legNotCompleted;
+			legNotCompleted = flightAssignment.getLeg().getStatus().equals(LegStatus.ON_TIME) || flightAssignment.getLeg().getStatus().equals(LegStatus.DELAYED);
+			super.state(legNotCompleted, "legRelated", "acme.validation.legNotCompleted.message");
 
-			if (assignment.getDuty() != null) {
-				boolean onlyOnePilot;
-				FlightAssignment pilotAssignment;
-				pilotAssignment = this.repository.findPilotAssignmentsByLegId(assignment.getLeg().getId());
-				onlyOnePilot = pilotAssignment == null || !assignment.getDuty().equals(Duty.PILOT);
-				super.state(onlyOnePilot, "duty", "acme.validation.flight-assignment.pilot-already-assigned.message");
+			// Comprobación de leg no publicada
+			boolean legNotPublished;
+			legNotPublished = !flightAssignment.getLeg().isDraftMode();
+			super.state(legNotPublished, "legRelated", "acme.validation.legNotPublished.message");
 
-				boolean onlyOneCopilot;
-				FlightAssignment copilotAssignment;
+			// Comprobación de leg operada con la aerolínea del FCM
+			boolean legFromRightAirline;
+			legFromRightAirline = flightAssignment.getLeg().getAircraft().getAirline().equals(fcmLogged.getAirline());
+			super.state(legFromRightAirline, "legRelated", "acme.validation.legFromRightAirline.message");
 
-				copilotAssignment = this.repository.findCopilotAssignmentsByLegId(assignment.getLeg().getId());
-				onlyOneCopilot = copilotAssignment == null || !assignment.getDuty().equals(Duty.COPILOT);
+			// Comprobación de que el FCM esté AVAILABLE
+			boolean fcmAvailable;
+			fcmAvailable = flightAssignment.getMember().getAvailabilityStatus().equals(AvailabilityStatus.AVAILABLE);
+			super.state(fcmAvailable, "*", "acme.validation.fcmAvailable-publish.message");
 
-				super.state(onlyOneCopilot, "duty", "acme.validation.flight-assignment.copilot-already-assigned.message");
+			// Comprobación de que el estado del FA sea CONFIRMED o CANCELLED
+			boolean isConfirmedOrCancelled = true;
+			if (flightAssignment.getCurrentStatus() != null) {
+				isConfirmedOrCancelled = flightAssignment.getCurrentStatus().equals(CurrentStatus.CONFIRMED) || flightAssignment.getCurrentStatus().equals(CurrentStatus.CANCELLED);
+				super.state(isConfirmedOrCancelled, "currentStatus", "acme.validation.isConfirmedOrCancelled.message");
 			}
 
+			// Comprobación de 1 piloto y un copiloto
+			boolean pilotExceptionPassed = true;
+			boolean coPilotExceptionPassed = true;
+			if (flightAssignment.getDuty() != null) {
+				Integer fAHasPilot = this.repository.findPilotInLeg(flightAssignment.getLeg().getId()).size();
+				Integer fAHasCoPilot = this.repository.findCoPilotInLeg(flightAssignment.getLeg().getId()).size();
+
+				Duty flightCrewsDuty = flightAssignment.getDuty();
+				if (flightCrewsDuty.equals(Duty.PILOT) && fAHasPilot >= 1 && !flightAssignment.getCurrentStatus().equals(CurrentStatus.CANCELLED))
+					pilotExceptionPassed = false;
+				else if (flightCrewsDuty.equals(Duty.CO_PILOT) && fAHasCoPilot >= 1 && !flightAssignment.getCurrentStatus().equals(CurrentStatus.CANCELLED))
+					coPilotExceptionPassed = false;
+
+				super.state(pilotExceptionPassed, "legRelated", "acme.validation.pilotExceptionPassed.message");
+				super.state(coPilotExceptionPassed, "legRelated", "acme.validation.coPilotExceptionPassed.message");
+			}
+
+			// Comprobación de leg asignadas simultáneamente
+			boolean legCompatible = true;
+
+			List<Leg> legByFCM = this.repository.findLegsByFlightCrewMemberId(flightAssignment.getMember().getId(), flightAssignment.getId()).stream().toList();
+			for (Leg l : legByFCM)
+				if (this.legIsCompatible(flightAssignment, l)) {
+					legCompatible = false;
+					super.state(legCompatible, "legRelated", "acme.validation.legCompatible.message");
+					break;
+				}
+
+			boolean confirmation;
+			confirmation = super.getRequest().getData("confirmation", boolean.class);
+			super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
 		}
 
 	}
 
-	@Override
-	public void perform(final FlightAssignment assignment) {
-		assignment.setDraftMode(false);
-		assignment.setLastUpdatedMoment(MomentHelper.getCurrentMoment());
-		this.repository.save(assignment);
+	private boolean legIsCompatible(final FlightAssignment fa, final Leg legToCompare) {
+		Leg finalLeg = fa.getLeg();
+		boolean departureCompatible = MomentHelper.isInRange(finalLeg.getScheduledDeparture(), legToCompare.getScheduledDeparture(), legToCompare.getScheduledArrival());
+		boolean arrivalCompatible = MomentHelper.isInRange(finalLeg.getScheduledArrival(), legToCompare.getScheduledDeparture(), legToCompare.getScheduledArrival());
+		return departureCompatible && arrivalCompatible;
 	}
 
 	@Override
-	public void unbind(final FlightAssignment fa) {
+	public void perform(final FlightAssignment flightAssignment) {
+		flightAssignment.setDraftMode(false);
+		this.repository.save(flightAssignment);
+	}
+
+	@Override
+	public void unbind(final FlightAssignment flightAssignment) {
 		Dataset dataset;
-		SelectChoices dutyChoice;
-		SelectChoices currentStatusChoice;
 
-		SelectChoices legChoice;
-		Collection<Leg> legs;
+		SelectChoices statuses;
 
-		int memberId;
-		int airlineId;
+		SelectChoices flightcrewsDuties;
 
-		dutyChoice = SelectChoices.from(Duty.class, fa.getDuty());
-		currentStatusChoice = SelectChoices.from(CurrentStatus.class, fa.getCurrentStatus());
-		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		airlineId = this.repository.findAirlineIdByMemberId(memberId);
-		legs = this.repository.findLegsByAirlineId(airlineId);
-		legChoice = SelectChoices.from(legs, "flightNumberNumber", fa.getLeg());
+		SelectChoices legChoices;
+		List<Leg> legs;
 
-		Date currentMoment;
-		currentMoment = MomentHelper.getCurrentMoment();
-		boolean isCompleted;
-		isCompleted = this.repository.areLegsCompletedByFlightAssignament(fa.getId(), currentMoment);
+		statuses = SelectChoices.from(CurrentStatus.class, flightAssignment.getCurrentStatus());
 
-		dataset = super.unbindObject(fa, "duty", "lastUpdatedMoment", "currentStatus", "remarks", "draftMode", "leg", "member");
-		dataset.put("dutyChoice", dutyChoice);
-		dataset.put("currentStatusChoice", currentStatusChoice);
-		dataset.put("legChoice", legChoice);
-		dataset.put("member", fa.getMember().getEmployeeCode());
-		dataset.put("onlyOneCopilot", false);
-		dataset.put("onlyOnePilot", false);
-		dataset.put("notSimultaneousAssignment", false);
-		dataset.put("availableMember", false);
-		dataset.put("notCompletedLeg", false);
-		dataset.put("legId", legChoice.getSelected().getKey());
-		dataset.put("memberId", fa.getMember().getId());
-		dataset.put("isCompleted", isCompleted);
+		flightcrewsDuties = SelectChoices.from(Duty.class, flightAssignment.getDuty());
 
+		legs = this.repository.findAllLegs();
+		legChoices = SelectChoices.from(legs, "label", flightAssignment.getLeg());
+
+		int fcmIdLogged = super.getRequest().getPrincipal().getActiveRealm().getId();
+		Member flightCrewMember = this.repository.findFlighCrewMemberById(fcmIdLogged);
+
+		dataset = super.unbindObject(flightAssignment, "duty", "lastUpdatedMoment", "currentStatus", "remarks", "draftMode");
+		dataset.put("statuses", statuses);
+		dataset.put("duties", flightcrewsDuties);
+		dataset.put("leg", legChoices.getSelected().getKey());
+		dataset.put("legs", legChoices);
+		dataset.put("member", flightCrewMember);
+		dataset.put("FCMname", flightCrewMember.getIdentity().getName() + " " + flightCrewMember.getIdentity().getSurname());
+		dataset.put("lastUpdatedMoment", MomentHelper.getCurrentMoment());
+		dataset.put("confirmation", false);
+		dataset.put("readonly", false);
 		super.getResponse().addData(dataset);
 	}
 

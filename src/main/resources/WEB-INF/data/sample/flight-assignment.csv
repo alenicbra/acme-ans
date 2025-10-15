@@ -1,34 +1,35 @@
-key,key:member,key:leg,duty,last-updated-moment,current-status,remarks,draft-mode
-# base entity
-flight-assignament-00,member-00,leg-00,PILOT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
-# duty - standard variations
-flight-assignament-01,member-01,leg-01,PILOT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
-flight-assignament-02,member-02,leg-02,COPILOT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
-flight-assignament-03,member-03,leg-03,LEAD_ATTENDANT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
-flight-assignament-04,member-02,leg-04,CABIN_ATTENDANT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
-flight-assignament-05,member-03,leg-05,PILOT,2023/01/01 10:00, CONFIRMED,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
-# moment - standard variations
-flight-assignament-06,member-00,leg-00,PILOT,2000/01/01 00:00, CONFIRMED,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
-flight-assignament-07,member-01,leg-01,PILOT,2000/01/01 00:01, CONFIRMED,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
-flight-assignament-08,member-02,leg-02,PILOT,2024/12/31 23:59, CONFIRMED,"Past assignment",true
+key,duty,last-updated-moment,current-status,remarks,key:member,key:leg,draft-mode
+flight-assignment-01,PILOT,2020/08/30 12:00,CONFIRMED,"",member-01,leg-31,false
+flight-assignment-02,CO_PILOT,2020/08/30 12:00,CONFIRMED,"",member-02,leg-31,true
+flight-assignment-03,LEAD_ATTENDANT,2020/08/30 12:00,CONFIRMED,"",member-03,leg-31,true
+flight-assignment-04,CABIN_ATTENDANT,2020/08/30 12:00,CONFIRMED,"",member-04,leg-31,true
 
-# currentStatus - standard variations
-flight-assignament-09,member-00,leg-04,PILOT,2023/01/01 10:00, PENDING,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
-flight-assignament-10,member-00,leg-05,PILOT,2023/01/01 10:00, CANCELLED,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
+# Base Entity
+flight-assignment-05,CABIN_ATTENDANT,2020/08/30 12:00,CONFIRMED,"",member-01,leg-31,false
 
-# remarks - standard variations
-flight-assignament-11,member-00,leg-06,PILOT,2023/01/01 10:00, CONFIRMED,"L",false
-flight-assignament-12,member-00,leg-07,PILOT,2023/01/01 10:00, CONFIRMED,"Lo",true
-flight-assignament-13,member-00,leg-06,PILOT,2023/01/01 10:00, CONFIRMED,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",true
-flight-assignament-14,member-00,leg-03,PILOT,2023/01/01 10:00, CONFIRMED,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor*",true
-flight-assignament-15,member-00,leg-02,PILOT,2023/01/01 10:00, CONFIRMED,null,true
-flight-assignament-16,member-00,leg-03,PILOT,2023/01/01 10:00, CONFIRMED,"",true
+# flightCrewsDuty
+flight-assignment-06,LEAD_ATTENDANT,2019/01/01 12:00,CONFIRMED,"",member-01,leg-37,false
+flight-assignment-07,PILOT,2019/01/01 12:00,CONFIRMED,"",member-01,leg-37,false
+flight-assignment-08,CO_PILOT,2019/01/01 12:00,CONFIRMED,"",member-01,leg-37,false
 
-# base entity
-flight-assignament-17,member-00,leg-12,PILOT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
-# duty - standard variations
-flight-assignament-18,member-01,leg-13,PILOT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",false
-flight-assignament-19,member-02,leg-14,COPILOT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
-flight-assignament-20,member-03,leg-15,LEAD_ATTENDANT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
-flight-assignament-21,member-03,leg-16,CABIN_ATTENDANT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",true
-flight-assignament-22,member-00,leg-17,CABIN_ATTENDANT,2023/01/01 10:00,CONFIRMED, "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",false
+# lastUpdate
+flight-assignment-09,CABIN_ATTENDANT,2025/01/01 00:00,CONFIRMED,"",member-01,leg-31,false
+flight-assignment-10,CABIN_ATTENDANT,2024/12/31 23:59,CONFIRMED,"",member-01,leg-31,false
+
+# CurrentStatus
+flight-assignment-13,CABIN_ATTENDANT,2020/08/30 12:00,PENDING,"",member-01,leg-31,false
+flight-assignment-14,CABIN_ATTENDANT,2020/08/30 12:00,CANCELLED,"",member-01,leg-31,false
+
+# Remarks
+flight-assignment-15,CABIN_ATTENDANT,2020/08/30 12:00,CONFIRMED,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*",member-01,leg-31,false
+flight-assignment-16,CABIN_ATTENDANT,2020/08/30 12:00,CONFIRMED,"",member-01,leg-31,false
+flight-assignment-17,CABIN_ATTENDANT,2020/08/30 12:00,CONFIRMED,"L",member-01,leg-31,false
+flight-assignment-18,CABIN_ATTENDANT,2020/08/30 12:00,CONFIRMED,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor",member-01,leg-31,false
+flight-assignment-19,CABIN_ATTENDANT,2020/08/30 12:00,CONFIRMED,"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut enim ad minim veniam? Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor*",member-01,leg-31,false
+flight-assignment-20,CABIN_ATTENDANT,2020/08/30 12:00,CONFIRMED,"โลเร็ม อิปซัม",member-01,leg-31,false
+flight-assignment-21,CABIN_ATTENDANT,2020/08/30 12:00,CONFIRMED,"لوريم إيبسوم",member-01,leg-31,false
+flight-assignment-22,CABIN_ATTENDANT,2020/08/30 12:00,CONFIRMED,"洛伦·伊普森",member-01,leg-31,false
+
+# Testing - fa
+flight-assignment-23,PILOT,2020/08/30 12:00,CONFIRMED,"",member-01,leg-38,false
+flight-assignment-24,CO_PILOT,2020/08/30 12:00,CONFIRMED,"",member-03,leg-38,false

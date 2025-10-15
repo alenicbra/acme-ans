@@ -28,7 +28,7 @@ public class AirlineManagerLegDeleteService extends AbstractGuiService<AirlineMa
 		int managerId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
 		Leg leg = this.repo.findLegById(legId);
-		Boolean status = super.getRequest().getPrincipal().hasRealmOfType(AirlineManager.class) && leg.getFlight().getManager().getId() == managerId && leg.getDraftMode();
+		Boolean status = super.getRequest().getPrincipal().hasRealmOfType(AirlineManager.class) && leg.getFlight().getManager().getId() == managerId && leg.isDraftMode();
 
 		super.getResponse().setAuthorised(status);
 	}

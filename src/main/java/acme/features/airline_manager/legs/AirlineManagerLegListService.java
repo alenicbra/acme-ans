@@ -72,7 +72,7 @@ public class AirlineManagerLegListService extends AbstractGuiService<AirlineMana
 		dataset.put("aircrafts", aircraftChoices);
 
 		super.getResponse().addData(dataset);
-		super.getRequest().addGlobal("draftMode", object.getDraftMode());
+		super.getRequest().addGlobal("draftMode", object.isDraftMode());
 	}
 
 }
