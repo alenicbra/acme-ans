@@ -22,5 +22,5 @@
 </acme:list>
 
 <jstl:if test="${_command == 'list'}">
-	<acme:button code="flight-crew-member.activity-log.list.button.create" action="/flight-crew-member/activity-log/create?faId=${faId}"/>
+	<acme:button code="flight-crew-member.activity-log.list.button.create" action="/member/activity-log/create?faId=${faId}"/>
 </jstl:if>
