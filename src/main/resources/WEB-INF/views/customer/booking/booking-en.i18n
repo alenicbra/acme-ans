@@ -29,3 +29,6 @@ customer.booking.form.button.publish = Publish Booking
 
 customer.booking.form.button.passengers = Booking Passengers 
 customer.booking.form.button.delete = Delete Booking
+
+customer.booking.form.placeholder.locatorCode = Code example: ABC123
+customer.booking.form.placeholder.lastCardNibble = Last 4 numbers of your credit card

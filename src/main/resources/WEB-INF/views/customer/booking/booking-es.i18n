@@ -27,3 +27,6 @@ customer.booking.form.button.publish = Publicar reserva
 
 customer.booking.form.button.passengers = Pasajeros de la reserva
 customer.booking.form.button.delete = Borrar reserva
+
+customer.booking.form.placeholder.locatorCode = Ejemplo de código: ABC123
+customer.booking.form.placeholder.lastCardNibble = Últimos 4 dígitos de tu tarjeta de crédito

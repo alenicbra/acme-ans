@@ -4,11 +4,11 @@
 <%@taglib prefix="acme" uri="http://acme-framework.org/"%>
 
 <acme:form>
-	<acme:input-textbox code="customer.passenger.form.label.fullName" path= "fullName"/>
+	<acme:input-textbox code="customer.passenger.form.label.fullName" path= "fullName" placeholder="passenger.form.placeholder.fullName"/>
 	<acme:input-email code="customer.passenger.form.label.email" path="email" />
-	<acme:input-textbox code="customer.passenger.form.label.passportNumber" path="passportNumber" />
+	<acme:input-textbox code="customer.passenger.form.label.passportNumber" path="passportNumber" placeholder="passenger.form.placeholder.passportNumber" />
 	<acme:input-moment code="customer.passenger.form.label.birthDate" path="birthDate" />
-	<acme:input-textarea code="customer.passenger.form.label.specialNeeds" path="specialNeeds" />
+	<acme:input-textarea code="customer.passenger.form.label.specialNeeds" path="specialNeeds" placeholder="passenger.form.placeholder.specialNeeds"/>
 	
 	<jstl:choose>
 		<jstl:when test="${acme:anyOf(_command, 'show|update|publish|delete') && draftMode == true}">
