@@ -1,6 +1,8 @@
 
 package acme.features.member.activityLog;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
@@ -22,50 +24,71 @@ public class MemberActivityLogDeleteService extends AbstractGuiService<Member, A
 
 	@Override
 	public void authorise() {
-		boolean status;
-		ActivityLog al;
-		int alId;
-		int memberId;
+		Member fcmLogged;
+		ActivityLog alSelected;
 
-		alId = super.getRequest().getData("id", int.class);
-		al = this.repository.findActivityLogById(alId);
-		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		boolean existingAL = false;
+		boolean isFlightAssignmentOwner = false;
+		boolean isPublished = true;
+		boolean hasRegistrationMoment = true;
 
-		status = al != null && al.getFlightAssignment().getMember().getId() == memberId && al.isDraftMode();
-		super.getResponse().setAuthorised(status);
+		String metodo = super.getRequest().getMethod();
+
+		int fcmIdLogged = super.getRequest().getPrincipal().getActiveRealm().getId();
+		if (!super.getRequest().getData().isEmpty() && super.getRequest().getData() != null) {
+			Integer alId = super.getRequest().getData("id", Integer.class);
+			if (alId != null) {
+				fcmLogged = this.repository.findFlighCrewMemberById(fcmIdLogged);
+				List<ActivityLog> allFA = this.repository.findAllActivityLog();
+				alSelected = this.repository.findActivityLogById(alId);
+				existingAL = alSelected != null || allFA.contains(alSelected) && alSelected != null;
+				hasRegistrationMoment = super.getRequest().hasData("registrationMoment");
+				if (existingAL) {
+					isFlightAssignmentOwner = alSelected.getFlightAssignment().getMember() == fcmLogged;
+					if (metodo.equals("GET"))
+						isPublished = !alSelected.isDraftMode();
+				}
+			}
+		}
+
+		super.getResponse().setAuthorised(isFlightAssignmentOwner && isPublished && hasRegistrationMoment);
 	}
 
 	@Override
 	public void load() {
-		ActivityLog al;
+		ActivityLog activityLog;
 		int id;
 
 		id = super.getRequest().getData("id", int.class);
-		al = this.repository.findActivityLogById(id);
+		activityLog = this.repository.findActivityLogById(id);
 
-		super.getBuffer().addData(al);
+		super.getBuffer().addData(activityLog);
 	}
 
 	@Override
-	public void bind(final ActivityLog al) {
-		super.bindObject(al, "typeOfIncident", "description", "severityLevel");
+	public void bind(final ActivityLog activityLog) {
+		super.bindObject(activityLog, "registrationMoment", "typeOfIncident", "description", "severityLevel");
 	}
 
 	@Override
 	public void validate(final ActivityLog activityLog) {
-		;
+		boolean confirmation;
+		confirmation = super.getRequest().getData("confirmation", boolean.class);
+		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
 	}
 
 	@Override
-	public void perform(final ActivityLog al) {
-		this.repository.delete(al);
+	public void perform(final ActivityLog activityLog) {
+		this.repository.delete(activityLog);
 	}
 
 	@Override
-	public void unbind(final ActivityLog al) {
+	public void unbind(final ActivityLog activityLog) {
 		Dataset dataset;
 
-		dataset = super.unbindObject(al, "registrationMoment", "typeOfIncident", "description", "severityLevel", "flightAssignment", "draftMode");
+		dataset = super.unbindObject(activityLog, "registrationMoment", "typeOfIncident", "description", "severityLevel", "draftMode");
+		dataset.put("faId", activityLog.getFlightAssignment().getId());
+
 		super.getResponse().addData(dataset);
 	}
 }

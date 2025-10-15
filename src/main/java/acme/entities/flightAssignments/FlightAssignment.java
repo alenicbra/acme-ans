@@ -28,32 +28,33 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(indexes = {
-	@Index(columnList = "draftMode"), @Index(columnList = "lastUpdatedMoment"), @Index(columnList = "currentStatus")
+	@Index(columnList = "member_id, leg_id"), @Index(columnList = "member_id"), @Index(columnList = "duty, leg_id, draftMode")
 })
 public class FlightAssignment extends AbstractEntity {
 
 	private static final long	serialVersionUID	= 1L;
 
-	@Mandatory
-	@Enumerated(EnumType.STRING)
+	@Mandatory(message = "Must not be null")
 	@Automapped
+	@Enumerated(EnumType.STRING)
 	private Duty				duty;
 
-	@Mandatory
-	@ValidMoment(past = true)
+	@Mandatory(message = "Must not be null")
+	@ValidMoment(past = true, min = "2000/01/01 00:00", max = "2100/01/01 00:00", message = "Must be past")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				lastUpdatedMoment;
 
-	@Mandatory
-	@Enumerated(EnumType.STRING)
+	@Mandatory(message = "Must not be null")
 	@Automapped
+	@Enumerated(EnumType.STRING)
 	private CurrentStatus		currentStatus;
 
 	@Optional
-	@ValidString(max = 255)
+	@ValidString(min = 0, max = 255, message = "Must not be too long")
 	@Automapped
 	private String				remarks;
 
+	@Mandatory(message = "Must not be null")
 	@Automapped
 	private boolean				draftMode;
 

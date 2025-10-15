@@ -1,12 +1,13 @@
 
 package acme.features.member.flightAssignment;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
 import acme.client.components.views.SelectChoices;
+import acme.client.helpers.MomentHelper;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.activityLogs.ActivityLog;
@@ -29,75 +30,101 @@ public class MemberFlightAssignmentDeleteService extends AbstractGuiService<Memb
 
 	@Override
 	public void authorise() {
-		boolean status;
-		FlightAssignment fa;
-		Member member;
+		Member fcmLogged;
+		FlightAssignment faSelected;
 
-		fa = this.repository.findFlightAssignmentById(super.getRequest().getData("id", int.class));
-		member = fa == null ? null : fa.getMember();
-		status = super.getRequest().getPrincipal().hasRealm(member) || fa != null && fa.isDraftMode();
+		boolean existingFA = false;
+		boolean isFlightAssignmentOwner = false;
+		boolean isPublished = false;
+		boolean falseDelete = false;
+		Integer faId;
 
-		super.getResponse().setAuthorised(status);
+		String metodo = super.getRequest().getMethod();
+
+		int fcmIdLogged = super.getRequest().getPrincipal().getActiveRealm().getId();
+		if (!super.getRequest().getData().isEmpty() && super.getRequest().getData() != null) {
+			falseDelete = true;
+			faId = super.getRequest().getData("id", Integer.class);
+			if (faId != null) {
+				fcmLogged = this.repository.findFlighCrewMemberById(fcmIdLogged);
+				faSelected = this.repository.findFlightAssignmentById(faId);
+				existingFA = faSelected != null;
+				if (existingFA) {
+					isFlightAssignmentOwner = faSelected.getMember() == fcmLogged;
+					if (metodo.equals("GET"))
+						isPublished = !faSelected.isDraftMode();
+				}
+			}
+		}
+
+		super.getResponse().setAuthorised(isFlightAssignmentOwner && !isPublished && falseDelete);
 	}
 
 	@Override
 	public void load() {
-		FlightAssignment fa;
-		int id;
+		FlightAssignment flightAssignment;
+		int faIdSolicitud;
 
-		id = super.getRequest().getData("id", int.class);
-		fa = this.repository.findFlightAssignmentById(id);
+		faIdSolicitud = super.getRequest().getData("id", int.class);
+		flightAssignment = this.repository.findFlightAssignmentById(faIdSolicitud);
 
-		super.getBuffer().addData(fa);
+		super.getBuffer().addData(flightAssignment);
 	}
 
 	@Override
-	public void bind(final FlightAssignment fa) {
-		;
+	public void bind(final FlightAssignment flightAssignment) {
+		super.bindObject(flightAssignment, "duty", "lastUpdatedMoment", "currentStatus", "remarks", "leg");
+
 	}
 
 	@Override
-	public void validate(final FlightAssignment fa) {
-		;
+	public void validate(final FlightAssignment flightAssignment) {
+
+		boolean confirmation;
+		confirmation = super.getRequest().getData("confirmation", boolean.class);
+		super.state(confirmation, "confirmation", "acme.validation.confirmation.message");
 	}
 
 	@Override
-	public void perform(final FlightAssignment fa) {
-		Collection<ActivityLog> logs;
-
-		logs = this.repository.findActivityLogsByAssignmentId(fa.getId());
-		this.repository.deleteAll(logs);
-		this.repository.delete(fa);
+	public void perform(final FlightAssignment flightAssignment) {
+		List<ActivityLog> logs = this.repository.findActivityLogsByFAId(flightAssignment.getId());
+		if (flightAssignment.isDraftMode() && !logs.isEmpty())
+			this.repository.deleteAll(logs);
+		this.repository.delete(flightAssignment);
 	}
 
 	@Override
-	public void unbind(final FlightAssignment fa) {
+	public void unbind(final FlightAssignment flightAssignment) {
 		Dataset dataset;
-		SelectChoices dutyChoice;
-		SelectChoices currentStatusChoice;
 
-		SelectChoices legChoice;
-		Collection<Leg> legs;
+		SelectChoices statuses;
 
-		int memberId;
-		int airlineId;
+		SelectChoices flightcrewsDuties;
 
-		dutyChoice = SelectChoices.from(Duty.class, fa.getDuty());
-		currentStatusChoice = SelectChoices.from(CurrentStatus.class, fa.getCurrentStatus());
-		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		airlineId = this.repository.findAirlineIdByMemberId(memberId);
-		legs = this.repository.findLegsByAirlineId(airlineId);
-		legChoice = SelectChoices.from(legs, "flightNumberNumber", fa.getLeg());
+		SelectChoices legChoices;
+		List<Leg> legs;
 
-		dataset = super.unbindObject(fa, "duty", "lastUpdatedMoment", "currentStatus", "remarks", "draftMode");
-		dataset.put("dutyChoice", dutyChoice);
-		dataset.put("currentStatusChoice", currentStatusChoice);
-		dataset.put("legChoice", legChoice);
-		dataset.put("member", fa.getMember().getEmployeeCode());
-		dataset.put("legId", legChoice.getSelected().getKey());
-		dataset.put("memberId", fa.getMember().getId());
+		statuses = SelectChoices.from(CurrentStatus.class, flightAssignment.getCurrentStatus());
+
+		flightcrewsDuties = SelectChoices.from(Duty.class, flightAssignment.getDuty());
+
+		legs = this.repository.findAllLegs();
+		legChoices = SelectChoices.from(legs, "flightNumber", flightAssignment.getLeg());
+
+		int fcmIdLogged = super.getRequest().getPrincipal().getActiveRealm().getId();
+		Member flightCrewMember = this.repository.findFlighCrewMemberById(fcmIdLogged);
+
+		dataset = super.unbindObject(flightAssignment, "duty", "lastUpdatedMoment", "currentStatus", "remarks", "draftMode");
+		dataset.put("statuses", statuses);
+		dataset.put("duties", flightcrewsDuties);
+		dataset.put("leg", legChoices.getSelected().getKey());
+		dataset.put("legs", legChoices);
+		dataset.put("lastUpdatedMoment", MomentHelper.getCurrentMoment());
+		dataset.put("member", flightCrewMember);
+		dataset.put("FCMname", flightCrewMember.getIdentity().getName() + " " + flightCrewMember.getIdentity().getSurname());
+		dataset.put("confirmation", false);
+		dataset.put("readonly", false);
 
 		super.getResponse().addData(dataset);
 	}
-
 }

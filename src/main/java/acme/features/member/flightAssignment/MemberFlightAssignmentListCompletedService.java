@@ -9,7 +9,6 @@ import acme.client.components.models.Dataset;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.flightAssignments.FlightAssignment;
-import acme.entities.legs.LegStatus;
 import acme.realms.Member;
 
 @GuiService
@@ -30,25 +29,20 @@ public class MemberFlightAssignmentListCompletedService extends AbstractGuiServi
 
 	@Override
 	public void load() {
-		Collection<FlightAssignment> fas;
-		LegStatus legStatus = LegStatus.LANDED;
-		int memberId;
+		Collection<FlightAssignment> completedFlightAssignments;
+		int fcmIdLogged = super.getRequest().getPrincipal().getActiveRealm().getId();
 
-		memberId = super.getRequest().getPrincipal().getActiveRealm().getId();
-		fas = this.repository.findCompletedFlightAssignmentByMemberId(legStatus, memberId);
+		completedFlightAssignments = this.repository.findCompletedFlightAssignmentByFlightCrewMemberId(fcmIdLogged);
 
-		super.getBuffer().addData(fas);
-
+		super.getBuffer().addData(completedFlightAssignments);
 	}
 
 	@Override
-	public void unbind(final FlightAssignment fa) {
+	public void unbind(final FlightAssignment flightAssignment) {
 		Dataset dataset;
 
-		dataset = super.unbindObject(fa, "duty", "lastUpdatedMoment", "currentStatus");
-		super.addPayload(dataset, fa, "remarks", "draftMode", "member.identity.fullName", "leg.Status");
+		dataset = super.unbindObject(flightAssignment, "duty", "lastUpdatedMoment", "currentStatus", "draftMode");
 
 		super.getResponse().addData(dataset);
 	}
-
 }

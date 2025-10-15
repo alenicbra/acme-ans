@@ -5,8 +5,8 @@
 
 <acme:list>
 	<acme:list-column code = "manager.leg.list.label.id" path= "id"/>
-	<acme:list-column code = "manager.leg.list.label.departureAirport" path= "flightNumberNumber"/>
-	<acme:list-column code = "manager.leg.list.label.arrivalAirport" path= "scheduledDeparture"/>
+	<acme:list-column code = "manager.leg.list.label.departureAirport" path= "departure"/>
+	<acme:list-column code = "manager.leg.list.label.arrivalAirport" path= "arrival"/>
 </acme:list>
 
 <jstl:if test="${_command == 'list' && flightDraftMode==true}">
