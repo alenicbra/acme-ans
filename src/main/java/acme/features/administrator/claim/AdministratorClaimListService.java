@@ -43,7 +43,7 @@ public class AdministratorClaimListService extends AbstractGuiService<Administra
 		dataset = super.unbindObject(object, "type", "indicator");
 		published = !object.isDraftMode() ? "✓" : "x";
 		dataset.put("published", published);
-		dataset.put("leg", object.getLeg().getFlightNumberNumber());
+		dataset.put("leg", object.getLeg().getFlightNumber());
 		dataset.put("assistanceAgent", object.getAssistanceAgent().getEmployeeCode());
 	}
 

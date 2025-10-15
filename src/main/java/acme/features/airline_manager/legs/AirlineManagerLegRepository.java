@@ -46,6 +46,6 @@ public interface AirlineManagerLegRepository extends AbstractRepository {
 	@Query("Select l From Leg l Where l.flight = :flight")
 	Collection<Leg> findAllLegByFlight(@Param("flight") Flight flight);
 
-	@Query("SELECT l FROM Leg l WHERE l.flightNumberNumber = :flightNumber AND l.id != :legId")
+	@Query("SELECT l FROM Leg l WHERE l.flightNumber = :flightNumber AND l.id != :legId")
 	Optional<Leg> findByFlightNumber(String flightNumber, int legId);
 }

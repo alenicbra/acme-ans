@@ -1,4 +1,4 @@
-key,locator-code,purchase-moment,travel-class,last-nibble,is-published,key:customer,key:flight
+key,locator-code,purchase-moment,travel-class,last-card-nibble,draft-mode,key:customer,key:flight
 booking-01,ABC1233,2017/05/12 13:30,ECONOMY,null,true,customer-01,flight-01
 booking-02,DEF4567,2016/05/12 13:30,BUSINESS,null,false,customer-02,flight-02
 booking-03,GHI7890,2018/08/22 09:15,ECONOMY,1234,true,customer-01,flight-01

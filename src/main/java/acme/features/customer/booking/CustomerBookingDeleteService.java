@@ -2,7 +2,6 @@
 package acme.features.customer.booking;
 
 import java.util.Collection;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,65 +19,80 @@ import acme.realms.Customer;
 public class CustomerBookingDeleteService extends AbstractGuiService<Customer, Booking> {
 
 	@Autowired
-	private CustomerBookingRepository customerBookingRepository;
+	private CustomerBookingRepository repository;
 
 
 	@Override
 	public void authorise() {
 		boolean status;
-		Booking b;
-		int bId;
-		int customerId;
+		int id;
+		Booking booking;
+		Customer customer;
+		status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
 
-		bId = super.getRequest().getData("id", int.class);
-		b = this.customerBookingRepository.findBookingById(bId);
-		customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+		if (status && super.getRequest().hasData("id")) {
+			id = super.getRequest().getData("id", int.class);
+			booking = this.repository.findBookingById(id);
+			customer = booking == null ? null : booking.getCustomer();
 
-		status = b != null && b.getCustomer().getId() == customerId;
+			status = booking != null && super.getRequest().getPrincipal().hasRealm(customer);
+
+			status = status && booking.getDraftMode();
+		} else
+			status = false;
+
 		super.getResponse().setAuthorised(status);
 	}
 
 	@Override
-	public void bind(final Booking booking) {
-		super.bindObject(booking, "flight", "locatorCode", "travelClass", "lastNibble");
-	}
-
-	@Override
-	public void validate(final Booking booking) {
-		List<BookingPassenger> bookingPassengers = (List<BookingPassenger>) this.customerBookingRepository.findAllBookingPassengersByBookingId(booking.getId());
-		super.state(bookingPassengers.isEmpty(), "*", "customer.booking.form.error.existingPassengers");
-
-	}
-
-	@Override
 	public void load() {
-		int id = super.getRequest().getData("id", int.class);
-		Booking booking = this.customerBookingRepository.findBookingById(id);
+		Booking booking;
+		int id;
+
+		id = super.getRequest().getData("id", int.class);
+		booking = this.repository.findBookingById(id);
+
 		super.getBuffer().addData(booking);
 	}
 
 	@Override
+	public void bind(final Booking booking) {
+		super.bindObject(booking, "locatorCode", "travelClass", "lastCardNibble", "flight");
+	}
+
+	@Override
+	public void validate(final Booking booking) {
+		;
+	}
+
+	@Override
 	public void perform(final Booking booking) {
-		this.customerBookingRepository.delete(booking);
+		Collection<BookingPassenger> bookingPassengers;
+
+		bookingPassengers = this.repository.findBookingPassengersByBookingId(booking.getId());
+		this.repository.deleteAll(bookingPassengers);
+		this.repository.delete(booking);
 	}
 
 	@Override
 	public void unbind(final Booking booking) {
-		SelectChoices travelClasses = SelectChoices.from(TravelClass.class, booking.getTravelClass());
-		Collection<Flight> flights = this.customerBookingRepository.findAllFlight();
+		Dataset dataset;
+		SelectChoices travelClass;
+		Collection<Flight> flights;
+		SelectChoices flightChoices;
 
-		Dataset dataset = super.unbindObject(booking, "flight", "customer", "locatorCode", "purchaseMoment", "travelClass", "price", "lastNibble", "isPublished", "id");
-		dataset.put("travelClass", travelClasses);
+		travelClass = SelectChoices.from(TravelClass.class, booking.getTravelClass());
 
-		Flight flight = this.customerBookingRepository.findBookingById(booking.getId()).getFlight();
+		flights = this.repository.findAllFlights();
 
-		if (!flights.isEmpty()) {
-			SelectChoices flightChoices = SelectChoices.from(flights, "flightSummary", flight);
-			dataset.put("flights", flightChoices);
-		}
+		flightChoices = SelectChoices.from(flights, "bookingFlight", booking.getFlight());
+
+		dataset = super.unbindObject(booking, "flight", "locatorCode", "travelClass", "purchaseMoment", "price", "lastCardNibble", "id", "draftMode");
+
+		dataset.put("travelClass", travelClass);
+		dataset.put("flights", flightChoices);
 
 		super.getResponse().addData(dataset);
-
 	}
 
 }

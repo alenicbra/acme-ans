@@ -17,15 +17,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(indexes = {
-	@Index(columnList = "booking_id"), @Index(columnList = "passenger_id"), @Index(columnList = "booking_id,passenger_id")
+	@Index(columnList = "booking_id"), @Index(columnList = "passenger_id")
 })
 public class BookingPassenger extends AbstractEntity {
 
-	// Serialisation version ---------------------
-
 	private static final long	serialVersionUID	= 1L;
 
-	// Relationships ------------------------------
 	@Mandatory
 	@Valid
 	@ManyToOne(optional = false)

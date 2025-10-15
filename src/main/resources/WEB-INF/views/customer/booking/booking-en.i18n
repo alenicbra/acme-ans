@@ -1,29 +1,34 @@
-# messages-en.i18n
+customer.booking.list.label.locatorCode= Locator Code:
+customer.booking.list.label.purchaseMoment= Purchase Moment:
+customer.booking.list.label.travelClass= Travel Class:
+customer.booking.list.label.price= Price:
+customer.booking.list.label.price= Price:
+customer.booking.list.label.lastCardNibble= Last Card Nibble:
+customer.booking.list.label.flight= Flight:
+customer.booking.list.label.customer= Customer:
+customer.booking.list.label.draftMode= Draft Mode:
+
+customer.booking.form.label.locatorCode= Locator Code:
+customer.booking.form.label.purchaseMoment= Purchase Moment:
+customer.booking.form.label.travelClass= Travel Class:
+customer.booking.form.label.price= Price:
+customer.booking.form.label.lastCardNibble= Last Card Nibble:
+customer.booking.form.label.flight= Flight:
+customer.booking.form.label.customer= Customer:
+customer.booking.form.label.draftMode = Draft Mode:
+
 
 customer.booking.list.title = Booking List
-customer.booking.form.title = Booking Details
-
-customer.booking.form.button.update = Update
-customer.booking.form.button.create = Create Booking
-customer.booking.form.button.listPassenger = Passengers of this booking
-customer.booking.form.button.addPassenger = Add Passenger
-customer.booking.form.button.deletePassenger = Delete Passenger
-customer.booking.form.button.publish = Publish
-customer.booking.form.button.delete = Delete
-
+customer.booking.form.title = Booking Form
 
 customer.booking.list.button.create = Create Booking
-customer.booking.list.label.locatorCode = Locator Code
-customer.booking.list.label.purchaseMoment = Purchase Date
-customer.booking.list.label.travelClass = Travel Class
-customer.booking.list.label.price = Price
-customer.booking.list.label.isPublished = Is this Booking Published?
 
-customer.booking.form.label.flight = Flight
-customer.booking.form.label.locatorCode = Locator Code
-customer.booking.form.label.purchaseMoment = Purchase Moment
-customer.booking.form.label.travelClass = Travel Class
-customer.booking.form.label.price = Price
-customer.booking.form.label.lastNibble = Last Nibble Of Credit Card (Optional)
+customer.booking.form.button.create = Create Booking
+customer.booking.form.button.update = Update Booking
+customer.booking.form.button.publish = Publish Booking
 
-customer.validation.booking.form.error.noPassengers = This booking requires at least one passenger to be published
+customer.booking.form.button.passengers = Booking Passengers 
+customer.booking.form.button.delete = Delete Booking
+
+customer.booking.form.placeholder.locatorCode = Code example: ABC123
+customer.booking.form.placeholder.lastCardNibble = Last 4 numbers of your credit card

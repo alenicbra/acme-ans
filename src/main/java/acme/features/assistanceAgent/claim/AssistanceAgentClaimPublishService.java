@@ -44,7 +44,7 @@ public class AssistanceAgentClaimPublishService extends AbstractGuiService<Assis
 			boolean isLegValid = leg != null;
 
 			if (isLegValid) {
-				boolean isLegNotDraft = !leg.getDraftMode();
+				boolean isLegNotDraft = !leg.isDraftMode();
 				if (isLegNotDraft) {
 					boolean isFlightNotDraft = !leg.getFlight().getDraftMode();
 					externalRelation = isFlightNotDraft;

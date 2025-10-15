@@ -4,16 +4,16 @@
 <%@taglib prefix="acme" uri="http://acme-framework.org/"%>
 
 <acme:form>
-    <acme:input-select code="customer.bookingPassenger.list.label.passenger" path="passenger" choices="${passengers}"/>
-    <acme:input-textbox code="customer.bookingPassenger.list.label.booking" path="booking" readonly="true"/>
-	
 	<jstl:choose>
 		<jstl:when test="${_command == 'create'}">
-			<acme:submit code="customer.bookingPassenger.form.button.create" action="/customer/booking-passenger/create?bookingId=${booking.id}"/>
-			<acme:button code="customer.passenger.form.link.create" action="/customer/passenger/create"/>
+			<acme:input-select code="customer.booking-passenger.form.label.passenger" path="passenger" choices="${passengers}"/>
+			<acme:submit code="customer.booking-passenger.form.button.create" action="/customer/booking-passenger/create?bookingId=${booking.id}"/>
 		</jstl:when>
-		<jstl:when test="${_command == 'delete'}">
-			<acme:submit code="customer.bookingPassenger.form.button.delete" action="/customer/booking-passenger/delete?id=${booking.id}"/>	
-		</jstl:when>		
-	</jstl:choose>	
+		<jstl:when test="${_command == 'show'}">
+			<acme:input-textbox code="customer.booking-passenger.form.label.passenger" path="passengerName" readonly="true"/>
+			<jstl:if test="${booking.draftMode == true}">
+				<acme:submit code="customer.booking-passenger.form.button.delete" action="/customer/booking-passenger/delete"/>
+			</jstl:if>
+		</jstl:when>
+	</jstl:choose>
 </acme:form>

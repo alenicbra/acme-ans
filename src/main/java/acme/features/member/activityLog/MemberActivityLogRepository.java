@@ -2,6 +2,7 @@
 package acme.features.member.activityLog;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -9,26 +10,26 @@ import org.springframework.stereotype.Repository;
 import acme.client.repositories.AbstractRepository;
 import acme.entities.activityLogs.ActivityLog;
 import acme.entities.flightAssignments.FlightAssignment;
+import acme.realms.Member;
 
 @Repository
 public interface MemberActivityLogRepository extends AbstractRepository {
 
-	@Query("SELECT al FROM ActivityLog al")
-	Collection<ActivityLog> findAllActivityLogs();
-
-	@Query("SELECT al FROM ActivityLog al WHERE al.id = :id")
-	ActivityLog findActivityLogById(int id);
-
-	@Query("select al from ActivityLog al where al.flightAssignment.id = ?1")
-	Collection<ActivityLog> findActivityLogsByAssignmentId(int id);
-
-	@Query("select f from FlightAssignment f where f.id = ?1")
+	@Query("select fa from FlightAssignment fa where fa.id = :id")
 	FlightAssignment findFlightAssignmentById(int id);
 
-	@Query("SELECT fa FROM FlightAssignment fa")
-	Collection<FlightAssignment> findAllFlightAssignments();
+	@Query("select al from ActivityLog al where al.id = :id")
+	ActivityLog findActivityLogById(int id);
 
-	@Query("select case when count(al) > 0 then true else false end from ActivityLog al where al.id = :id and al.flightAssignment.draftMode = false")
-	boolean isFlightAssignmentAlreadyPublishedByActivityLogId(int id);
+	@Query("select al from ActivityLog al where al.flightAssignment.id = :faId and al.flightAssignment.member.id = :fcmId")
+	Collection<ActivityLog> findOwnedActivityLogsByFAId(int faId, int fcmId);
 
+	@Query("select fcm from Member fcm where fcm.id = :id")
+	Member findFlighCrewMemberById(int id);
+
+	@Query("select fa from FlightAssignment fa")
+	List<FlightAssignment> findAllFlightAssignments();
+
+	@Query("select al from ActivityLog al")
+	List<ActivityLog> findAllActivityLog();
 }

@@ -1,7 +1,6 @@
 
 package acme.entities.bookings;
 
-import java.beans.Transient;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,6 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 import javax.validation.Valid;
 
 import acme.client.components.basis.AbstractEntity;
@@ -21,8 +21,8 @@ import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidString;
 import acme.client.helpers.SpringHelper;
+import acme.constraints.ValidBooking;
 import acme.entities.flights.Flight;
-import acme.features.customer.passenger.CustomerPassengerRepository;
 import acme.realms.Customer;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,15 +30,16 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@ValidBooking
 @Table(indexes = {
-	@Index(columnList = "customer_id"), @Index(columnList = "locatorCode")
+	@Index(columnList = "locatorCode")
 })
 public class Booking extends AbstractEntity {
 
 	private static final long	serialVersionUID	= 1L;
 
 	@Mandatory
-	@ValidString(pattern = "^[A-Z0-9]{6,8}$")
+	@ValidString(pattern = "^[A-Z0-9]{6,8}$", message = "{acme.validation.booking.locatorCode.message}")
 	@Column(unique = true)
 	private String				locatorCode;
 
@@ -53,51 +54,41 @@ public class Booking extends AbstractEntity {
 	private TravelClass			travelClass;
 
 	@Optional
-	@ValidString(pattern = "\\d{4}$")
+	@ValidString(pattern = "^\\d{4}$", message = "{acme.validation.booking.lastCardNibble.message}")
 	@Automapped
-	private String				lastNibble;
+	private String				lastCardNibble;
 
 	@Mandatory
-	@Valid
 	@Automapped
-	private Boolean				isPublished;
-
-	// Relationships -------------------------------------------------------------
-
-	@Mandatory
-	@Valid
-	@ManyToOne(optional = false)
-	private Customer			customer;
+	private Boolean				draftMode;
 
 	@Mandatory
 	@Valid
 	@ManyToOne(optional = false)
 	private Flight				flight;
 
+	@Mandatory
+	@Valid
+	@ManyToOne(optional = false)
+	private Customer			customer;
+
 
 	@Transient
 	public Money getPrice() {
 		Money price = new Money();
-
-		CustomerPassengerRepository customerPassengerRepository = SpringHelper.getBean(CustomerPassengerRepository.class);
+		BookingRep bookingRepository;
+		bookingRepository = SpringHelper.getBean(BookingRep.class);
 
 		if (this.getFlight() == null) {
 			price.setAmount(0.0);
 			price.setCurrency("EUR");
 		} else {
 			Flight flight = this.getFlight();
-			Integer numberOfPassenger = customerPassengerRepository.findAllPassengerByBookingId(this.getId()).size();
-			price.setAmount(flight.getCost().getAmount() * numberOfPassenger);
+			Integer flightPassengers = bookingRepository.findPassengersByBookingId(this.getId()).size();
+			price.setAmount(flight.getCost().getAmount() * flightPassengers);
 			price.setCurrency(flight.getCost().getCurrency());
 		}
-
 		return price;
-	}
 
-	@Transient
-	public Integer getNumberOfPassengers() {
-		CustomerPassengerRepository customerPassengerRepository = SpringHelper.getBean(CustomerPassengerRepository.class);
-		return customerPassengerRepository.findAllPassengerByBookingId(this.getId()).size();
 	}
-
 }

@@ -1,9 +1,12 @@
 
 package acme.features.customer.passenger;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import acme.client.components.models.Dataset;
+import acme.client.components.views.SelectChoices;
 import acme.client.services.AbstractGuiService;
 import acme.client.services.GuiService;
 import acme.entities.passengers.Passenger;
@@ -12,29 +15,28 @@ import acme.realms.Customer;
 @GuiService
 public class CustomerPassengerShowService extends AbstractGuiService<Customer, Passenger> {
 
-	// Internal state ---------------------------------------------------------
-
 	@Autowired
-	private CustomerPassengerRepository customerPassengerRepository;
-
-	// AbstractGuiService interface -------------------------------------------
+	private CustomerPassengerRepository repository;
 
 
 	@Override
 	public void authorise() {
-		boolean status = true;
+		boolean status = false;
+		int customerId = 0;
+		int passengerId = 0;
+		Passenger passenger = null;
 
-		try {
+		status = super.getRequest().getPrincipal().hasRealmOfType(Customer.class);
 
-			Integer passengerId = super.getRequest().getData("id", Integer.class);
-			Passenger passenger = this.customerPassengerRepository.findPassengerById(passengerId);
+		if (status && super.getRequest().hasData("id")) {
+			customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
+			passengerId = super.getRequest().getData("id", int.class);
+			passenger = this.repository.findPassengerById(passengerId);
 
-			Integer customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
-
-			status = passenger.getCustomer().getId() == customerId;
-
-		} catch (Throwable E) {
-			status = false;
+			if (passenger != null)
+				status = passenger.getCustomer().getId() == customerId;
+			else
+				status = false;
 		}
 
 		super.getResponse().setAuthorised(status);
@@ -42,14 +44,28 @@ public class CustomerPassengerShowService extends AbstractGuiService<Customer, P
 
 	@Override
 	public void load() {
-		Integer id = super.getRequest().getData("id", int.class);
-		Passenger passenger = this.customerPassengerRepository.findPassengerById(id);
+		Passenger passenger;
+		int id;
+
+		id = super.getRequest().getData("id", int.class);
+		passenger = this.repository.findPassengerById(id);
+
 		super.getBuffer().addData(passenger);
 	}
 
 	@Override
 	public void unbind(final Passenger passenger) {
-		Dataset dataset = super.unbindObject(passenger, "fullName", "email", "passportNumber", "birthDate", "specialNeeds", "isPublished");
+		Dataset dataset;
+		Collection<Customer> customers;
+		SelectChoices choicesCustomer;
+
+		customers = this.repository.findAllCustomers();
+		choicesCustomer = SelectChoices.from(customers, "identifier", passenger.getCustomer());
+
+		dataset = super.unbindObject(passenger, "fullName", "email", "passportNumber", "birthDate", "specialNeeds", "draftMode");
+
+		dataset.put("customer", choicesCustomer.getSelected().getKey());
+		dataset.put("customers", choicesCustomer);
 
 		super.getResponse().addData(dataset);
 	}

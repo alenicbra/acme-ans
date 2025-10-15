@@ -37,7 +37,7 @@ public class CustomerBookingPassengerCreateService extends AbstractGuiService<Cu
 			booking = this.repository.findBookingById(bookingId);
 
 			if (booking != null) {
-				status = booking.getCustomer().getId() == customerId && !booking.getIsPublished();
+				status = booking.getCustomer().getId() == customerId && booking.getDraftMode();
 
 				if (status && super.getRequest().getMethod().equals("POST") && super.getRequest().hasData("passenger")) {
 					int passengerId = super.getRequest().getData("passenger", int.class);
@@ -45,11 +45,11 @@ public class CustomerBookingPassengerCreateService extends AbstractGuiService<Cu
 					if (passengerId != 0) {
 						Passenger passenger = this.repository.findPassengerById(passengerId);
 
-						if (passenger == null || passenger.getCustomer().getId() != customerId || !passenger.getIsPublished() == true)
+						if (passenger == null || passenger.getCustomer().getId() != customerId || passenger.getDraftMode() == true)
 							status = false;
 
 						if (status) {
-							Collection<Passenger> assignedPassengers = this.repository.findAllPassengersByBookingId(bookingId);
+							Collection<Passenger> assignedPassengers = this.repository.findAssignedPassengersByBookingId(bookingId);
 							if (assignedPassengers.contains(passenger))
 								status = false;
 						}
@@ -100,7 +100,7 @@ public class CustomerBookingPassengerCreateService extends AbstractGuiService<Cu
 		int customerId = super.getRequest().getPrincipal().getActiveRealm().getId();
 		int bookingId = super.getRequest().getData("bookingId", int.class);
 
-		notAssignedPassengers = this.repository.findNOTAssignedPassengersByCustomerIdAndBookingId(customerId, bookingId);
+		notAssignedPassengers = this.repository.findNotAssignedPassengersByCustomerAndBookingId(customerId, bookingId);
 		choicesPassengers = SelectChoices.from(notAssignedPassengers, "fullName", BookingPassenger.getPassenger());
 
 		dataset = super.unbindObject(BookingPassenger, "passenger", "booking");

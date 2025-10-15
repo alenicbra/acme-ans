@@ -34,33 +34,33 @@ public class CustomerBookingPassengerListService extends AbstractGuiService<Cust
 
 	@Override
 	public void load() {
-		Collection<BookingPassenger> bookingPassengers;
+		Collection<BookingPassenger> BookingPassengers;
 		int bookingId;
 
 		bookingId = super.getRequest().getData("bookingId", int.class);
-		bookingPassengers = this.repository.findBookingPassengerByBookingId(bookingId);
+		BookingPassengers = this.repository.findBookingPassengersByBookingId(bookingId);
 
-		super.getBuffer().addData(bookingPassengers);
+		super.getBuffer().addData(BookingPassengers);
 	}
 
 	@Override
-	public void unbind(final BookingPassenger bookingPassenger) {
+	public void unbind(final BookingPassenger BookingPassenger) {
 		Dataset dataset;
 
-		dataset = super.unbindObject(bookingPassenger, "passenger.fullName", "passenger.email", "passenger.passportNumber", "passenger.birthDate", "passenger.specialNeeds", "passenger.draftModePassenger");
+		dataset = super.unbindObject(BookingPassenger, "passenger.fullName", "passenger.email", "passenger.passportNumber", "passenger.birthDate", "passenger.specialNeeds", "passenger.draftMode");
 
 		super.getResponse().addData(dataset);
 	}
 
 	@Override
-	public void unbind(final Collection<BookingPassenger> bookingPassengers) {
+	public void unbind(final Collection<BookingPassenger> BookingPassengers) {
 		int bookingId;
 		Booking booking;
 		final boolean showCreate;
 
 		bookingId = super.getRequest().getData("bookingId", int.class);
 		booking = this.repository.findBookingById(bookingId);
-		showCreate = !booking.getIsPublished() == true && super.getRequest().getPrincipal().hasRealm(booking.getCustomer());
+		showCreate = booking.getDraftMode() == true && super.getRequest().getPrincipal().hasRealm(booking.getCustomer());
 
 		super.getResponse().addGlobal("bookingId", bookingId);
 		super.getResponse().addGlobal("showCreate", showCreate);

@@ -28,8 +28,7 @@ public class AirlineManagerLegDeleteService extends AbstractGuiService<AirlineMa
 		int managerId = super.getRequest().getPrincipal().getActiveRealm().getId();
 
 		Leg leg = this.repo.findLegById(legId);
-		Boolean status = super.getRequest().getPrincipal().hasRealmOfType(AirlineManager.class) && leg.getFlight().getManager().getId() == managerId && leg.getDraftMode();
-
+		Boolean status = super.getRequest().getPrincipal().hasRealmOfType(AirlineManager.class) && leg.getFlight().getManager().getId() == managerId && leg.isDraftMode();
 
 		super.getResponse().setAuthorised(status);
 	}
@@ -52,7 +51,7 @@ public class AirlineManagerLegDeleteService extends AbstractGuiService<AirlineMa
 		Airport arrival = this.repo.findAirportById(arrivalId);
 		Aircraft aircraft = this.repo.findAircraftById(aircraftId);
 
-		super.bindObject(object, "flightNumberNumber", "scheduledDeparture", "scheduledArrival", "status");
+		super.bindObject(object, "flightNumber", "scheduledDeparture", "scheduledArrival", "status");
 		object.setAircraft(aircraft);
 		object.setArrivalAirport(arrival);
 		object.setDepartureAirport(departure);
@@ -77,7 +76,7 @@ public class AirlineManagerLegDeleteService extends AbstractGuiService<AirlineMa
 		SelectChoices departureChoices = SelectChoices.from(airports, "iataCode", object.getDepartureAirport());
 		SelectChoices typeChoices = SelectChoices.from(LegStatus.class, object.getStatus());
 
-		Dataset dataset = super.unbindObject(object, "flightNumberNumber", "scheduledDeparture", "scheduledArrival");
+		Dataset dataset = super.unbindObject(object, "flightNumber", "scheduledDeparture", "scheduledArrival", "draftMode");
 
 		dataset.put("status", typeChoices.getSelected().getKey());
 		dataset.put("statuses", typeChoices);

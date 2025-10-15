@@ -1,6 +1,6 @@
 key,model,registrationNumber,capacity,cargoWeight,active,details,key:airline
 # base entity
-aircraft-00,Lorem ipsum dolor sit ame,ABC123,128,26000,true,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,airline-01
+aircraft-00,"Airbus 360","1",250,2400,true,"nothing",airline-01
 
 # model - standard variations
 aircraft-01,L,DEF456,128,26000,true,Lorem ipsum dolor sit amet. consectetur adipiscing elit. Sed do: eiusmod tempor incididunt ut labore et dolore magna aliqua! Ut*,airline-01
@@ -40,3 +40,5 @@ aircraft-26,Lorem ipsum dolor sit ame,DEF001,128,26000,true,洛伦·伊普森,ai
 aircraft-27,Lorem ipsum dolor sit ame,DEF002,128,26000,true,<marquee>Hacked</marquee>,airline-01
 aircraft-28,Lorem ipsum dolor sit ame,DEF003,128,26000,true,<script>alert(‘Hacked!’),airline-01
 aircraft-29,Lorem ipsum dolor sit ame,DEF004,128,26000,true,' or 'A' = 'A ,airline-01
+
+aircraft-30,"Boeing","46",245,2600,true,"",airline-02

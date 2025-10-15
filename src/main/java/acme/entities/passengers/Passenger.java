@@ -18,6 +18,7 @@ import acme.client.components.validation.Optional;
 import acme.client.components.validation.ValidEmail;
 import acme.client.components.validation.ValidMoment;
 import acme.client.components.validation.ValidString;
+import acme.constraints.ValidPassenger;
 import acme.realms.Customer;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,8 +26,9 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
+@ValidPassenger
 @Table(indexes = {
-	@Index(columnList = "customer_id")
+	@Index(columnList = "passportNumber"), @Index(columnList = "draftMode")
 })
 public class Passenger extends AbstractEntity {
 
@@ -43,7 +45,7 @@ public class Passenger extends AbstractEntity {
 	private String				email;
 
 	@Mandatory
-	@ValidString(pattern = "^[A-Z0-9]{6,9}$", message = "{acme.validation.passportNumber.notPattern.message}")
+	@ValidString(pattern = "^[A-Z0-9]{6,9}$", message = "{acme.validation.passenger.passportNumber.message}")
 	@Automapped
 	private String				passportNumber;
 
@@ -53,18 +55,17 @@ public class Passenger extends AbstractEntity {
 	private Date				birthDate;
 
 	@Optional
-	@ValidString(min = 1, max = 50)
+	@ValidString(min = 0, max = 50)
 	@Automapped
 	private String				specialNeeds;
+
+	@Mandatory
+	@Automapped
+	private Boolean				draftMode;
 
 	@Mandatory
 	@Valid
 	@ManyToOne(optional = false)
 	private Customer			customer;
-
-	@Mandatory
-	@Valid
-	@Automapped
-	private Boolean				isPublished;
 
 }

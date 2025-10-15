@@ -1,17 +1,27 @@
-# messages-es.i18n
+customer.passenger.list.label.fullName = Nombre completo:
+customer.passenger.list.label.email = Email:
+customer.passenger.list.label.passportNumber = Número de pasaporte:
+customer.passenger.list.label.birthDate = Fecha de nacimiento:
+customer.passenger.list.label.draftMode = Modo borrador:
 
-customer.passenger.list.title = Lista de Pasajeros
-customer.passenger.form.title = Detalles del Pasajero
+customer.passenger.form.label.fullName = Nombre completo:
+customer.passenger.form.label.email = Email:
+customer.passenger.form.label.passportNumber = Número de pasaporte:
+customer.passenger.form.label.birthDate = Fecha de nacimiento:
+customer.passenger.form.label.specialNeeds = Necesidades especiales:
 
-customer.passenger.form.button.update = Actualizar
-customer.passenger.form.button.create = Agregar Pasajero
-customer.passenger.form.button.publish = Publicar
-customer.passenger.form.button.delete = Eliminar
+customer.passenger.list.title = Lista de pasajeros
+customer.passenger.form.title = Formulario de pasajeros
 
-customer.passenger.list.button.create = Añadir Pasajero
-customer.passenger.list.label.fullName = Nombre Completo
-customer.passenger.list.label.email = Correo Electrónico
-customer.passenger.list.label.passportNumber = Número de Pasaporte
-customer.passenger.list.label.birthDate = Fecha de Nacimiento
-customer.passenger.list.label.specialNeeds = Necesidades Especiales
-customer.passenger.list.label.published = Publicado
+customer.passenger.list.button.create = Crear pasajero
+
+customer.passenger.form.button.create = Crear pasajero
+customer.passenger.form.button.update = Actualizar pasajero
+customer.passenger.form.button.publish = Publicar pasajero
+
+customer.booking-record.create = Crear pasajero
+customer.passenger.form.button.delete = Borrar pasajero
+
+passenger.form.placeholder.fullName = Introduce el nombre completo
+passenger.form.placeholder.passportNumber = Introduce el número de pasaporte
+passenger.form.placeholder.specialNeeds = Describe necesidades especiales

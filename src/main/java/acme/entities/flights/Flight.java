@@ -21,6 +21,7 @@ import acme.client.helpers.SpringHelper;
 import acme.constraints.utils.ValidShortString;
 import acme.entities.airports.Airport;
 import acme.entities.legs.Leg;
+import acme.entities.legs.LegRepository;
 import acme.features.airline_manager.legs.AirlineManagerLegRepository;
 import acme.realms.AirlineManager;
 import lombok.Getter;
@@ -67,6 +68,33 @@ public class Flight extends AbstractEntity {
 	Boolean						draftMode;
 	// Derived Attributes -----------------------------------------------------
 
+
+	@Transient
+	public String getOriginCity() {
+		String result;
+		Leg leg;
+		LegRepository legRepository;
+		legRepository = SpringHelper.getBean(LegRepository.class);
+		leg = legRepository.findLegsOrderByAscendent(this.getId()).stream().findFirst().orElse(null);
+		result = leg != null ? leg.getDepartureAirport().getCity() : null;
+		return result;
+	}
+
+	@Transient
+	public String getDestinationCity() {
+		String result;
+		Leg leg;
+		LegRepository legRepository;
+		legRepository = SpringHelper.getBean(LegRepository.class);
+		leg = legRepository.findLegsOrderByDescendent(this.getId()).stream().findFirst().orElse(null);
+		result = leg != null ? leg.getArrivalAirport().getCity() : null;
+		return result;
+	}
+
+	@Transient
+	public String getBookingFlight() {
+		return this.getOriginCity() + "-->" + this.getDestinationCity();
+	}
 
 	@Transient
 	public String getFlightSummary() {

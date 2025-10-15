@@ -1,11 +1,16 @@
-# messages-es.i18n
+customer.booking-passenger.list.label.passenger.fullName = Nombre completo
+customer.booking-passenger.list.label.passenger.email = Email
+customer.booking-passenger.list.label.passenger.passportNumber = Número de pasaporte
+customer.booking-passenger.list.label.passenger.birthDate = Fecha de nacimiento
+customer.booking-passenger.list.label.passenger.draftModePassenger = Modo borrador
 
-customer.booking-passenger.form.title = Añadir o Borra un pasajero a la reserva
+customer.booking-passenger.list.button.create = Asignar pasajero a reserva
 
-customer.bookingPassenger.form.button.create = Añadir a la reserva
-customer.passenger.form.link.create = Crear nuevo pasajero
+customer.booking-passenger.form.label.passenger = Pasajeros asociados a reserva 
 
-customer.bookingPassenger.list.label.passenger = Pasajero
-customer.bookingPassenger.list.label.booking = Reserva
+customer.booking-passenger.form.button.create = Pasajeros asociados a reserva
 
-customer.bookingPassenger.form.button.delete = Delete from booking
+customer.booking-passenger.list.title = Pasajeros asignados
+customer.booking-passenger.form.title = Formulario de pasajeros asignados
+
+customer.booking-passenger.form.button.delete = Borrar pasajero asociado

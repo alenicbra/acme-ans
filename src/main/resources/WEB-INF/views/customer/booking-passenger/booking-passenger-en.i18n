@@ -1,11 +1,16 @@
-# booking-passenger-en.i18n
+customer.booking-passenger.list.label.passenger.fullName = Full Name
+customer.booking-passenger.list.label.passenger.email = Email
+customer.booking-passenger.list.label.passenger.passportNumber = Passport Number
+customer.booking-passenger.list.label.passenger.birthDate = Birth Date
+customer.booking-passenger.list.label.passenger.draftModePassenger = Draft Mode
 
-customer.booking-passenger.form.title = Add or Delete a passenger to booking
+customer.booking-passenger.list.button.create = Assign Passenger to Booking
 
-customer.bookingPassenger.form.button.create = Add to booking
-customer.passenger.form.link.create = Create new passenger
+customer.booking-passenger.form.label.passenger = Passengers associated to booking
 
-customer.bookingPassenger.list.label.passenger = Passenger
-customer.bookingPassenger.list.label.booking = Booking
+customer.booking-passenger.form.button.create = Assign Passenger
 
-customer.bookingPassenger.form.button.delete = Delete from booking
+customer.booking-passenger.list.title = Assigned Passengers
+customer.booking-passenger.form.title = Assigned passenger form
+
+customer.booking-passenger.form.button.delete = Delete associated passenger

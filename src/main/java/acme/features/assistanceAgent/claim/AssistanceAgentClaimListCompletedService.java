@@ -52,7 +52,7 @@ public class AssistanceAgentClaimListCompletedService extends AbstractGuiService
 		dataset = super.unbindObject(object, "type", "indicator");
 		published = !object.isDraftMode() ? "✓" : "x";
 		dataset.put("published", published);
-		dataset.put("leg", object.getLeg().getFlightNumberNumber());
+		dataset.put("leg", object.getLeg().getFlightNumber());
 
 		super.getResponse().addData(dataset);
 	}
