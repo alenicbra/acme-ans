@@ -5,11 +5,11 @@ import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Index;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.Valid;
 
 import acme.client.components.basis.AbstractEntity;
 import acme.client.components.mappings.Automapped;
@@ -31,34 +31,35 @@ public class ActivityLog extends AbstractEntity {
 
 	private static final long	serialVersionUID	= 1L;
 
-	@Mandatory
-	@ValidMoment(past = true)
+	@Mandatory(message = "Must not be null")
+	@ValidMoment(past = true, min = "2000/01/01 00:00", max = "2100/01/01 00:00", message = "Must be past")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date				registrationMoment;
 
-	@Mandatory
-	@ValidString(max = 50)
+	@Mandatory(message = "May not be null")
+	@ValidString(min = 1, max = 50, message = "Must not be too long")
 	@Automapped
 	private String				typeOfIncident;
 
-	@Mandatory
-	@ValidString(max = 255)
+	@Mandatory(message = "May not be null")
+	@ValidString(min = 1, max = 255, message = "Must not be too long")
 	@Automapped
 	private String				description;
 
-	@Mandatory
-	@ValidNumber(min = 0, max = 10)
+	@Mandatory(message = "May not be null")
+	@ValidNumber(min = 0, max = 10, message = "Must be beetween 0 and 10")
 	@Automapped
 	private Integer				severityLevel;
 
+	@Mandatory
 	@Automapped
 	private boolean				draftMode;
 
 	//---------------- Relationships --------------------
 
-	@Valid
-	@Mandatory
+	@Mandatory(message = "May not be null")
 	@ManyToOne(optional = false)
+	@JoinColumn(name = "flight_assignment_id", nullable = false)
 	private FlightAssignment	flightAssignment;
 
 }
