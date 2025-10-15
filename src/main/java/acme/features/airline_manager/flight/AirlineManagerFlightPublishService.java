@@ -53,13 +53,12 @@ public class AirlineManagerFlightPublishService extends AbstractGuiService<Airli
 	@Override
 	public void validate(final Flight object) {
 
-		boolean haveALeg = object.totalLayovers() >= 0;
-		super.state(!haveALeg, "*", "acme.validation.flight.no-legs.message");
-
 		Collection<Leg> legs = this.repo.getLegsByFlightId(object.getId());
 
+		super.state(!legs.isEmpty(), "*", "acme.validation.flight.no-legs.message");
+
 		for (Leg leg : legs) {
-			boolean isLegPublished = !leg.isDraftMode();
+			boolean isLegPublished = !leg.getDraftMode();
 			super.state(isLegPublished, "*", "acme.validation.flight.leg-not-published.message");
 			break;
 		}
