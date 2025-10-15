@@ -21,3 +21,7 @@ customer.passenger.form.button.publish = Publish passenger
 
 customer.booking-record.create = Create passenger
 customer.passenger.form.button.delete = Delete Passenger
+
+passenger.form.placeholder.fullName = Enter full name
+passenger.form.placeholder.passportNumber = Enter passport number (example: QWE1234)
+passenger.form.placeholder.specialNeeds = Describe any special needs
